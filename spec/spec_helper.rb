@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'kramdown_raspberry_pi'
+require 'byebug'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
