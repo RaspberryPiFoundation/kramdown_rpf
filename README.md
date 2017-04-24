@@ -1,4 +1,4 @@
-# KramdownRaspberryPi
+# Kramdown RPF
 
 An extension to [Kramdown](https://kramdown.gettalong.org/) to add special markup for the RPF's learning platform.
 
@@ -8,7 +8,7 @@ An extension to [Kramdown](https://kramdown.gettalong.org/) to add special marku
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'kramdown_rpf'
+gem 'kramdown-rpf'
 ```
 
 And then execute:
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install kramdown_rpf
+    $ gem install kramdown-rpf
 
 ## Usage
 
