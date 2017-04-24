@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'kramdown_raspberry_pi/version'
+require 'kramdown_rpf/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'kramdown-raspberry-pi'
-  spec.version       = KramdownRaspberryPi::VERSION
+  spec.name = 'kramdown-rpf'
+  spec.version       = KramdownRPF::VERSION
   spec.authors       = ['Raspberry Pi Foundation Web Team']
   spec.email         = ['web@raspberrypi.org']
 

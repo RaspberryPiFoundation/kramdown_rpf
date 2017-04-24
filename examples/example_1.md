@@ -1,4 +1,4 @@
-<div class="challenge">
+--- challenge ---
 
 ## Challenge: Improving your drum
 
@@ -16,4 +16,4 @@ You can copy your existing code by right-clicking on it and clicking 'duplicate'
 
 ### Save your project
 
-</div>
+--- /challenge ---

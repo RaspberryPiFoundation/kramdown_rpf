@@ -1,5 +1,5 @@
 require 'bundler/setup'
-require 'kramdown_raspberry_pi'
+require 'kramdown_rpf'
 require 'byebug'
 
 RSpec.configure do |config|

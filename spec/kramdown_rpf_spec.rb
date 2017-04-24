@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe KramdownRaspberryPi do
+RSpec.describe KramdownRPF do
   it 'has a version number' do
-    expect(KramdownRaspberryPi::VERSION).not_to be nil
+    expect(KramdownRPF::VERSION).not_to be nil
   end
 
   %w(example_1).each do |test_name|
@@ -11,9 +11,11 @@ RSpec.describe KramdownRaspberryPi do
 
       it 'should be correctly converted' do
         test_result = Kramdown::Document.new(
-          File.read("examples/#{test_name}.md"), parse_block_html: true
+          File.read("examples/#{test_name}.md"),
+          parse_block_html: true,
+          input: 'KramdownRPF'
         ).to_html
-        expect(test_result.chomp).to eq(reference_result.chomp)
+        expect(test_result.strip).to eq(reference_result.strip)
       end
     end
   end
