@@ -1,4 +1,4 @@
-# Kramdown RPF
+# KramdownRPF
 
 An extension to [Kramdown](https://kramdown.gettalong.org/) to add special markup for the RPF's learning platform.
 
@@ -20,6 +20,14 @@ Or install it yourself as:
     $ gem install kramdown-rpf
 
 ## Usage
+
+``` ruby
+require 'kramdown_rpf'
+
+Kramdown::Document.new(markdown, input: 'KramdownRPF').to_html
+```
+
+KramdownRPF uses the Kramdown `GFM` markdown parser.
 
 ### Challenges
 
