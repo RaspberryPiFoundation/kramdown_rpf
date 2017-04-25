@@ -43,6 +43,21 @@ Within your markdown, add a challenge like this:
 
 ```
 
+### Collapsed content
+
+Within your markdown, add some collapsed content (primarily ingredients) like this:
+``` markdown
+--- collapse ---
+---
+title: Downloading and installing the Raspberry Pi software
+image: images/scratch.png
+---
+
+Content here comes from the ingredient.
+
+--- /collapse ---
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
