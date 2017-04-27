@@ -32,6 +32,14 @@ module RPF
           </div>
         HEREDOC
       end
+
+      def self.convert_hint_to_html(hint)
+        parsed_hint = ::Kramdown::Document.new(
+          hint.strip,
+          coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'GFM'
+        ).to_html
+        "<div class=\"swiper-slide\">\n#{parsed_hint}</div>"
+      end
     end
   end
 end

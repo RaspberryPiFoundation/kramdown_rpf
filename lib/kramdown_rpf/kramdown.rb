@@ -9,8 +9,10 @@ module Kramdown
     CATEGORY[:challenge] = :block
     # Register :collapse as a block-level element
     CATEGORY[:collapse] = :block
+    # Register :hint as a block-level element
+    CATEGORY[:hint] = :block
   end
-  #
+
   module Converter
     class Html
       # Convert :challenge -> HTML
@@ -24,6 +26,12 @@ module Kramdown
       def convert_collapse(el, _indent)
         RPF::Plugin::Kramdown.convert_collapse_to_html(el.value)
       end
+
+      # Convert :hint -> HTML
+      # @api private
+      def convert_hint(el, _indent)
+        RPF::Plugin::Kramdown.convert_hint_to_html(el.value)
+      end
     end
 
     class Kramdown
@@ -34,6 +42,11 @@ module Kramdown
 
       # Convert :collapse -> Markdown (not implemented)
       def convert_collapse(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :hint -> Markdown (not implemented)
+      def convert_hint(_el, _opts)
         raise NotImplementedError
       end
     end
@@ -48,6 +61,11 @@ module Kramdown
       def convert_collapse(_el, _opts)
         raise NotImplementedError
       end
+
+      # Convert :hint -> LaTEX (not implemented)
+      def convert_hint(_el, _opts)
+        raise NotImplementedError
+      end
     end
   end
 
@@ -55,11 +73,13 @@ module Kramdown
     class KramdownRPF < ::Kramdown::Parser::GFM
       CHALLENGE_PATTERN = /^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---/m
       COLLAPSE_PATTERN = /^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---/m
+      HINT_PATTERN = /^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---/m
 
       def initialize(source, options)
         super
         @block_parsers.unshift(:challenge)
         @block_parsers.unshift(:collapse)
+        @block_parsers.unshift(:hint)
       end
 
       # Convert Markdown -> :challenge
@@ -79,6 +99,15 @@ module Kramdown
       end
 
       define_parser(:collapse, COLLAPSE_PATTERN)
+
+      # Convert Markdown -> :hint
+      # @api private
+      def parse_hint
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:hint, @src[1])
+      end
+
+      define_parser(:hint, HINT_PATTERN)
     end
   end
 end
