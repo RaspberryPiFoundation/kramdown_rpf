@@ -58,6 +58,31 @@ Content here comes from the ingredient.
 --- /collapse ---
 ```
 
+### Hints
+
+Within your markdown, add some hints like this:
+``` markdown
+--- hints ---
+--- hint ---
+
+Hint 1
+
+--- /hint ---
+--- hint ---
+Hint 2
+
+--- /hint ---
+--- hint ---
+
+Hint 3
+--- /hint ---
+--- hint ---
+Hint 4
+--- /hint ---
+
+--- /hints ---
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

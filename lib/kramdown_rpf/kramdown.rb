@@ -32,6 +32,12 @@ module Kramdown
       def convert_hint(el, _indent)
         RPF::Plugin::Kramdown.convert_hint_to_html(el.value)
       end
+
+      # Convert :hints -> HTML
+      # @api private
+      def convert_hints(el, _indent)
+        RPF::Plugin::Kramdown.convert_hints_to_html(el.value)
+      end
     end
 
     class Kramdown
@@ -47,6 +53,11 @@ module Kramdown
 
       # Convert :hint -> Markdown (not implemented)
       def convert_hint(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :hints -> Markdown (not implemented)
+      def convert_hints(_el, _opts)
         raise NotImplementedError
       end
     end
@@ -66,6 +77,11 @@ module Kramdown
       def convert_hint(_el, _opts)
         raise NotImplementedError
       end
+
+      # Convert :hints -> LaTEX (not implemented)
+      def convert_hints(_el, _opts)
+        raise NotImplementedError
+      end
     end
   end
 
@@ -74,12 +90,14 @@ module Kramdown
       CHALLENGE_PATTERN = /^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---/m
       COLLAPSE_PATTERN = /^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---/m
       HINT_PATTERN = /^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---/m
+      HINTS_PATTERN = /^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---/m
 
       def initialize(source, options)
         super
         @block_parsers.unshift(:challenge)
         @block_parsers.unshift(:collapse)
         @block_parsers.unshift(:hint)
+        @block_parsers.unshift(:hints)
       end
 
       # Convert Markdown -> :challenge
@@ -108,6 +126,15 @@ module Kramdown
       end
 
       define_parser(:hint, HINT_PATTERN)
+
+      # Convert Markdown -> :hints
+      # @api private
+      def parse_hints
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:hints, @src[1])
+      end
+
+      define_parser(:hints, HINTS_PATTERN)
     end
   end
 end
