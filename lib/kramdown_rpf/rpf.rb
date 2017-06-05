@@ -14,7 +14,11 @@ module RPF
         collapse =~ YAML_FRONT_MATTER_REGEXP
         details = YAML.safe_load(Regexp.last_match(1))
         title = details['title']
-        content = Regexp.last_match(2).strip
+        content = Regexp.last_match(2)
+        parsed_content = ::Kramdown::Document.new(
+          content.strip,
+          coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'KramdownRPF'
+        ).to_html
         <<~HEREDOC
           <div class="panel js-collapse">
             <div class="panel-heading drawer js-collapse">
@@ -25,7 +29,7 @@ module RPF
               </div>
             </div>
             <div class="panel-content hidden">
-              #{content}
+              #{parsed_content}
             </div>
           </div>
         HEREDOC
