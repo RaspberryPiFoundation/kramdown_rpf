@@ -1,7 +1,7 @@
 module RPF
   module Plugin
     module Kramdown
-      YAML_FRONT_MATTER_REGEXP = /\n---\n(.*)\n---(.*)/m
+      YAML_FRONT_MATTER_REGEXP = /\n\s*---\n(.*)---(.*)/m
 
       def self.convert_challenge_to_html(challenge)
         ::Kramdown::Document.new(
