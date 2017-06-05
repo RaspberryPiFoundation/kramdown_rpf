@@ -1,0 +1,37 @@
+<h2 id="step-2---test-the-pir-motion-sensor">Step 2 - Test the PIR motion sensor</h2>
+
+<p>We’re going to write some code to print out <code>Motion detected!</code> when the PIR sensor detects movement.</p>
+
+<ol>
+  <li>
+    <p>Open IDLE, create a new file and save it as <strong>parent-detector.py</strong></p>
+
+<div class="panel js-collapse">
+  <div class="panel-heading drawer js-collapse">
+    <div class="panel-heading-text js-collapse">
+      <h4 class="js-collapse">Opening IDLE</h4>
+    </div>
+    <div class="panel-heading-status status-down js-collapse">
+    </div>
+  </div>
+  <div class="panel-content hidden">
+    <p>[[[idle-opening]]]</p>
+
+  </div>
+</div>
+  </li>
+  <li>Blab la
+    <pre><code class="language-python"> from gpiozero import MotionSensor
+
+ pir = MotionSensor(4)
+</code></pre>
+  </li>
+  <li>
+    <p>Bla bla</p>
+
+    <pre><code class="language-python"> while True:
+     if pir.motion_detected:
+ 	    print("Motion detected!")
+</code></pre>
+  </li>
+</ol>
