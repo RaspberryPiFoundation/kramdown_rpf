@@ -5,7 +5,7 @@ RSpec.describe KramdownRPF do
     expect(KramdownRPF::VERSION).not_to be nil
   end
 
-  %w(challenge collapse collapse_with_space hint hints).each do |test_name|
+  %w(challenge collapse collapse_with_space collapse_in_challenge hint hints).each do |test_name|
     context test_name do
       reference_result = File.read "examples/#{test_name}.html"
 

@@ -1,0 +1,81 @@
+<h2 id="step-5---record-video-to-a-file">Step 5 - Record video to a file</h2>
+
+<p>Seeing the intruder on the screen in a camera preview isn’t much help to you with detecting intruders into your room. Instead, let’s record a video of the intruder for you to  view later on when you get home.</p>
+
+<ol>
+  <li>
+    <p>Create a variable called <code>filename</code> inside your infinite loop to store the video file name</p>
+
+    <pre><code class="language-python"> filename = "intruder.h264"
+</code></pre>
+
+    <p>In case you are wondering, <code>.h264</code> is the video format</p>
+  </li>
+  <li>
+    <p>Find the line of code where you begin the camera preview and replace it with a line of code to start recording a video</p>
+
+    <pre><code class="language-python"> camera.start_recording(filename)
+</code></pre>
+  </li>
+  <li>
+    <p>Find the line of code where you stop the camera preview and replace it with a line of code to stop recording.</p>
+  </li>
+</ol>
+
+<div class="panel hint js-collapse">
+  <div class="panel-heading drawer js-collapse">
+    <div class="panel-heading-image js-collapse">
+    </div>
+    <div class="panel-heading-text js-collapse">
+      <h4 class="js-collapse">I need a hint</h4>
+    </div>
+    <div class="panel-heading-status status-down js-collapse">
+    </div>
+  </div>
+  <div class="panel-content hidden">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+<p>Look at the line of code you used to start recording and see if you can work out the code to stop recording</p>
+</div>
+<div class="swiper-slide">
+<p>Here is the finished code</p>
+<pre><code class="language-python">while True:
+    filename = "intruder.h264"
+    pir.wait_for_motion()
+    camera.start_recording(filename)
+    pir.wait_for_no_motion()
+	camera.stop_recording()
+</code></pre>
+</div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+</div>
+
+<ol>
+  <li>Save and run your program by pressing <strong>F5</strong>. Check that a file called <code>intruder.h264</code> appears in the same folder as your <code>parent-detector.py</code> file.</li>
+</ol>
+
+<div class="challenge">
+
+  <p>Every time a new intruder triggers the motion sensor the video will be overwritten. If you have lots of pesky parents or brothers and sisters intruding into your room, you want to keep videos of all of them. Can you write some code to automatically find out the current date and time and add it to the video filename so that each video we take will have a different filename?</p>
+
+<div class="panel js-collapse">
+  <div class="panel-heading drawer js-collapse">
+    <div class="panel-heading-text js-collapse">
+      <h4 class="js-collapse">Getting the date and time in Python</h4>
+    </div>
+    <div class="panel-heading-status status-down js-collapse">
+    </div>
+  </div>
+  <div class="panel-content hidden">
+    <p>[[[generic-python-timestamps]]]</p>
+
+  </div>
+</div>
+
+</div>
