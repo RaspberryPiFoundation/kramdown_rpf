@@ -2,11 +2,14 @@ module RPF
   module Plugin
     module Kramdown
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\n(.*)---(.*)/m
+      KRAMDOWN_OPTIONS = {
+        coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'KramdownRPF'
+      }.freeze
 
       def self.convert_challenge_to_html(challenge)
         ::Kramdown::Document.new(
           "<div class=\"challenge\">\n#{challenge}</div>",
-          coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'GFM'
+          KRAMDOWN_OPTIONS
         ).to_html
       end
 
@@ -17,7 +20,7 @@ module RPF
         content = Regexp.last_match(2)
         parsed_content = ::Kramdown::Document.new(
           content.strip,
-          coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'KramdownRPF'
+          KRAMDOWN_OPTIONS
         ).to_html
         <<~HEREDOC
           <div class="panel js-collapse">
@@ -38,7 +41,7 @@ module RPF
       def self.convert_hint_to_html(hint)
         parsed_hint = ::Kramdown::Document.new(
           hint.strip,
-          coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'GFM'
+          KRAMDOWN_OPTIONS
         ).to_html
         "<div class=\"swiper-slide\">\n#{parsed_hint}</div>"
       end
