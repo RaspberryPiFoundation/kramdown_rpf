@@ -23,15 +23,12 @@ module RPF
           KRAMDOWN_OPTIONS
         ).to_html
         <<~HEREDOC
-          <div class="panel js-collapse">
-            <div class="panel-heading drawer js-collapse">
-              <div class="panel-heading-text js-collapse">
-                <h4 class="js-collapse">#{title}</h4>
-              </div>
-              <div class="panel-heading-status status-down js-collapse">
-              </div>
-            </div>
-            <div class="panel-content hidden">
+          <div class="c-project-panel">
+            <h3 class="c-project-panel__heading js-project-panel__toggle">
+              #{title}
+            </h3>
+
+            <div class="c-project-panel__content u-hidden">
               #{parsed_content}
             </div>
           </div>
@@ -43,7 +40,11 @@ module RPF
           hint.strip,
           KRAMDOWN_OPTIONS
         ).to_html
-        "<div class=\"swiper-slide\">\n#{parsed_hint}</div>"
+        <<~HEREDOC
+          <div class="c-project-panel__swiper-slide">
+            #{parsed_hint}
+          </div>
+        HEREDOC
       end
 
       def self.convert_hints_to_html(hints)
@@ -52,24 +53,25 @@ module RPF
           coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'KramdownRPF'
         ).to_html
         <<~HEREDOC
-          <div class="panel hint js-collapse">
-            <div class="panel-heading drawer js-collapse">
-              <div class="panel-heading-image js-collapse">
-              </div>
-              <div class="panel-heading-text js-collapse">
-                <h4 class="js-collapse">I need a hint</h4>
-              </div>
-              <div class="panel-heading-status status-down js-collapse">
-              </div>
-            </div>
-            <div class="panel-content hidden">
-              <div class="swiper-container">
-                <div class="swiper-wrapper">
+          <div class="c-project-panel">
+            <h3 class="c-project-panel__heading js-project-panel__toggle">
+              I need a hint
+            </h3>
+
+            <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
+              <div class="c-project-panel__swiper">
+                <div class="c-project-panel__swiper-wrapper">
                   #{parsed_hints.strip}
                 </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+
+                <div class="c-project-panel__swiper-pagination">
+                  <span class="c-project-panel__swiper-bullet"></span>
+                  <span class="c-project-panel__swiper-bullet"></span>
+                  <span class="c-project-panel__swiper-bullet"></span>
+                </div>
+
+                <div class="c-project-panel__swiper-button c-project-panel__swiper-button--next"></div>
+                <div class="c-project-panel__swiper-button c-project-panel__swiper-button--prev"></div>
               </div>
             </div>
           </div>

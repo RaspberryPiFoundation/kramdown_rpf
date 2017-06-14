@@ -22,24 +22,21 @@
   </li>
 </ol>
 
-<div class="panel hint js-collapse">
-  <div class="panel-heading drawer js-collapse">
-    <div class="panel-heading-image js-collapse">
-    </div>
-    <div class="panel-heading-text js-collapse">
-      <h4 class="js-collapse">I need a hint</h4>
-    </div>
-    <div class="panel-heading-status status-down js-collapse">
-    </div>
-  </div>
-  <div class="panel-content hidden">
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-<p>Look at the line of code you used to start recording and see if you can work out the code to stop recording</p>
+<div class="c-project-panel">
+  <h3 class="c-project-panel__heading js-project-panel__toggle">
+    I need a hint
+  </h3>
+
+  <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
+    <div class="c-project-panel__swiper">
+      <div class="c-project-panel__swiper-wrapper">
+        <div class="c-project-panel__swiper-slide">
+  <p>Look at the line of code you used to start recording and see if you can work out the code to stop recording</p>
+
 </div>
-<div class="swiper-slide">
-<p>Here is the finished code</p>
+
+<div class="c-project-panel__swiper-slide">
+  <p>Here is the finished code</p>
 <pre><code class="language-python">while True:
     filename = "intruder.h264"
     pir.wait_for_motion()
@@ -47,11 +44,18 @@
     pir.wait_for_no_motion()
 	camera.stop_recording()
 </code></pre>
+
 </div>
       </div>
-      <div class="swiper-pagination"></div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
+
+      <div class="c-project-panel__swiper-pagination">
+        <span class="c-project-panel__swiper-bullet"></span>
+        <span class="c-project-panel__swiper-bullet"></span>
+        <span class="c-project-panel__swiper-bullet"></span>
+      </div>
+
+      <div class="c-project-panel__swiper-button c-project-panel__swiper-button--next"></div>
+      <div class="c-project-panel__swiper-button c-project-panel__swiper-button--prev"></div>
     </div>
   </div>
 </div>
@@ -64,15 +68,12 @@
 
   <p>Every time a new intruder triggers the motion sensor the video will be overwritten. If you have lots of pesky parents or brothers and sisters intruding into your room, you want to keep videos of all of them. Can you write some code to automatically find out the current date and time and add it to the video filename so that each video we take will have a different filename?</p>
 
-<div class="panel js-collapse">
-  <div class="panel-heading drawer js-collapse">
-    <div class="panel-heading-text js-collapse">
-      <h4 class="js-collapse">Getting the date and time in Python</h4>
-    </div>
-    <div class="panel-heading-status status-down js-collapse">
-    </div>
-  </div>
-  <div class="panel-content hidden">
+<div class="c-project-panel">
+  <h3 class="c-project-panel__heading js-project-panel__toggle">
+    Getting the date and time in Python
+  </h3>
+
+  <div class="c-project-panel__content u-hidden">
     <p>[[[generic-python-timestamps]]]</p>
 
   </div>
