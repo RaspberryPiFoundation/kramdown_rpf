@@ -41,9 +41,9 @@ module RPF
           KRAMDOWN_OPTIONS
         ).to_html
         <<~HEREDOC
-        <div class="c-project-panel__swiper-slide">
-          #{parsed_hint}
-        </div>
+          <div class="c-project-panel__swiper-slide">
+            #{parsed_hint}
+          </div>
         HEREDOC
       end
 
