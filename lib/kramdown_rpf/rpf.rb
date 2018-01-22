@@ -23,7 +23,7 @@ module RPF
           KRAMDOWN_OPTIONS
         ).to_html
         <<~HEREDOC
-          <div class="c-project-panel">
+          <div class="c-project-panel c-project-panel--ingredient">
             <h3 class="c-project-panel__heading js-project-panel__toggle">
               #{title}
             </h3>
@@ -53,7 +53,7 @@ module RPF
           coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'KramdownRPF'
         ).to_html
         <<~HEREDOC
-          <div class="c-project-panel">
+          <div class="c-project-panel c-project-panel--hints">
             <h3 class="c-project-panel__heading js-project-panel__toggle">
               I need a hint
             </h3>
