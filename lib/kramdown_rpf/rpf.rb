@@ -77,6 +77,21 @@ module RPF
           </div>
         HEREDOC
       end
+
+      def self.convert_task_to_html(task)
+        parsed_task = ::Kramdown::Document.new(
+          task.strip,
+          KRAMDOWN_OPTIONS
+        ).to_html
+        <<~HEREDOC
+          <div class="c-project-task">
+            <input class="c-project-task__checkbox" type="checkbox" />
+            <div class="c-project-task__body">
+              #{parsed_task}
+            </div>
+          </div>
+        HEREDOC
+      end
     end
   end
 end
