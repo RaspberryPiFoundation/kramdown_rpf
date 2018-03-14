@@ -1,2 +1,4 @@
 ro:
-  hint_title: Am nevoie de o sugestie
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
