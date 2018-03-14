@@ -1,2 +1,4 @@
 da:
-  hint_title: Jeg har brug for et tip
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
