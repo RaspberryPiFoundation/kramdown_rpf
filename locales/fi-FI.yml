@@ -1,2 +1,4 @@
 fi:
-  hint_title: Tarvitsen vihjeen
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
