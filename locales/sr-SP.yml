@@ -1,2 +1,4 @@
 sr:
-  hint_title: Требам намиг
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
