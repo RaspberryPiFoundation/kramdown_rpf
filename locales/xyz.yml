@@ -1,3 +1,4 @@
 ---
 xyz:
-  do_not_remove: please
+  kramdown_rpf:
+    do_not_remove: please

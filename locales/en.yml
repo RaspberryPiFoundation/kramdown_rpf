@@ -1,3 +1,4 @@
 ---
 en:
-  hint_title: I need a hint
+  kramdown_rpf:
+    hint_title: I need a hint

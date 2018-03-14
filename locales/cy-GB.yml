@@ -1,3 +1,4 @@
 ---
 cy-GB:
-  hint_title: I need a welsh hint
+  kramdown_rpf:
+    hint_title: I need a welsh hint

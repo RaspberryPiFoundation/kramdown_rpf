@@ -55,7 +55,7 @@ module RPF
         <<~HEREDOC
           <div class="c-project-panel c-project-panel--hints">
             <h3 class="c-project-panel__heading js-project-panel__toggle">
-              #{I18n.t('hint_title')}
+              #{I18n.t('kramdown_rpf.hint_title')}
             </h3>
 
             <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
