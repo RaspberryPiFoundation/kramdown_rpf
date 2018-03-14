@@ -1,2 +1,4 @@
 zh-CN:
-  hint_title: 我需要一个提示
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
