@@ -1,2 +1,4 @@
 uk:
-  hint_title: Мені потрібен натяк
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
