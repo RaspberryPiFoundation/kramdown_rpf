@@ -1,2 +1,4 @@
 bg:
-  hint_title: Имам нужда от намек
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
