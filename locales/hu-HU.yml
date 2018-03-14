@@ -1,2 +1,4 @@
 hu:
-  hint_title: Szükségem van egy csipetre
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
