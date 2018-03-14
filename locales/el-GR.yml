@@ -1,2 +1,4 @@
 el:
-  hint_title: Χρειάζομαι μια υπόδειξη
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
