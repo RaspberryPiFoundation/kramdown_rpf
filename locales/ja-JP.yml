@@ -1,2 +1,4 @@
 ja:
-  hint_title: 私はヒントが必要です
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
