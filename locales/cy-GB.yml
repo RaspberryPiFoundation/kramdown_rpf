@@ -1,2 +1,4 @@
 cy:
-  hint_title: Mae angen awgrym arnaf
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
