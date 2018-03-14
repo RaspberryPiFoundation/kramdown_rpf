@@ -1,2 +1,4 @@
 vi:
-  hint_title: Tôi cần một gợi ý
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
