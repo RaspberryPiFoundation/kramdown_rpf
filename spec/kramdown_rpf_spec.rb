@@ -13,6 +13,7 @@ RSpec.describe KramdownRPF do
     collapse_with_space
     hint
     hints
+    save
     task
     task_with_hints
     task_with_ingredient
@@ -35,6 +36,7 @@ RSpec.describe KramdownRPF do
   describe 'i18n' do
     %w[
       hints
+      save
     ].each do |test_name|
       context test_name do
         reference_result = File.read "examples/i18n/#{test_name}.html"

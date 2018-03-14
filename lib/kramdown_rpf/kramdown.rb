@@ -9,6 +9,7 @@ module Kramdown
     CATEGORY[:challenge] = :block
     CATEGORY[:collapse]  = :block
     CATEGORY[:hint]      = :block
+    CATEGORY[:save]      = :block
     CATEGORY[:task]      = :block
   end
 
@@ -36,6 +37,12 @@ module Kramdown
       # @api private
       def convert_hints(el, _indent)
         RPF::Plugin::Kramdown.convert_hints_to_html(el.value)
+      end
+
+      # Convert :save -> HTML
+      # @api private
+      def convert_save(_el, _indent)
+        RPF::Plugin::Kramdown.convert_save_to_html
       end
 
       # Convert :task -> HTML
@@ -66,6 +73,11 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :save -> Markdown (not implemented)
+      def convert_save(_el, _opts)
+        raise NotImplementedError
+      end
+
       def convert_task(_el, _opts)
         raise NotImplementedError
       end
@@ -92,6 +104,11 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :save -> LaTEX (not implemented)
+      def convert_save(_el, _opts)
+        raise NotImplementedError
+      end
+
       # Convert :task -> LaTEX (not implemented)
       def convert_task(_el, _opts)
         raise NotImplementedError
@@ -105,6 +122,7 @@ module Kramdown
       COLLAPSE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
       HINT_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
       HINTS_PATTERN     = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
+      SAVE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
       TASK_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m
 
       def initialize(source, options)
@@ -113,6 +131,7 @@ module Kramdown
         @block_parsers.unshift(:collapse)
         @block_parsers.unshift(:hint)
         @block_parsers.unshift(:hints)
+        @block_parsers.unshift(:save)
         @block_parsers.unshift(:task)
       end
 
@@ -151,6 +170,15 @@ module Kramdown
       end
 
       define_parser(:hints, HINTS_PATTERN)
+
+      # Convert Markdown -> :save
+      # @api private
+      def parse_save
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:save, @src[1])
+      end
+
+      define_parser(:save, SAVE_PATTERN)
 
       # Convert Markdown -> :task
       # @api private
