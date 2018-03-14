@@ -1,2 +1,4 @@
 ar:
-  hint_title: أنا بحاجة إلى تلميح
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
