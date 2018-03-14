@@ -78,6 +78,16 @@ module RPF
         HEREDOC
       end
 
+      def self.convert_save_to_html
+        <<~HEREDOC
+          <div class="c-project-panel c-project-panel--save">
+            <h3 class="c-project-panel__heading">
+              #{I18n.t('kramdown_rpf.save')}
+            </h3>
+          </div>
+        HEREDOC
+      end
+
       def self.convert_task_to_html(task)
         parsed_task = ::Kramdown::Document.new(
           task.strip,
