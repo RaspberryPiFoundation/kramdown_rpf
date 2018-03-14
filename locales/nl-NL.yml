@@ -1,2 +1,4 @@
 nl:
-  hint_title: Ik heb een hint nodig
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
