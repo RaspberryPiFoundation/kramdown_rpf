@@ -1,2 +1,4 @@
 pt-BR:
-  hint_title: Eu preciso de uma dica
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
