@@ -1,2 +1,4 @@
 id:
-  hint_title: Aku butuh petunjuk
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
