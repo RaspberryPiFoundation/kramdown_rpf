@@ -1,2 +1,4 @@
 fr:
-  hint_title: J'ai besoin d'un indice
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
