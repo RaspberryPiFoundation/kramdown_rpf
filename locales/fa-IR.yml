@@ -1,2 +1,4 @@
 fa:
-  hint_title: من به یک نکته نیاز دارم
+  kramdown_rpf:
+    hint_title: I need a hint
+    save: Save your project
