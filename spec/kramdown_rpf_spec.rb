@@ -7,10 +7,13 @@ RSpec.describe KramdownRPF do
 
   %w[
     challenge
+    code
+    code_with_filename
     collapse
     collapse_in_challenge
     collapse_music_box
     collapse_with_space
+    filename
     hint
     hints
     save
