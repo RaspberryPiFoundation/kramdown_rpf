@@ -13,6 +13,13 @@ module RPF
         ).to_html
       end
 
+      def self.convert_code_to_html(code)
+        ::Kramdown::Document.new(
+          "<div class=\"code-wrapper\">\n#{code}</div>",
+          KRAMDOWN_OPTIONS
+        ).to_html
+      end
+
       def self.convert_collapse_to_html(collapse)
         collapse =~ YAML_FRONT_MATTER_REGEXP
         details = YAML.safe_load(Regexp.last_match(1))
@@ -33,6 +40,13 @@ module RPF
             </div>
           </div>
         HEREDOC
+      end
+
+      def self.convert_filename_to_html(filename)
+        ::Kramdown::Document.new(
+          "<div class=\"code-filename\">\n#{filename}</div>",
+          KRAMDOWN_OPTIONS
+        ).to_html
       end
 
       def self.convert_hint_to_html(hint)

@@ -21,10 +21,22 @@ module Kramdown
         RPF::Plugin::Kramdown.convert_challenge_to_html(el.value)
       end
 
+      # Convert :code -> HTML
+      # @api private
+      def convert_code(el, _indent)
+        RPF::Plugin::Kramdown.convert_code_to_html(el.value)
+      end
+
       # Convert :collapse -> HTML
       # @api private
       def convert_collapse(el, _indent)
         RPF::Plugin::Kramdown.convert_collapse_to_html(el.value)
+      end
+
+      # Convert :filename -> HTML
+      # @api private
+      def convert_filename(el, _indent)
+        RPF::Plugin::Kramdown.convert_filename_to_html(el.value)
       end
 
       # Convert :hint -> HTML
@@ -58,8 +70,18 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :code -> Markdown (not implemented)
+      def convert_code(_el, _opts)
+        raise NotImplementedError
+      end
+
       # Convert :collapse -> Markdown (not implemented)
       def convert_collapse(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :filename -> Markdown (not implemented)
+      def convert_filename(_el, _opts)
         raise NotImplementedError
       end
 
@@ -89,8 +111,18 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :code -> LaTEX (not implemented)
+      def convert_code(_el, _opts)
+        raise NotImplementedError
+      end
+
       # Convert :collapse -> LaTEX (not implemented)
       def convert_collapse(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :filename -> LaTEX (not implemented)
+      def convert_fielname(_el, _opts)
         raise NotImplementedError
       end
 
@@ -119,7 +151,9 @@ module Kramdown
   module Parser
     class KramdownRPF < ::Kramdown::Parser::GFM
       CHALLENGE_PATTERN = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
+      CODE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m
       COLLAPSE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
+      FILENAME_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*filename[ \t]*---(.*?)---[ \t]*\/filename[ \t]*---}m
       HINT_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
       HINTS_PATTERN     = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
       SAVE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
@@ -128,7 +162,9 @@ module Kramdown
       def initialize(source, options)
         super
         @block_parsers.unshift(:challenge)
+        @block_parsers.unshift(:code)
         @block_parsers.unshift(:collapse)
+        @block_parsers.unshift(:filename)
         @block_parsers.unshift(:hint)
         @block_parsers.unshift(:hints)
         @block_parsers.unshift(:save)
@@ -144,6 +180,15 @@ module Kramdown
 
       define_parser(:challenge, CHALLENGE_PATTERN)
 
+      # Convert Markdown -> :code
+      # @api private
+      def parse_code
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:code, @src[1])
+      end
+
+      define_parser(:code, CODE_PATTERN)
+
       # Convert Markdown -> :collapse
       # @api private
       def parse_collapse
@@ -152,6 +197,15 @@ module Kramdown
       end
 
       define_parser(:collapse, COLLAPSE_PATTERN)
+
+      # Convert Markdown -> :filename
+      # @api private
+      def parse_filename
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:filename, @src[1])
+      end
+
+      define_parser(:filename, FILENAME_PATTERN)
 
       # Convert Markdown -> :hint
       # @api private
