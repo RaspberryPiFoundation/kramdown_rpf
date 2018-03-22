@@ -14,10 +14,10 @@ module RPF
       end
 
       def self.convert_code_to_html(code)
-        ::Kramdown::Document.new(
-          "<div class=\"code-wrapper\">\n#{code}</div>",
-          KRAMDOWN_OPTIONS
-        ).to_html
+        parsed_content = ::Kramdown::Document.new(code, KRAMDOWN_OPTIONS).to_html
+        <<~HEREDOC
+          <div class="c-code">#{parsed_content}</div>
+        HEREDOC
       end
 
       def self.convert_collapse_to_html(collapse)
@@ -43,10 +43,10 @@ module RPF
       end
 
       def self.convert_filename_to_html(filename)
-        ::Kramdown::Document.new(
-          "<div class=\"code-filename\">\n#{filename}</div>",
-          KRAMDOWN_OPTIONS
-        ).to_html
+        parsed_content = ::Kramdown::Document.new(filename, input: 'KramdownRPF').to_html
+        <<~HEREDOC
+          <div class="c-filename">#{parsed_content}</div>
+        HEREDOC
       end
 
       def self.convert_hint_to_html(hint)
