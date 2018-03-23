@@ -5,12 +5,13 @@ module Kramdown
   # # Register block-level elements
   # # @private
   class Element
-    # Register :challenge, :collapse, :hint, and :hint as block-level elements
-    CATEGORY[:challenge] = :block
-    CATEGORY[:collapse]  = :block
-    CATEGORY[:hint]      = :block
-    CATEGORY[:save]      = :block
-    CATEGORY[:task]      = :block
+    # Register :challenge, :code_filename, :collapse, :hint, :save, and :task as block-level elements
+    CATEGORY[:challenge]     = :block
+    CATEGORY[:code_filename] = :block
+    CATEGORY[:collapse]      = :block
+    CATEGORY[:hint]          = :block
+    CATEGORY[:save]          = :block
+    CATEGORY[:task]          = :block
   end
 
   module Converter
@@ -21,10 +22,10 @@ module Kramdown
         RPF::Plugin::Kramdown.convert_challenge_to_html(el.value)
       end
 
-      # Convert :code -> HTML
+      # Convert :code_filename -> HTML
       # @api private
-      def convert_code(el, _indent)
-        RPF::Plugin::Kramdown.convert_code_to_html(el.value)
+      def convert_code_filename(el, _indent)
+        RPF::Plugin::Kramdown.convert_code_filename_to_html(el.value)
       end
 
       # Convert :collapse -> HTML
@@ -64,8 +65,8 @@ module Kramdown
         raise NotImplementedError
       end
 
-      # Convert :code -> Markdown (not implemented)
-      def convert_code(_el, _opts)
+      # Convert :code_filename -> Markdown (not implemented)
+      def convert_code_filename(_el, _opts)
         raise NotImplementedError
       end
 
@@ -100,8 +101,8 @@ module Kramdown
         raise NotImplementedError
       end
 
-      # Convert :code -> LaTEX (not implemented)
-      def convert_code(_el, _opts)
+      # Convert :code_filename -> LaTEX (not implemented)
+      def convert_code_filename(_el, _opts)
         raise NotImplementedError
       end
 
@@ -134,18 +135,18 @@ module Kramdown
 
   module Parser
     class KramdownRPF < ::Kramdown::Parser::GFM
-      CHALLENGE_PATTERN = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
-      CODE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m
-      COLLAPSE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
-      HINT_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
-      HINTS_PATTERN     = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
-      SAVE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
-      TASK_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m
+      CHALLENGE_PATTERN     = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
+      CODE_FILENAME_PATTERN = %r{^#{OPT_SPACE}---[ \t]*code-filename[ \t]*---(.*?)---[ \t]*\/code-filename[ \t]*---}m
+      COLLAPSE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
+      HINT_PATTERN          = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
+      HINTS_PATTERN         = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
+      SAVE_PATTERN          = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
+      TASK_PATTERN          = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m
 
       def initialize(source, options)
         super
         @block_parsers.unshift(:challenge)
-        @block_parsers.unshift(:code)
+        @block_parsers.unshift(:code_filename)
         @block_parsers.unshift(:collapse)
         @block_parsers.unshift(:hint)
         @block_parsers.unshift(:hints)
@@ -162,14 +163,14 @@ module Kramdown
 
       define_parser(:challenge, CHALLENGE_PATTERN)
 
-      # Convert Markdown -> :code
+      # Convert Markdown -> :code_filename
       # @api private
-      def parse_code
+      def parse_code_filename
         @src.pos += @src.matched_size
-        @tree.children << Element.new(:code, @src[1])
+        @tree.children << Element.new(:code_filename, @src[1])
       end
 
-      define_parser(:code, CODE_PATTERN)
+      define_parser(:code_filename, CODE_FILENAME_PATTERN)
 
       # Convert Markdown -> :collapse
       # @api private

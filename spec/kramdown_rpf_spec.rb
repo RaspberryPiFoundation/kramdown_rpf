@@ -8,8 +8,7 @@ RSpec.describe KramdownRPF do
   fdescribe 'conversions' do
     %w[
       challenge
-      code
-      code_with_filename
+      code_filename
       collapse
       collapse_in_challenge
       collapse_music_box

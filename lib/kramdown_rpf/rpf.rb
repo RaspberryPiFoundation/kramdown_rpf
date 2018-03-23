@@ -13,33 +13,11 @@ module RPF
         ).to_html
       end
 
-      def self.convert_code_to_html(code)
-        code          =~ YAML_FRONT_MATTER_REGEXP
-        content       = code
-        filename      = Regexp.last_match(1)
-        filename_html = ''
-
-        unless filename.nil?
-          content       = Regexp.last_match(2)
-          details       = YAML.safe_load(filename)
-          filename      = details['filename']
-          filename_html = <<~HEREDOC
-            <div class="c-code__filename">
-              #{filename}
-            </div>
-          HEREDOC
-        end
-
-        parsed_content = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
-
-        <<~HEREDOC
-          <div class="c-code">
-            #{filename_html}
-            <div class="c-code__content">
-              #{parsed_content}
-            </div>
-          </div>
-        HEREDOC
+      def self.convert_code_filename_to_html(code_filename)
+        ::Kramdown::Document.new(
+          "<div class=\"c-code-filename\">\n#{code_filename}</div>",
+          parse_block_html: false, input: 'KramdownRPF'
+        ).to_html
       end
 
       def self.convert_collapse_to_html(collapse)
