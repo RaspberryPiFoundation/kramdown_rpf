@@ -1,8 +1,7 @@
---- filename ---
-./assets/scss/application.scss
---- /filename ---
-
 --- code ---
+---
+filename: ./assets/scss/application.scss
+---
 ``` bash
 mkdir whoopee
 cd whoopee
