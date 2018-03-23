@@ -43,6 +43,33 @@ Within your markdown, add a challenge like this:
 
 ```
 
+### Code block
+
+When you want to include a formatted code block, include the following in your Markdown
+
+``` markdown
+--- code ---
+
+[ code sample goes here ]
+
+--- /code ---
+```
+
+#### Code bock with optional filename
+
+If you would like to provide an optional filename with your code sample, add the following value to the code block:
+
+``` markdown
+--- code ---
+---
+filename: this-is-the-filename.py
+---
+
+[ code sample goes here ]
+
+--- /code ---
+```
+
 ### Collapsed content
 
 Within your markdown, add some collapsed content (primarily ingredients) like this:
