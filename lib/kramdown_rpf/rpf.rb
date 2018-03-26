@@ -25,11 +25,25 @@ module RPF
         code              = Regexp.last_match(2)
         pre_attrs         = []
 
-        if (filename)           filename_html = "<div class=\"c-code-filename\">#{filename}</div>"
-        if (line_numbers)       pre_attrs << 'class="line-numbers"'
-        if (line_number_start)  pre_attrs << "data-start=\"#{line_numbers}\""
-        if (line_highlights)    pre_attrs << "data-line=\"#{line_highlights}\""
-        if (pre_attrs.size > 0) pre_attrs_html = ' ' + pre_attrs.join(' ')
+        if (filename)
+          filename_html = "<div class=\"c-code-filename\">#{filename}</div>"
+        end
+
+        if (line_numbers)
+          pre_attrs << 'class="line-numbers"'
+        end
+
+        if (line_number_start)
+          pre_attrs << "data-start=\"#{line_numbers}\""
+        end
+
+        if (line_highlights)
+          pre_attrs << "data-line=\"#{line_highlights}\""
+        end
+
+        if (pre_attrs.size > 0)
+          pre_attrs_html = ' ' + pre_attrs.join(' ')
+        end
 
         <<~HEREDOC
           #{filename_html}
