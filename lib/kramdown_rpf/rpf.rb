@@ -34,7 +34,7 @@ module RPF
         end
 
         if (line_number_start)
-          pre_attrs << "data-start=\"#{line_numbers}\""
+          pre_attrs << "data-start=\"#{line_number_start}\""
         end
 
         if (line_highlights)
