@@ -2,7 +2,6 @@
 ---
 language: python
 line_highlights: 3, 5-6
-line_start: 3
 ---
 while True:
     button.wait_for_press()
