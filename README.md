@@ -61,7 +61,7 @@ while True:
     parp = random.choice(trumps)
     os.system("aplay {0}".format(parp))
     sleep(2)
---- /code-filename ---
+--- /code ---
 ```
 
 ### Collapsed content
