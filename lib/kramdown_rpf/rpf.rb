@@ -3,19 +3,38 @@ module RPF
     module Kramdown
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\n(.*?)---(.*)/m
       KRAMDOWN_OPTIONS = {
-        input:            'KramdownRPF',
-        parse_block_html: true,
+        input:              'KramdownRPF',
+        parse_block_html:   true,
+        syntax_highlighter: nil,
       }.freeze
 
       def self.convert_challenge_to_html(challenge)
         ::Kramdown::Document.new("<div class=\"challenge\">\n#{challenge}</div>", KRAMDOWN_OPTIONS).to_html
       end
 
-      def self.convert_code_filename_to_html(code_filename)
-        ::Kramdown::Document.new(
-          "<div class=\"c-code-filename\">\n#{code_filename}</div>",
-          parse_block_html: false, input: 'KramdownRPF'
-        ).to_html
+      def self.convert_code_to_html(code_block)
+        code_block =~ YAML_FRONT_MATTER_REGEXP
+        meta       =  YAML.safe_load(Regexp.last_match(1))
+
+        language          = meta['language']
+        filename          = meta['filename'] or nil
+        filename_html     = nil
+        line_numbers      = meta['line_numbers'] or false
+        line_number_start = meta['line_number_start'] or nil
+        line_highlights   = meta['line_highlights'] or nil
+        code              = Regexp.last_match(2)
+        pre_attrs         = []
+
+        if (filename)           filename_html = "<div class=\"c-code-filename\">#{filename}</div>"
+        if (line_numbers)       pre_attrs << 'class="line-numbers"'
+        if (line_number_start)  pre_attrs << "data-start=\"#{line_numbers}\""
+        if (line_highlights)    pre_attrs << "data-line=\"#{line_highlights}\""
+        if (pre_attrs.size > 0) pre_attrs_html = ' ' + pre_attrs.join(' ')
+
+        <<~HEREDOC
+          #{filename_html}
+          <pre#{pre_attrs_html}><code class="language-#{language}">#{code}</code></pre>
+        HEREDOC
       end
 
       def self.convert_collapse_to_html(collapse)
