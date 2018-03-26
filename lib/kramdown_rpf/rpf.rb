@@ -3,14 +3,12 @@ module RPF
     module Kramdown
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\n(.*?)---(.*)/m
       KRAMDOWN_OPTIONS = {
-        coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'KramdownRPF'
+        input:            'KramdownRPF',
+        parse_block_html: true,
       }.freeze
 
       def self.convert_challenge_to_html(challenge)
-        ::Kramdown::Document.new(
-          "<div class=\"challenge\">\n#{challenge}</div>",
-          KRAMDOWN_OPTIONS
-        ).to_html
+        ::Kramdown::Document.new("<div class=\"challenge\">\n#{challenge}</div>", KRAMDOWN_OPTIONS).to_html
       end
 
       def self.convert_code_filename_to_html(code_filename)
@@ -21,14 +19,12 @@ module RPF
       end
 
       def self.convert_collapse_to_html(collapse)
-        collapse =~ YAML_FRONT_MATTER_REGEXP
-        details = YAML.safe_load(Regexp.last_match(1))
-        title = details['title']
-        content = Regexp.last_match(2)
-        parsed_content = ::Kramdown::Document.new(
-          content.strip,
-          KRAMDOWN_OPTIONS
-        ).to_html
+        collapse       =~ YAML_FRONT_MATTER_REGEXP
+        details        = YAML.safe_load(Regexp.last_match(1))
+        title          = details['title']
+        content        = Regexp.last_match(2)
+        parsed_content = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
+
         <<~HEREDOC
           <div class="c-project-panel c-project-panel--ingredient">
             <h3 class="c-project-panel__heading js-project-panel__toggle">
@@ -43,10 +39,8 @@ module RPF
       end
 
       def self.convert_hint_to_html(hint)
-        parsed_hint = ::Kramdown::Document.new(
-          hint.strip,
-          KRAMDOWN_OPTIONS
-        ).to_html
+        parsed_hint = ::Kramdown::Document.new(hint.strip, KRAMDOWN_OPTIONS).to_html
+
         <<~HEREDOC
           <div class="c-project-panel__swiper-slide">
             #{parsed_hint}
@@ -55,10 +49,8 @@ module RPF
       end
 
       def self.convert_hints_to_html(hints)
-        parsed_hints = ::Kramdown::Document.new(
-          hints.strip,
-          coderay_css: :class, coderay_line_numbers: nil, parse_block_html: true, input: 'KramdownRPF'
-        ).to_html
+        parsed_hints = ::Kramdown::Document.new(hints.strip, KRAMDOWN_OPTIONS).to_html
+
         <<~HEREDOC
           <div class="c-project-panel c-project-panel--hints">
             <h3 class="c-project-panel__heading js-project-panel__toggle">
@@ -96,10 +88,8 @@ module RPF
       end
 
       def self.convert_task_to_html(task)
-        parsed_task = ::Kramdown::Document.new(
-          task.strip,
-          KRAMDOWN_OPTIONS
-        ).to_html
+        parsed_task = ::Kramdown::Document.new(task.strip, KRAMDOWN_OPTIONS).to_html
+
         <<~HEREDOC
           <div class="c-project-task">
             <input class="c-project-task__checkbox" type="checkbox" />
