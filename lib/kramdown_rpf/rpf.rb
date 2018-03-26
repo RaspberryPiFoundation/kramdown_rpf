@@ -17,11 +17,11 @@ module RPF
         meta       =  YAML.safe_load(Regexp.last_match(1))
 
         language          = meta['language']
-        filename          = meta['filename'] or nil
+        filename          = meta['filename'] || nil
         filename_html     = nil
-        line_numbers      = meta['line_numbers'] or false
-        line_number_start = meta['line_number_start'] or nil
-        line_highlights   = meta['line_highlights'] or nil
+        line_numbers      = meta['line_numbers'] || false
+        line_number_start = meta['line_number_start'] || nil
+        line_highlights   = meta['line_highlights'] || nil
         code              = Regexp.last_match(2)
         pre_attrs         = []
 
