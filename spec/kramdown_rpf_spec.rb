@@ -10,6 +10,7 @@ RSpec.describe KramdownRPF do
   CONVERSION_TESTS = %w[
     challenge
     code
+    code_default
     code_with_filename
     code_with_line_numbers
     code_with_line_highlights
