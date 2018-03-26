@@ -2,18 +2,6 @@ require 'kramdown'
 require_relative 'rpf'
 
 module Kramdown
-  # # Register block-level elements
-  # # @private
-  class Element
-    # Register :challenge, :code_filename, :collapse, :hint, :save, and :task as block-level elements
-    CATEGORY[:challenge]     = :block
-    CATEGORY[:code_filename] = :block
-    CATEGORY[:collapse]      = :block
-    CATEGORY[:hint]          = :block
-    CATEGORY[:save]          = :block
-    CATEGORY[:task]          = :block
-  end
-
   module Converter
     class Html
       # Convert :challenge -> HTML
