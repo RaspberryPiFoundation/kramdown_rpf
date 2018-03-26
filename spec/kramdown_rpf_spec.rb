@@ -8,28 +8,28 @@ RSpec.describe KramdownRPF do
   }.freeze
 
   CONVERSION_TESTS = %w[
-    challenge
-    code
-    code_default
-    code_with_all_features
-    code_with_filename
-    code_with_line_numbers
-    code_with_line_highlights
-    collapse
-    collapse_in_challenge
-    collapse_music_box
-    collapse_with_space
-    hint
-    hints
-    save
-    task
-    task_with_hints
-    task_with_ingredient
+    challenge/challenge
+    code/code
+    code/code_default
+    code/code_with_all_features
+    code/code_with_filename
+    code/code_with_line_numbers
+    code/code_with_line_highlights
+    collapse/collapse
+    collapse/collapse_in_challenge
+    collapse/collapse_music_box
+    collapse/collapse_with_space
+    hint/hint
+    hint/hints
+    save/save
+    task/task
+    task/task_with_hints
+    task/task_with_ingredient
   ].freeze
 
   I18N_TESTS = %w[
-    hints
-    save
+    hint/hints
+    save/save
   ].freeze
 
   it 'has a version number' do
