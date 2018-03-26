@@ -11,6 +11,7 @@ RSpec.describe KramdownRPF do
     challenge
     code
     code_default
+    code_with_all_features
     code_with_filename
     code_with_line_numbers
     code_with_line_highlights
