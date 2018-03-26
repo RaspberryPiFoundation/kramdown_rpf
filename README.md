@@ -43,13 +43,24 @@ Within your markdown, add a challenge like this:
 
 ```
 
-### Code filename
+### Code block
 
-When you want to include a filename for a code block, include the following in your Markdown
+When you want to include a code block, include the following in your Markdown
 
 ``` markdown
---- code-filename ---
-application.py
+--- code ---
+---
+language: python # required
+filename: whoopee.py # optional
+line_numbers: true # optional - default false
+line_number_start: 3 # optional - default 0
+line_highlights: 3, 5-6 # optional
+---
+while True:
+    button.wait_for_press()
+    parp = random.choice(trumps)
+    os.system("aplay {0}".format(parp))
+    sleep(2)
 --- /code-filename ---
 ```
 
