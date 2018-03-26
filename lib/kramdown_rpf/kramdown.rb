@@ -2,23 +2,18 @@ require 'kramdown'
 require_relative 'rpf'
 
 module Kramdown
-  # # Register block-level elements
-  # # @private
-  class Element
-    # Register :challenge, :collapse, :hint, and :hint as block-level elements
-    CATEGORY[:challenge] = :block
-    CATEGORY[:collapse]  = :block
-    CATEGORY[:hint]      = :block
-    CATEGORY[:save]      = :block
-    CATEGORY[:task]      = :block
-  end
-
   module Converter
     class Html
       # Convert :challenge -> HTML
       # @api private
       def convert_challenge(el, _indent)
         RPF::Plugin::Kramdown.convert_challenge_to_html(el.value)
+      end
+
+      # Convert :code_filename -> HTML
+      # @api private
+      def convert_code(el, _indent)
+        RPF::Plugin::Kramdown.convert_code_to_html(el.value)
       end
 
       # Convert :collapse -> HTML
@@ -58,6 +53,11 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :code_filename -> Markdown (not implemented)
+      def convert_code(_el, _opts)
+        raise NotImplementedError
+      end
+
       # Convert :collapse -> Markdown (not implemented)
       def convert_collapse(_el, _opts)
         raise NotImplementedError
@@ -86,6 +86,11 @@ module Kramdown
     class Latex
       # Convert :challenge -> LaTEX (not implemented)
       def convert_challenge(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :code_filename -> LaTEX (not implemented)
+      def convert_code(_el, _opts)
         raise NotImplementedError
       end
 
@@ -119,6 +124,7 @@ module Kramdown
   module Parser
     class KramdownRPF < ::Kramdown::Parser::GFM
       CHALLENGE_PATTERN = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
+      CODE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m
       COLLAPSE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
       HINT_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
       HINTS_PATTERN     = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
@@ -128,6 +134,7 @@ module Kramdown
       def initialize(source, options)
         super
         @block_parsers.unshift(:challenge)
+        @block_parsers.unshift(:code)
         @block_parsers.unshift(:collapse)
         @block_parsers.unshift(:hint)
         @block_parsers.unshift(:hints)
@@ -143,6 +150,15 @@ module Kramdown
       end
 
       define_parser(:challenge, CHALLENGE_PATTERN)
+
+      # Convert Markdown -> :code
+      # @api private
+      def parse_code
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:code, @src[1])
+      end
+
+      define_parser(:code, CODE_PATTERN)
 
       # Convert Markdown -> :collapse
       # @api private

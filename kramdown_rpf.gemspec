@@ -4,14 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'kramdown_rpf/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'kramdown-rpf'
-  spec.version       = KramdownRPF::VERSION
-  spec.authors       = ['Raspberry Pi Foundation Web Team']
-  spec.email         = ['web@raspberrypi.org']
-
-  spec.summary       = "Kramdown extensions for the Raspberry Pi Foundation's resources website."
-  spec.homepage      = 'https://learning.raspberrypi.org'
-  spec.license       = 'MIT'
+  spec.name     = 'kramdown-rpf'
+  spec.version  = KramdownRPF::VERSION
+  spec.authors  = ['Raspberry Pi Foundation Web Team']
+  spec.email    = ['web@raspberrypi.org']
+  spec.summary  = "Kramdown extensions for the Raspberry Pi Foundation's resources website."
+  spec.homepage = 'https://projects.raspberrypi.org'
+  spec.license  = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
