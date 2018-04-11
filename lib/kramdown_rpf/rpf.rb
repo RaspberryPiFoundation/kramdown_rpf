@@ -1,7 +1,7 @@
 module RPF
   module Plugin
     module Kramdown
-      YAML_FRONT_MATTER_REGEXP = /\n\s*---\n(.*?)---(.*)/m
+      YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
       KRAMDOWN_OPTIONS = {
         input:              'KramdownRPF',
         parse_block_html:   true,
