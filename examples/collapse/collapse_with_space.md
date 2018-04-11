@@ -5,7 +5,7 @@ We're going to write some code to print out `Motion detected!` when the PIR sens
 1. Open IDLE, create a new file and save it as **parent-detector.py**
 
     --- collapse ---
-    ---
+    ---  
     title: Opening IDLE
     image: images/idle.png
     ---
