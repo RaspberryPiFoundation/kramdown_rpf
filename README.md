@@ -90,7 +90,7 @@ Content inside the following tags will NOT be shown when printed:
 ...and content inside this block will ONLY be shown when printed, not on a screen:
 --- print-only ---
   This will not show on screen, only in print
---- /print-onlu ---
+--- /print-only ---
 
 ### Hints
 
