@@ -34,6 +34,18 @@ module Kramdown
         RPF::Plugin::Kramdown.convert_hints_to_html(el.value)
       end
 
+      # Convert :no_print -> HTML
+      # @api private
+      def convert_no_print(el, _indent)
+        RPF::Plugin::Kramdown.convert_no_print_to_html(el.value)
+      end
+
+      # Convert :print_only -> HTML
+      # @api private
+      def convert_print_only(el, _indent)
+        RPF::Plugin::Kramdown.convert_print_only_to_html(el.value)
+      end
+
       # Convert :save -> HTML
       # @api private
       def convert_save(_el, _indent)
@@ -73,6 +85,16 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :no_print -> Markdown (not implemented)
+      def convert_no_print(el, _indent)
+        raise NotImplementedError
+      end
+
+      # Convert :print_only -> Markdown (not implemented)
+      def convert_print_only(el, _indent)
+        raise NotImplementedError
+      end
+
       # Convert :save -> Markdown (not implemented)
       def convert_save(_el, _opts)
         raise NotImplementedError
@@ -109,6 +131,16 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :no_print -> LaTEX (not implemented)
+      def convert_no_print(el, _indent)
+        raise NotImplementedError
+      end
+
+      # Convert :print_only -> LaTEX (not implemented)
+      def convert_print_only(el, _indent)
+        raise NotImplementedError
+      end
+
       # Convert :save -> LaTEX (not implemented)
       def convert_save(_el, _opts)
         raise NotImplementedError
@@ -123,13 +155,15 @@ module Kramdown
 
   module Parser
     class KramdownRPF < ::Kramdown::Parser::GFM
-      CHALLENGE_PATTERN = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
-      CODE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m
-      COLLAPSE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
-      HINT_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
-      HINTS_PATTERN     = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
-      SAVE_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
-      TASK_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m
+      CHALLENGE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
+      CODE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m
+      COLLAPSE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
+      HINT_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
+      HINTS_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
+      NO_PRINT_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*no-print[ \t]*---(.*?)---[ \t]*\/no-print[ \t]*---}m
+      PRINT_ONLY_PATTERN = %r{^#{OPT_SPACE}---[ \t]*print-only[ \t]*---(.*?)---[ \t]*\/print-only[ \t]*---}m
+      SAVE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
+      TASK_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m
 
       def initialize(source, options)
         super
@@ -138,6 +172,8 @@ module Kramdown
         @block_parsers.unshift(:collapse)
         @block_parsers.unshift(:hint)
         @block_parsers.unshift(:hints)
+        @block_parsers.unshift(:no_print)
+        @block_parsers.unshift(:print_only)
         @block_parsers.unshift(:save)
         @block_parsers.unshift(:task)
       end
@@ -186,6 +222,24 @@ module Kramdown
       end
 
       define_parser(:hints, HINTS_PATTERN)
+
+      # Convert Markdown -> :no_print
+      # @api private
+      def parse_no_print
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:no_print, @src[1])
+      end
+
+      define_parser(:no_print, NO_PRINT_PATTERN)
+
+      # Convert Markdown -> :print_only
+      # @api private
+      def parse_print_only
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:print_only, @src[1])
+      end
+
+      define_parser(:print_only, PRINT_ONLY_PATTERN)
 
       # Convert Markdown -> :save
       # @api private

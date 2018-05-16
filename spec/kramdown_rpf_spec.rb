@@ -21,6 +21,8 @@ RSpec.describe KramdownRPF do
     collapse/collapse_with_space
     hint/hint
     hint/hints
+    no_print/no_print
+    print_only/print_only
     save/save
     task/task
     task/task_with_hints
