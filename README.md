@@ -78,6 +78,20 @@ Content here comes from the ingredient.
 --- /collapse ---
 ```
 
+### Print-specific content
+
+When printing projects, we need to be able to hide that which on a screen would be interactive, and show a print fallback. Similarly we don't want to show the fallback content on screen where the interactive content is available. These two blocks will allow content editors to selectively show or hide content on screens and in print.
+
+Content inside the following tags will NOT be shown when printed:
+--- no-print ---
+  This will not print
+--- /no-print ---
+
+...and content inside this block will ONLY be shown when printed, not on a screen:
+--- print-only ---
+  This will not show on screen, only in print
+--- /print-onlu ---
+
 ### Hints
 
 Within your markdown, add some hints like this:
