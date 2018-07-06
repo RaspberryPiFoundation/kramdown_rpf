@@ -4,12 +4,6 @@ require_relative 'rpf'
 module Kramdown
   module Converter
     class Html
-      # Convert :challenge -> HTML
-      # @api private
-      def convert_challenge(el, _indent)
-        RPF::Plugin::Kramdown.convert_challenge_to_html(el.value)
-      end
-
       # Convert :code_filename -> HTML
       # @api private
       def convert_code(el, _indent)
@@ -60,11 +54,6 @@ module Kramdown
     end
 
     class Kramdown
-      # Convert :challenge -> Markdown (not implemented)
-      def convert_challenge(_el, _opts)
-        raise NotImplementedError
-      end
-
       # Convert :code_filename -> Markdown (not implemented)
       def convert_code(_el, _opts)
         raise NotImplementedError
@@ -106,11 +95,6 @@ module Kramdown
     end
 
     class Latex
-      # Convert :challenge -> LaTEX (not implemented)
-      def convert_challenge(_el, _opts)
-        raise NotImplementedError
-      end
-
       # Convert :code_filename -> LaTEX (not implemented)
       def convert_code(_el, _opts)
         raise NotImplementedError
@@ -155,7 +139,6 @@ module Kramdown
 
   module Parser
     class KramdownRPF < ::Kramdown::Parser::GFM
-      CHALLENGE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
       CODE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m
       COLLAPSE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
       HINT_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
@@ -167,7 +150,6 @@ module Kramdown
 
       def initialize(source, options)
         super
-        @block_parsers.unshift(:challenge)
         @block_parsers.unshift(:code)
         @block_parsers.unshift(:collapse)
         @block_parsers.unshift(:hint)
@@ -177,15 +159,6 @@ module Kramdown
         @block_parsers.unshift(:save)
         @block_parsers.unshift(:task)
       end
-
-      # Convert Markdown -> :challenge
-      # @api private
-      def parse_challenge
-        @src.pos += @src.matched_size
-        @tree.children << Element.new(:challenge, @src[1])
-      end
-
-      define_parser(:challenge, CHALLENGE_PATTERN)
 
       # Convert Markdown -> :code
       # @api private
