@@ -8,7 +8,6 @@ RSpec.describe KramdownRPF do
   }.freeze
 
   CONVERSION_TESTS = %w[
-    challenge/challenge
     code/code
     code/code_default
     code/code_with_all_features
@@ -16,7 +15,6 @@ RSpec.describe KramdownRPF do
     code/code_with_line_numbers
     code/code_with_line_highlights
     collapse/collapse
-    collapse/collapse_in_challenge
     collapse/collapse_music_box
     collapse/collapse_with_space
     hint/hint

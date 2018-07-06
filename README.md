@@ -29,20 +29,6 @@ Kramdown::Document.new(markdown, input: 'KramdownRPF').to_html
 
 KramdownRPF uses the Kramdown `GFM` markdown parser.
 
-### Challenges
-
-Within your markdown, add a challenge like this:
-``` markdown
---- challenge ---
-
-## Challenge: Improving your drum
-
-+ Any markdown here
-
---- /challenge ---
-
-```
-
 ### Code block
 
 When you want to include a code block, include the following in your Markdown
