@@ -9,7 +9,7 @@ module RPF
       }.freeze
 
       def self.convert_challenge_to_html(challenge)
-        ::Kramdown::Document.new("<div>\n#{challenge}</div>", KRAMDOWN_OPTIONS).to_html
+        ::Kramdown::Document.new(challenge, KRAMDOWN_OPTIONS).to_html
       end
 
       def self.convert_code_to_html(code_block)
