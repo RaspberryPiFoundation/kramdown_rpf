@@ -8,6 +8,10 @@ module RPF
         syntax_highlighter: nil,
       }.freeze
 
+      def self.convert_challenge_to_html(challenge)
+        ::Kramdown::Document.new("<div>\n#{challenge}</div>", KRAMDOWN_OPTIONS).to_html
+      end
+
       def self.convert_code_to_html(code_block)
         code_block =~ YAML_FRONT_MATTER_REGEXP
         meta       =  YAML.safe_load(Regexp.last_match(1))
