@@ -13,20 +13,9 @@ jobs:
           name: Which bundler?
           command: bundle -v
 
-      # Restore bundle cache
-      - restore_cache:
-          keys:
-            - kramdown_rpf-bundle-v2-{{ checksum "Gemfile.lock" }}
-
       - run:
           name: Bundle Install
           command: bundle check || bundle install
-
-      # Store bundle cache
-      - save_cache:
-          key: kramdown_rpf-bundle-v2-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
 
       # Run rspec
       - run:
