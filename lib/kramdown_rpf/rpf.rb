@@ -23,31 +23,19 @@ module RPF
         line_number_start = meta['line_number_start'] || nil
         line_highlights   = meta['line_highlights'] || nil
         code              = Regexp.last_match(2)
-        pre_attrs         = []
+        pre_attrs         = ['dir="ltr"']
 
-        if (filename)
-          filename_html = "<div class=\"c-code-filename\">#{filename}</div>"
-        end
+        filename_html = "<div class=\"c-code-filename\">#{filename}</div>" if filename
 
-        if (line_numbers)
-          pre_attrs << 'class="line-numbers"'
-        end
+        pre_attrs << 'class="line-numbers"' if line_numbers
+        pre_attrs << "data-start=\"#{line_number_start}\"" if line_number_start
+        pre_attrs << "data-line=\"#{line_highlights}\"" if line_highlights
 
-        if (line_number_start)
-          pre_attrs << "data-start=\"#{line_number_start}\""
-        end
-
-        if (line_highlights)
-          pre_attrs << "data-line=\"#{line_highlights}\""
-        end
-
-        if (pre_attrs.size > 0)
-          pre_attrs_html = ' ' + pre_attrs.join(' ')
-        end
+        pre_attrs_html = ' ' + pre_attrs.join(' ') if pre_attrs.size.positive?
 
         <<~HEREDOC
           #{filename_html}
-          <pre#{pre_attrs_html}><code class="language-#{language}">#{code}</code></pre>
+          <pre#{pre_attrs_html}><code class="language-#{language}" dir="ltr">#{code}</code></pre>
         HEREDOC
       end
 
