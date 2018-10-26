@@ -1,4 +1,4 @@
-``` python
+```python
 while True:
     button.wait_for_press()
     parp = random.choice(trumps)
