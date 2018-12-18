@@ -24,6 +24,8 @@ RSpec.describe KramdownRPF do
     no_print/no_print
     print_only/print_only
     save/save
+    scratch/scratch2
+    scratch/scratch3
     task/task
     task/task_with_hints
     task/task_with_ingredient
