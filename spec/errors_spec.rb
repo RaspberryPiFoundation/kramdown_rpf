@@ -8,25 +8,26 @@ RSpec.describe KramdownRPF do
   }.freeze
 
   describe "with incomplete markup" do
-    it 'detects bad markup tags' do
+    it 'should raise an exception' do
       I18n.locale = 'en'
       test_result = Kramdown::Document.new(
         File.read("examples/errors/collapse.md"),
         KRAMDOWN_OPTIONS
-      ).to_html
-      expect(RPF::Plugin::Kramdown.markup?(test_result)).to eq(true)
+      )
+
+      expect{ test_result.to_html }.to raise_error(Kramdown::ParseError)
     end
   end
 
   describe "with valid markup" do
-    it 'detects no markup tags' do
+    it 'should not raise any errors' do
       I18n.locale = 'en'
       test_result = Kramdown::Document.new(
         File.read("examples/collapse/collapse.md"),
         KRAMDOWN_OPTIONS
-      ).to_html
+      )
 
-      expect(RPF::Plugin::Kramdown.markup?(test_result)).to eq(false)
+      expect{ test_result.to_html }.not_to raise_error
     end
   end
 

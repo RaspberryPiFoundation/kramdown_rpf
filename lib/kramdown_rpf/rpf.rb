@@ -129,13 +129,6 @@ module RPF
         HEREDOC
       end
 
-      def self.markup?(content)
-        keywords = ::Kramdown::Parser::KramdownRPF::KEYWORDS
-        keywords.one?{|keyword|
-          content =~ Regexp.new("—[\s]*#{keyword}[\s]*—")
-        }
-      end
-
     end
   end
 end
