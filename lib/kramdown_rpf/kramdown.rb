@@ -155,6 +155,17 @@ module Kramdown
 
   module Parser
     class KramdownRPF < ::Kramdown::Parser::GFM
+
+      KEYWORDS = [
+        'challenge',
+        'code',
+        'collapse',
+        'hints',
+        'no-print',
+        'print-only',
+        'save',
+        'task']
+
       CHALLENGE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
       CODE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m
       COLLAPSE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
