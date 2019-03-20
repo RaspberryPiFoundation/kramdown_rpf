@@ -155,6 +155,17 @@ module Kramdown
 
   module Parser
     class KramdownRPF < ::Kramdown::Parser::GFM
+
+      KEYWORDS = [
+        'challenge',
+        'code',
+        'collapse',
+        'hints',
+        'no-print',
+        'print-only',
+        'save',
+        'task']
+
       CHALLENGE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m
       CODE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m
       COLLAPSE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
@@ -177,6 +188,7 @@ module Kramdown
         @block_parsers.unshift(:save)
         @block_parsers.unshift(:task)
       end
+
 
       # Convert Markdown -> :challenge
       # @api private
@@ -260,4 +272,23 @@ module Kramdown
       define_parser(:task, TASK_PATTERN)
     end
   end
+
+  class ParseError < Exception; end
+
+  class Document
+    def to_html
+      output, warnings = Kramdown::Converter::Html.convert(@root, @options)
+      @warnings.concat(warnings)
+      validate!(output)
+    end
+
+    private
+    def validate!(output)
+      keywords = ::Kramdown::Parser::KramdownRPF::KEYWORDS
+      invalid = keywords.select{|keyword| output =~ Regexp.new("—[\s]*#{keyword}[\s]*—")}
+      raise ParseError.new("Markdown contained an unclosed tag: #{invalid}") unless invalid.empty?
+      output
+    end
+  end
+
 end

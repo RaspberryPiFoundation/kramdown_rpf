@@ -128,6 +128,7 @@ module RPF
           </div>
         HEREDOC
       end
+
     end
   end
 end
