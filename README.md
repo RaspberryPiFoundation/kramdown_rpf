@@ -115,7 +115,7 @@ This gem is deployed from Github. To create a new release:
 
 * Update the version number in `version.rb`
 * git tag "vX.X.X" #for the relevant version
-* gp origin --tags
+* git push origin --tags
 
 ## Contributing
 
