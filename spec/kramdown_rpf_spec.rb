@@ -31,11 +31,6 @@ RSpec.describe KramdownRPF do
     task/task_with_ingredient
   ].freeze
 
-  I18N_TESTS = %w[
-    hint/hints
-    save/save
-  ].freeze
-
   it 'has a version number' do
     expect(KramdownRPF::VERSION).not_to be nil
   end
@@ -50,25 +45,6 @@ RSpec.describe KramdownRPF do
 
           test_result = Kramdown::Document.new(
             File.read("examples/#{test_name}.md"),
-            KRAMDOWN_OPTIONS
-          ).to_html
-
-          expect(test_result.strip).to eq(reference_result.strip)
-        end
-      end
-    end
-  end
-
-  describe 'i18n' do
-    I18N_TESTS.each do |test_name|
-      context test_name do
-        reference_result = File.read "examples/i18n/#{test_name}.html"
-
-        it 'should be correctly converted' do
-          I18n.locale = 'xyz'
-
-          test_result = Kramdown::Document.new(
-            File.read("examples/i18n/#{test_name}.md"),
             KRAMDOWN_OPTIONS
           ).to_html
 
