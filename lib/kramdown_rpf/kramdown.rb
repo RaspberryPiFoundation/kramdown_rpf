@@ -111,6 +111,7 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :task -> Markdown (not implemented)
       def convert_task(_el, _opts)
         raise NotImplementedError
       end
