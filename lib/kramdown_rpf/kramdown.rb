@@ -34,6 +34,12 @@ module Kramdown
         RPF::Plugin::Kramdown.convert_hints_to_html(el.value)
       end
 
+      # Convert :new_page -> HTML
+      # @api private
+      def convert_new_page(_el, _indent)
+        RPF::Plugin::Kramdown.convert_new_page_to_html
+      end
+
       # Convert :no_print -> HTML
       # @api private
       def convert_no_print(el, _indent)
@@ -85,6 +91,11 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :new_page-> Markdown (not implemented)
+      def convert_new_page(_el, _opts)
+        raise NotImplementedError
+      end
+
       # Convert :no_print -> Markdown (not implemented)
       def convert_no_print(el, _indent)
         raise NotImplementedError
@@ -131,6 +142,11 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :new_page -> LaTEX (not implemented)
+      def convert_new_page(_el, _opts)
+        raise NotImplementedError
+      end
+
       # Convert :no_print -> LaTEX (not implemented)
       def convert_no_print(el, _indent)
         raise NotImplementedError
@@ -161,6 +177,7 @@ module Kramdown
         'code',
         'collapse',
         'hints',
+        'new-page',
         'no-print',
         'print-only',
         'save',
@@ -171,6 +188,7 @@ module Kramdown
       COLLAPSE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
       HINT_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
       HINTS_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
+      NEW_PAGE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*new-page[ \t]*---}m
       NO_PRINT_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*no-print[ \t]*---(.*?)---[ \t]*\/no-print[ \t]*---}m
       PRINT_ONLY_PATTERN = %r{^#{OPT_SPACE}---[ \t]*print-only[ \t]*---(.*?)---[ \t]*\/print-only[ \t]*---}m
       SAVE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
@@ -183,6 +201,7 @@ module Kramdown
         @block_parsers.unshift(:collapse)
         @block_parsers.unshift(:hint)
         @block_parsers.unshift(:hints)
+        @block_parsers.unshift(:new_page)
         @block_parsers.unshift(:no_print)
         @block_parsers.unshift(:print_only)
         @block_parsers.unshift(:save)
@@ -234,6 +253,15 @@ module Kramdown
       end
 
       define_parser(:hints, HINTS_PATTERN)
+
+      # Convert Markdown -> :new_page
+      # @api private
+      def parse_new_page
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:new_page, @src[1])
+      end
+
+      define_parser(:new_page, NEW_PAGE_PATTERN)
 
       # Convert Markdown -> :no_print
       # @api private

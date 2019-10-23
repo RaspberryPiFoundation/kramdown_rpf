@@ -78,6 +78,15 @@ Content inside the following tags will NOT be shown when printed:
   This will not show on screen, only in print
 --- /print-only ---
 
+To add a page break to printed content:
+``` markdown
+First page content
+
+--- new-page ---
+
+Second page content
+```
+
 ### Hints
 
 Within your markdown, add some hints like this:

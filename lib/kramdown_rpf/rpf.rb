@@ -98,6 +98,10 @@ module RPF
         HEREDOC
       end
 
+      def self.convert_new_page_to_html
+        ::Kramdown::Document.new("<div class=\"c-page-break-before\" />", KRAMDOWN_OPTIONS).to_html
+      end
+
       def self.convert_no_print_to_html(content)
         ::Kramdown::Document.new("<div class=\"u-no-print\">\n#{content}</div>", KRAMDOWN_OPTIONS).to_html
       end
