@@ -99,7 +99,7 @@ module RPF
       end
 
       def self.convert_new_page_to_html
-        ::Kramdown::Document.new("<div class=\"c-page-break-before\" />", KRAMDOWN_OPTIONS).to_html
+        ::Kramdown::Document.new("<div class=\"c-print-page-break\" />", KRAMDOWN_OPTIONS).to_html
       end
 
       def self.convert_no_print_to_html(content)
