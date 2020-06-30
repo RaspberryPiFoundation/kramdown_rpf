@@ -52,6 +52,12 @@ module Kramdown
         RPF::Plugin::Kramdown.convert_print_only_to_html(el.value)
       end
 
+      # Convert :quiz -> HTML
+      # @api private
+      def convert_quiz(el, _indent)
+        RPF::Plugin::Kramdown.convert_quiz_to_html(el.value)
+      end
+
       # Convert :save -> HTML
       # @api private
       def convert_save(_el, _indent)
@@ -181,6 +187,7 @@ module Kramdown
         'new-page',
         'no-print',
         'print-only',
+        'quiz',
         'save',
         'task']
 
@@ -192,6 +199,7 @@ module Kramdown
       NEW_PAGE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*new-page[ \t]*---}m
       NO_PRINT_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*no-print[ \t]*---(.*?)---[ \t]*\/no-print[ \t]*---}m
       PRINT_ONLY_PATTERN = %r{^#{OPT_SPACE}---[ \t]*print-only[ \t]*---(.*?)---[ \t]*\/print-only[ \t]*---}m
+      QUIZ_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*quiz[ \t]*---(.*?)---[ \t]*\/quiz[ \t]*---}m
       SAVE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
       TASK_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m
 
@@ -205,6 +213,7 @@ module Kramdown
         @block_parsers.unshift(:new_page)
         @block_parsers.unshift(:no_print)
         @block_parsers.unshift(:print_only)
+        @block_parsers.unshift(:quiz)
         @block_parsers.unshift(:save)
         @block_parsers.unshift(:task)
       end
@@ -290,6 +299,15 @@ module Kramdown
       end
 
       define_parser(:save, SAVE_PATTERN)
+
+      # Convert Markdown -> :quiz
+      # @api private
+      def parse_quiz
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:quiz, @src[1])
+      end
+
+      define_parser(:quiz, QUIZ_PATTERN)
 
       # Convert Markdown -> :task
       # @api private
