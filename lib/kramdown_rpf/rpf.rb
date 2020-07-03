@@ -118,20 +118,20 @@ module RPF
         question = details['question']
         choices = YAML.safe_load(Regexp.last_match(2))
         radios = choices.map { |c| c =~ RADIO_REGEXP ? $1 : c }.reject(&:empty?)
-        radio_inputs = radios.map.with_index(1) { |c, i| "<label class=\"c-project-panel__label c-project-panel__label--quiz\" for=\"choice-#{i}\">#{c}</label>\n      <input class=\"c-project-panel__input c-project-panel__input--quiz\" type=\"radio\" id=\"choice-#{i}\" value=\"choice-#{i}\" />\n      " }.join("").strip
+        radio_inputs = radios.map.with_index(1) { |c, i| "<label class=\"c-project-quiz__label\" for=\"choice-#{i}\">#{c}</label>\n      <input class=\"c-project-quiz__input\" type=\"radio\" id=\"choice-#{i}\" value=\"choice-#{i}\" />\n      " }.join("").strip
 
         <<~HEREDOC
-          <div class="c-project-panel c-project-panel--quiz">
-            <form class="c-project-panel__form c-project-panel__form--quiz" action="#">
-              <h3 class="c-project-panel__heading">
+          <div class="c-project-quiz">
+            <form class="c-project-quiz__form" action="#">
+              <h3 class="c-project-quiz__heading">
                 #{question}
               </h3>
 
-              <div class="c-project-panel__content c-project-panel__content--quiz">
+              <div class="c-project-quiz__content">
                 #{radio_inputs}
               </div>
 
-              <div class="c-project-panel__button-bar"></div>
+              <div class="c-project-quiz__button-bar"></div>
             </form>
           </div>
         HEREDOC
