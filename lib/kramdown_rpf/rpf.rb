@@ -118,7 +118,7 @@ module RPF
         question = details['question']
         choices = YAML.safe_load(Regexp.last_match(2))
         radios = choices.map { |c| c =~ RADIO_REGEXP ? $1 : c }.reject(&:empty?)
-        radio_inputs = radios.map.with_index(1) { |c, i| "<label class=\"c-project-quiz__label\" for=\"choice-#{i}\">#{c}</label>\n      <input class=\"c-project-quiz__input\" type=\"radio\" id=\"choice-#{i}\" value=\"choice-#{i}\" />\n      " }.join("").strip
+        radio_inputs = radios.map.with_index(1) { |c, i| "<label class=\"c-project-quiz__label\" for=\"choice-#{i}\">#{c}</label>\n      <input class=\"c-project-quiz__input\" name=\"quiz-choice\" type=\"radio\" id=\"choice-#{i}\" value=\"choice-#{i}\" />\n      " }.join("").strip
 
         <<~HEREDOC
           <div class="c-project-quiz">
