@@ -116,6 +116,22 @@ Hint 4
 --- /hints ---
 ```
 
+### Quiz
+
+Quizzes can be added with choices for the user to select (currently only 1 mutually exclusive choice per quiz):
+``` markdown
+--- quiz ---
+---
+question: Here is a heading for a quiz with three possible answers. How do you feel?
+---
+
+- () Great
+- () Okay
+- () Terrible
+
+--- /quiz ---
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
