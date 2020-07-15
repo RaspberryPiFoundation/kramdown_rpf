@@ -2,7 +2,7 @@ module RPF
   module Plugin
     module Kramdown
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
-      RADIO_REGEXP = /\(\)\s*(.*)/
+      RADIO_REGEXP = /\(\s?\)\s*(?<text>.*)/
 
       KRAMDOWN_OPTIONS = {
         input:              'KramdownRPF',
@@ -120,8 +120,8 @@ module RPF
         question = details['question']
 
         choices = YAML.safe_load(content[2])
-        radios = choices.map { |choice| radio = RADIO_REGEXP.match(choice); radio ? radio[1] : '' }.reject(&:empty?)
-        radio_inputs = radios.map.with_index(1) { 
+        choice_texts = choices.map { |choice| match = RADIO_REGEXP.match(choice); match ? match['text'] : '' }.reject(&:empty?)
+        radio_inputs = choice_texts.map.with_index(1) { 
           |text, index|  
           <<~HEREDOC
             <label class="c-project-quiz__label" for="choice-#{index}">#{text}</label>
