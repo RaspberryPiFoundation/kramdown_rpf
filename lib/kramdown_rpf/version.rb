@@ -1,3 +1,3 @@
 module KramdownRPF
-  VERSION = '0.9.7'.freeze
+  VERSION = '0.10.0'.freeze
 end
