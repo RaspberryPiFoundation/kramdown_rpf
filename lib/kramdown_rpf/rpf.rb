@@ -113,12 +113,21 @@ module RPF
       end
 
       def self.convert_quiz_to_html(quiz)
-        quiz =~ YAML_FRONT_MATTER_REGEXP
-        details = YAML.safe_load(Regexp.last_match(1))
+        content = YAML_FRONT_MATTER_REGEXP.match(quiz)
+        return '' if content.nil? || content.length() < 2
+
+        details = YAML.safe_load(content[1])
         question = details['question']
-        choices = YAML.safe_load(Regexp.last_match(2))
-        radios = choices.map { |c| c =~ RADIO_REGEXP ? $1 : c }.reject(&:empty?)
-        radio_inputs = radios.map.with_index(1) { |c, i| "<label class=\"c-project-quiz__label\" for=\"choice-#{i}\">#{c}</label>\n      <input class=\"c-project-quiz__input\" name=\"quiz-choice\" type=\"radio\" id=\"choice-#{i}\" value=\"choice-#{i}\" />\n      " }.join("").strip
+
+        choices = YAML.safe_load(content[2])
+        radios = choices.map { |choice| radio = RADIO_REGEXP.match(choice); radio ? radio[1] : '' }.reject(&:empty?)
+        radio_inputs = radios.map.with_index(1) { 
+          |text, index|  
+          <<~HEREDOC
+            <label class="c-project-quiz__label" for="choice-#{index}">#{text}</label>
+                  <input class="c-project-quiz__input" name="quiz-choice" type="radio" id="choice-#{index}" value="choice-#{index}" />
+          HEREDOC
+        }.join("      ").strip
 
         <<~HEREDOC
           <div class="c-project-quiz">
