@@ -120,14 +120,17 @@ module RPF
         question = details['question']
 
         choices = YAML.safe_load(content[2])
-        choice_texts = choices.map { |choice| match = RADIO_REGEXP.match(choice); match ? match['text'] : '' }.reject(&:empty?)
-        radio_inputs = choice_texts.map.with_index(1) { 
-          |text, index|  
+        choice_texts = choices.map do |choice| 
+          match = RADIO_REGEXP.match(choice)
+          match ? match['text'] : nil
+        end
+
+        radio_inputs = choice_texts.compact.map.with_index(1) do |text, index|  
           <<~HEREDOC
             <label class="c-project-quiz__label" for="choice-#{index}">#{text}</label>
                   <input class="c-project-quiz__input" name="quiz-choice" type="radio" id="choice-#{index}" value="choice-#{index}" />
           HEREDOC
-        }.join("      ").strip
+        end
 
         <<~HEREDOC
           <div class="c-project-quiz">
@@ -137,7 +140,7 @@ module RPF
               </h3>
 
               <div class="c-project-quiz__content">
-                #{radio_inputs}
+                #{radio_inputs.join("      ").strip}
               </div>
 
               <div class="c-project-quiz__button-bar"></div>
