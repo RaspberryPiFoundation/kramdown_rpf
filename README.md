@@ -125,9 +125,9 @@ Quizzes can be added with choices for the user to select (currently only 1 mutua
 question: Here is a heading for a quiz with three possible answers. How do you feel?
 ---
 
-- () Great
-- () Okay
-- () Terrible
+- ( ) Great
+- ( ) Okay
+- ( ) Terrible
 
 --- /quiz ---
 ```
