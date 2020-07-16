@@ -24,6 +24,7 @@ RSpec.describe KramdownRPF do
     new_page/new_page
     no_print/no_print
     print_only/print_only
+    quiz/quiz
     save/save
     scratch/scratch2
     scratch/scratch3

@@ -2,6 +2,8 @@ module RPF
   module Plugin
     module Kramdown
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
+      RADIO_REGEXP = /\(\s?\)\s*(?<text>.*)/
+
       KRAMDOWN_OPTIONS = {
         input:              'KramdownRPF',
         parse_block_html:   true,
@@ -108,6 +110,43 @@ module RPF
 
       def self.convert_print_only_to_html(content)
         ::Kramdown::Document.new("<div class=\"u-print-only\">\n#{content}</div>", KRAMDOWN_OPTIONS).to_html
+      end
+
+      def self.convert_quiz_to_html(quiz)
+        content = YAML_FRONT_MATTER_REGEXP.match(quiz)
+        return '' if content.nil? || content.length() < 2
+
+        details = YAML.safe_load(content[1])
+        question = details['question']
+
+        choices = YAML.safe_load(content[2])
+        choice_texts = choices.map do |choice| 
+          match = RADIO_REGEXP.match(choice)
+          match ? match['text'] : nil
+        end
+
+        radio_inputs = choice_texts.compact.map.with_index(1) do |text, index|  
+          <<~HEREDOC
+            <label class="c-project-quiz__label" for="choice-#{index}">#{text}</label>
+                  <input class="c-project-quiz__input" name="quiz-choice" type="radio" id="choice-#{index}" value="choice-#{index}" />
+          HEREDOC
+        end
+
+        <<~HEREDOC
+          <div class="c-project-quiz">
+            <form class="c-project-quiz__form" action="#">
+              <h3 class="c-project-quiz__heading">
+                #{question}
+              </h3>
+
+              <div class="c-project-quiz__content">
+                #{radio_inputs.join("      ").strip}
+              </div>
+
+              <div class="c-project-quiz__button-bar"></div>
+            </form>
+          </div>
+        HEREDOC
       end
 
       def self.convert_save_to_html
