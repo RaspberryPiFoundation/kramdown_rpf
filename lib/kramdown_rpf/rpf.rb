@@ -1,8 +1,14 @@
+require 'kramdown'
+
 module RPF
   module Plugin
     module Kramdown
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
-      RADIO_REGEXP = /\(\s?\)\s*(?<text>.*)/
+      RADIO_REGEXP = /\([\sx*]?\)\s*(?<text>.*)/
+      CHOICE_BLOCK_REGEXP = %r{^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\sx*]?\)\s*.*)}m
+      FEEDBACK_REGEXP = %r{^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---}m
+      QUESTIONS_REGEXP = %r{^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*question[ \t]*---(.*?)---[ \t]*\/question[ \t]*---}m
+      QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*\/choices[ \t]*---}m
 
       KRAMDOWN_OPTIONS = {
         input:              'KramdownRPF',
@@ -100,6 +106,18 @@ module RPF
         HEREDOC
       end
 
+      def self.convert_knowledge_quiz_to_html(knowledge_quiz)
+        knowledge_quiz =~ YAML_FRONT_MATTER_REGEXP
+
+        details        = YAML.safe_load(Regexp.last_match(1))
+        quiz_version   = details['quiz_version']
+
+        quiz_content = ::Kramdown::Document.new(Regexp.last_match(2).strip, KRAMDOWN_OPTIONS.merge({ quiz_version: quiz_version})).to_html
+
+        puts "quiz_content: #{quiz_content}"
+        quiz_content
+      end
+
       def self.convert_new_page_to_html
         ::Kramdown::Document.new("<div class=\"c-print-page-break\" />", KRAMDOWN_OPTIONS).to_html
       end
@@ -110,6 +128,85 @@ module RPF
 
       def self.convert_print_only_to_html(content)
         ::Kramdown::Document.new("<div class=\"u-print-only\">\n#{content}</div>", KRAMDOWN_OPTIONS).to_html
+      end
+
+      def self.convert_feedback_to_html(feedback, index = nil)
+        id = 'feedback'
+        id += "-for-choice-#{index + 1}" unless index.nil?
+        <<~HEREDOC
+          <li id="#{id}">
+            #{::Kramdown::Document.new(feedback.strip, KRAMDOWN_OPTIONS).to_html}
+          </li>
+        HEREDOC
+      end
+
+      def self.convert_label_to_html(label, index)
+        number = index + 1
+        <<~HEREDOC
+          <label for="choice-#{number}">#{label}</label>
+          <input type="radio" name="answer" value="#{number}" id="choice-#{number}" />
+        HEREDOC
+      end
+
+      def self.convert_question_to_html(question, options)
+        question_match = QUESTION_REGEXP.match(question)
+        return '' if question_match.nil? || question_match.length() < 2
+
+        question_blurb = ::Kramdown::Document.new(question_match[1].strip, KRAMDOWN_OPTIONS.merge(options)).to_html
+
+        choices = question_match[2].strip.split(CHOICE_BLOCK_REGEXP)
+
+        choice_html = ''
+        feedback_html = ''
+        choices.each.with_index do |choice, index| 
+          label_match = RADIO_REGEXP.match(choice)
+          label = label_match ? label_match['text'] : nil
+          choice_html += convert_label_to_html(label, index)
+          feedback_match = FEEDBACK_REGEXP.match(choice)
+          feedback_html += convert_feedback_to_html(feedback_match[1], index) if feedback_match
+        end
+
+        question_number = options[:question_number]
+        total_questions = options[:total_questions]
+
+        if question_number < total_questions
+          next_html = "<a href=\"q#{question_number + 1}\" class=\"button\">Next</a>"
+        else
+          next_html = '<a href="end" class="button">Finish</a>'
+        end
+
+        <<~HEREDOC
+          <form id="question-1">
+            <div class="question">
+              #{question_blurb}
+            </div>
+            #{choice_html}
+            <ul>
+              #{feedback_html}
+            </ul>
+            <input type="hidden" name="lang" value="en" />
+            <input type="hidden" name="quiz_version" value="#{options[:quiz_version]}" />
+            <input type="hidden" name="project_name" value="rock-band-with-dogs" />
+            <input type="hidden" name="question" value="#{question_number}" />
+            <!-- result is set client side, representing the correct/incorrect status shown in the browser -->
+            <input type="hidden" name="result" value="" />
+            <input type="button" name="Submit" value="submit" />
+            #{next_html}
+          </form>
+        HEREDOC
+      end
+
+      def self.convert_questions_to_html(questions, options)
+        questions_match = questions.scan(QUESTIONS_REGEXP)
+        return '' if questions_match.nil? || questions_match.length() < 1
+
+        total_questions = questions_match.length()
+        question_html = ''
+        questions_match.each.with_index do |question, index|
+          question_html += convert_question_to_html(question[0].strip, options.merge({ question_number: (index + 1), total_questions: total_questions}))
+        end
+
+        question_html
       end
 
       def self.convert_quiz_to_html(quiz)

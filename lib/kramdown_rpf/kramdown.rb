@@ -34,6 +34,12 @@ module Kramdown
         RPF::Plugin::Kramdown.convert_hints_to_html(el.value)
       end
 
+      # Convert :knowledge_quiz -> HTML
+      # @api private
+      def convert_knowledge_quiz(el, _indent)
+        RPF::Plugin::Kramdown.convert_knowledge_quiz_to_html(el.value)
+      end
+
       # Convert :new_page -> HTML
       # @api private
       def convert_new_page(_el, _indent)
@@ -50,6 +56,12 @@ module Kramdown
       # @api private
       def convert_print_only(el, _indent)
         RPF::Plugin::Kramdown.convert_print_only_to_html(el.value)
+      end
+
+      # Convert :questions -> HTML
+      # @api private
+      def convert_questions(el, _indent)
+        RPF::Plugin::Kramdown.convert_questions_to_html(el.value, { quiz_version: @options[:quiz_version] })
       end
 
       # Convert :quiz -> HTML
@@ -97,6 +109,11 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :knowledge_quiz -> Markdown (not implemented)
+      def convert_knowledge_quiz(_el, _opts)
+        raise NotImplementedError
+      end
+
       # Convert :new_page-> Markdown (not implemented)
       def convert_new_page(_el, _opts)
         raise NotImplementedError
@@ -109,6 +126,21 @@ module Kramdown
 
       # Convert :print_only -> Markdown (not implemented)
       def convert_print_only(el, _indent)
+        raise NotImplementedError
+      end
+
+      # Convert :question -> Markdown (not implemented)
+      def convert_question(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :question -> Markdown (not implemented)
+      def convert_questions(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :quiz -> Markdown (not implemented)
+      def convert_quiz(_el, _opts)
         raise NotImplementedError
       end
 
@@ -149,6 +181,11 @@ module Kramdown
         raise NotImplementedError
       end
 
+      # Convert :knowledge_quiz -> LaTEX (not implemented)
+      def convert_knowledge_quiz(_el, _opts)
+        raise NotImplementedError
+      end
+
       # Convert :new_page -> LaTEX (not implemented)
       def convert_new_page(_el, _opts)
         raise NotImplementedError
@@ -161,6 +198,21 @@ module Kramdown
 
       # Convert :print_only -> LaTEX (not implemented)
       def convert_print_only(el, _indent)
+        raise NotImplementedError
+      end
+
+      # Convert :question -> LaTEX (not implemented)
+       def convert_question(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :questions -> LaTEX (not implemented)
+      def convert_questions(_el, _opts)
+        raise NotImplementedError
+      end
+
+      # Convert :quiz -> LaTEX (not implemented)
+      def convert_quiz(_el, _opts)
         raise NotImplementedError
       end
 
@@ -184,9 +236,11 @@ module Kramdown
         'code',
         'collapse',
         'hints',
+        'knowledge-quiz',
         'new-page',
         'no-print',
         'print-only',
+        'questions',
         'quiz',
         'save',
         'task']
@@ -196,9 +250,11 @@ module Kramdown
       COLLAPSE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m
       HINT_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m
       HINTS_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m
+      KNOWLEDGE_QUIZ_PATTERN = %r{^#{OPT_SPACE}---[ \t]*knowledge-quiz[ \t]*---(.*?)---[ \t]*\/knowledge-quiz[ \t]*---}m
       NEW_PAGE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*new-page[ \t]*---}m
       NO_PRINT_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*no-print[ \t]*---(.*?)---[ \t]*\/no-print[ \t]*---}m
       PRINT_ONLY_PATTERN = %r{^#{OPT_SPACE}---[ \t]*print-only[ \t]*---(.*?)---[ \t]*\/print-only[ \t]*---}m
+      QUESTIONS_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*questions[ \t]*---(.*?)---[ \t]*\/questions[ \t]*---}m
       QUIZ_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*quiz[ \t]*---(.*?)---[ \t]*\/quiz[ \t]*---}m
       SAVE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
       TASK_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m
@@ -210,8 +266,10 @@ module Kramdown
         @block_parsers.unshift(:collapse)
         @block_parsers.unshift(:hint)
         @block_parsers.unshift(:hints)
+        @block_parsers.unshift(:knowledge_quiz)
         @block_parsers.unshift(:new_page)
         @block_parsers.unshift(:no_print)
+        @block_parsers.unshift(:questions)
         @block_parsers.unshift(:print_only)
         @block_parsers.unshift(:quiz)
         @block_parsers.unshift(:save)
@@ -264,6 +322,15 @@ module Kramdown
 
       define_parser(:hints, HINTS_PATTERN)
 
+      # Convert Markdown -> :knowledge-quiz
+      # @api private
+      def parse_knowledge_quiz
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:knowledge_quiz, @src[1])
+      end
+
+      define_parser(:knowledge_quiz, KNOWLEDGE_QUIZ_PATTERN)
+
       # Convert Markdown -> :new_page
       # @api private
       def parse_new_page
@@ -291,14 +358,14 @@ module Kramdown
 
       define_parser(:print_only, PRINT_ONLY_PATTERN)
 
-      # Convert Markdown -> :save
+      # Convert Markdown -> :questions
       # @api private
-      def parse_save
+      def parse_questions
         @src.pos += @src.matched_size
-        @tree.children << Element.new(:save, @src[1])
+        @tree.children << Element.new(:questions, @src[1])
       end
 
-      define_parser(:save, SAVE_PATTERN)
+      define_parser(:questions, QUESTIONS_PATTERN)
 
       # Convert Markdown -> :quiz
       # @api private
@@ -308,6 +375,15 @@ module Kramdown
       end
 
       define_parser(:quiz, QUIZ_PATTERN)
+
+      # Convert Markdown -> :save
+      # @api private
+      def parse_save
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:save, @src[1])
+      end
+
+      define_parser(:save, SAVE_PATTERN)
 
       # Convert Markdown -> :task
       # @api private
