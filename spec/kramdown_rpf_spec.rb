@@ -21,7 +21,7 @@ RSpec.describe KramdownRPF do
     collapse/collapse_with_space
     hint/hint
     hint/hints
-    knowledge_quiz/knowledge_quiz
+    knowledge_quiz/question_blocks_in_feedback
     new_page/new_page
     no_print/no_print
     print_only/print_only

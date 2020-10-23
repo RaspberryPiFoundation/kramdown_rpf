@@ -1,0 +1,50 @@
+<h1 id="quiz-introduction">Quiz introduction</h1>
+
+<p>The quiz can have normal HTML before it, which will just be treated like normal markdown.</p>
+
+<p>Anything inside a <code>---question---</code> block will be parsed into a <code>&lt;form&gt;</code> representing the quiz question</p>
+
+<p>A question may optionally have a 'frontmatter' section with the <code>legend</code> parameter to override the default ‘Question’ string used in the form's legend tag.</p>
+
+<form class="knowledge_quiz__question">
+  <fieldset>
+    <legend>Question 1 of 3</legend>
+    <div class="knowledge_quiz__blurb">
+      <p>The bug sprite starts facing upwards.</p>
+
+      <p><img alt="Bug facing upwards" src="./img/q3-1.png" /></p>
+
+      <p>What code would you add to the bug sprite to draw this shape.</p>
+
+      <p><img alt="Path drawn by the bug, with the bug at the end" src="./img/q3-2.png" /></p>
+    </div>
+    <label for="choice-1">
+      <svg><!-- first set of blocks --></svg>
+    </label>
+    <input type="radio" name="answer" value="1" id="choice-1" />
+    <label for="choice-2">
+      <svg><!-- second set of blocks --></svg>
+    </label>
+    <input type="radio" name="answer" value="2" id="choice-2" />
+    <label for="choice-3">
+      <svg><!-- third set of blocks --></svg>
+    </label>
+    <input type="radio" name="answer" value="3" id="choice-3" checked />
+    <label for="choice-4">
+      <svg><!-- fourth set of blocks --></svg>
+    </label>
+    <input type="radio" name="answer" value="4" id="choice-4" />
+  </fieldset>
+  <ul class="knowledge_quiz__feedback">
+    <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-1">The number of ‘move’ blocks in the code should match the number of sides the shape has.  </li>
+    <li class="knowledge_quiz__feedback-item" id="feedback-for-chioce-2">To draw this shape, the direction of the ‘turn’ blocks should all be the same.  </li>
+    <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-4">The sprite will need to move in order to draw a shape.  </li>
+  </ul>
+  <input type="hidden" name="lang" value="en" />
+  <input type="hidden" name="quiz_version" value="1" />
+  <input type="hidden" name="project_name" value="rock-band-with-dogs" />
+  <input type="hidden" name="question" value="3" />
+  <input type="hidden" name="result" value="" />
+  <input type="button" name="Submit" value="submit" />
+  <a href="end" class="button">Finish</a>
+</form>
