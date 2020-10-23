@@ -112,10 +112,7 @@ module RPF
         details        = YAML.safe_load(Regexp.last_match(1))
         quiz_version   = details['quiz_version']
 
-        quiz_content = ::Kramdown::Document.new(Regexp.last_match(2).strip, KRAMDOWN_OPTIONS.merge({ quiz_version: quiz_version})).to_html
-
-        puts "quiz_content: #{quiz_content}"
-        quiz_content
+        ::Kramdown::Document.new(Regexp.last_match(2).strip, KRAMDOWN_OPTIONS.merge({ quiz_version: quiz_version})).to_html
       end
 
       def self.convert_new_page_to_html
@@ -128,6 +125,28 @@ module RPF
 
       def self.convert_print_only_to_html(content)
         ::Kramdown::Document.new("<div class=\"u-print-only\">\n#{content}</div>", KRAMDOWN_OPTIONS).to_html
+      end
+
+      def self.convert_question_meta_to_html(options)
+        question_number = options[:question_number]
+        total_questions = options[:total_questions]
+
+        if question_number < total_questions
+          next_html = "<a href=\"q#{question_number + 1}\" class=\"button\">Next</a>"
+        else
+          next_html = '<a href="end" class="button">Finish</a>'
+        end
+
+        <<~HEREDOC
+          <input type="hidden" name="lang" value="en" />
+          <input type="hidden" name="quiz_version" value="#{options[:quiz_version]}" />
+          <input type="hidden" name="project_name" value="rock-band-with-dogs" />
+          <input type="hidden" name="question" value="#{question_number}" />
+          <!-- result is set client side, representing the correct/incorrect status shown in the browser -->
+          <input type="hidden" name="result" value="" />
+          <input type="button" name="Submit" value="submit" />
+          #{next_html}
+        HEREDOC
       end
 
       def self.convert_feedback_to_html(feedback, index = nil)
@@ -148,13 +167,8 @@ module RPF
         HEREDOC
       end
 
-      def self.convert_question_to_html(question, options)
-        question_match = QUESTION_REGEXP.match(question)
-        return '' if question_match.nil? || question_match.length() < 2
-
-        question_blurb = ::Kramdown::Document.new(question_match[1].strip, KRAMDOWN_OPTIONS.merge(options)).to_html
-
-        choices = question_match[2].strip.split(CHOICE_BLOCK_REGEXP)
+      def self.convert_choices_to_html(text)
+        choices = text.split(CHOICE_BLOCK_REGEXP)
 
         choice_html = ''
         feedback_html = ''
@@ -163,36 +177,42 @@ module RPF
           label = label_match ? label_match['text'] : nil
           choice_html += convert_label_to_html(label, index)
           feedback_match = FEEDBACK_REGEXP.match(choice)
-          feedback_html += convert_feedback_to_html(feedback_match[1], index) if feedback_match
+          next if feedback_match.nil? || feedback_match.length() < 1
+
+          feedback_html += convert_feedback_to_html(feedback_match[1].strip, index)
         end
 
-        question_number = options[:question_number]
-        total_questions = options[:total_questions]
-
-        if question_number < total_questions
-          next_html = "<a href=\"q#{question_number + 1}\" class=\"button\">Next</a>"
-        else
-          next_html = '<a href="end" class="button">Finish</a>'
-        end
-
-        <<~HEREDOC
-          <form id="question-1">
-            <div class="question">
-              #{question_blurb}
-            </div>
-            #{choice_html}
+        if feedback_html.size.positive?
+          feedback_html = <<~HEREDOC
             <ul>
               #{feedback_html}
             </ul>
-            <input type="hidden" name="lang" value="en" />
-            <input type="hidden" name="quiz_version" value="#{options[:quiz_version]}" />
-            <input type="hidden" name="project_name" value="rock-band-with-dogs" />
-            <input type="hidden" name="question" value="#{question_number}" />
-            <!-- result is set client side, representing the correct/incorrect status shown in the browser -->
-            <input type="hidden" name="result" value="" />
-            <input type="button" name="Submit" value="submit" />
-            #{next_html}
-          </form>
+          HEREDOC
+        end
+
+        { choice_html: choice_html, feedback_html: feedback_html}
+      end
+
+      def self.convert_question_to_html(question, options)
+        question_match = QUESTION_REGEXP.match(question)
+        return '' if question_match.nil? || question_match.length() < 2
+
+        question_blurb = ::Kramdown::Document.new(question_match[1].strip, KRAMDOWN_OPTIONS.merge(options)).to_html
+
+        choice_feedback = convert_choices_to_html(question_match[2].strip)
+
+        <<-HEREDOC
+<form id="question-#{options[:question_number]}">
+  <fieldset>
+    <legend>Question #{options[:question_number]} of #{options[:total_questions]}</legend>
+    <div class="question">
+      #{question_blurb}
+    </div>
+    #{choice_feedback[:choice_html]}
+  </fieldset>
+  #{choice_feedback[:feedback_html]}
+  #{convert_question_meta_to_html(options)}
+</form>
         HEREDOC
       end
 
