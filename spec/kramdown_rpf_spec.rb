@@ -22,6 +22,7 @@ RSpec.describe KramdownRPF do
     hint/hint
     hint/hints
     knowledge_quiz/question_blocks_in_feedback
+    knowledge_quiz/question_single_feedback
     new_page/new_page
     no_print/no_print
     print_only/print_only

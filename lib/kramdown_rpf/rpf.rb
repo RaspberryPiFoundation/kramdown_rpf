@@ -6,7 +6,8 @@ module RPF
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
       RADIO_REGEXP = /\((?<check>[\sx*]{0,1})\)\s*(?<text>.*)/
       CHOICE_BLOCK_REGEXP = %r{^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\sx*]?\)\s*.*)}m
-      FEEDBACK_REGEXP = %r{^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---}m
+      CHOICE_FEEDBACK_REGEXP = %r{^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---}m
+      SINGLE_FEEDBACK_REGEXP = %r{\A#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---}m
       QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*\/choices[ \t]*---}m
 
       KRAMDOWN_OPTIONS = {
@@ -138,15 +139,21 @@ module RPF
 
       def self.convert_choices_to_html(text)
         choices = text.split(CHOICE_BLOCK_REGEXP)
-
         choice_html = ''
         feedback_html = ''
-        choices.each.with_index do |choice, index| 
+        choices.each.with_index do |choice, index|
+          single_feedback_match = SINGLE_FEEDBACK_REGEXP.match(choice)
+          unless single_feedback_match.nil?
+            feedback_html += convert_feedback_to_html(single_feedback_match[1].strip, nil)
+            next
+          end
+
           label_match = RADIO_REGEXP.match(choice)
+          puts "label_match: #{label_match.inspect} for choice: #{choice}"
           label = label_match ? label_match['text'] : nil
           checked = !label_match['check'].strip.empty?
           choice_html += convert_label_to_html(label, index, checked)
-          feedback_match = FEEDBACK_REGEXP.match(choice)
+          feedback_match = CHOICE_FEEDBACK_REGEXP.match(choice)
           next if feedback_match.nil? || feedback_match.length() < 1
 
           feedback_html += convert_feedback_to_html(feedback_match[1].strip, index)
@@ -173,7 +180,7 @@ module RPF
         front_matter_match = YAML_FRONT_MATTER_REGEXP.match(question_match[1])
         unless front_matter_match.nil?
           front_matter = YAML.safe_load(front_matter_match[1])
-          legend = front_matter&['legend'] || legend
+          legend = front_matter['legend'] || legend
           blurb = front_matter_match[2]
         end
 
