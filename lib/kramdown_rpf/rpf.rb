@@ -4,7 +4,7 @@ module RPF
   module Plugin
     module Kramdown
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
-      RADIO_REGEXP = /\([\sx*]?\)\s*(?<text>.*)/
+      RADIO_REGEXP = /\((?<check>[\sx*]{0,1})\)\s*(?<text>.*)/
       CHOICE_BLOCK_REGEXP = %r{^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\sx*]?\)\s*.*)}m
       FEEDBACK_REGEXP = %r{^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---}m
       QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*\/choices[ \t]*---}m
@@ -122,17 +122,17 @@ module RPF
         id = 'feedback'
         id += "-for-choice-#{index + 1}" unless index.nil?
         <<~HEREDOC
-          <li id="#{id}">
-            #{::Kramdown::Document.new(feedback.strip, KRAMDOWN_OPTIONS).to_html}
+          <li class="knowledge_quiz__feedback-item" id="#{id}">
+          #{::Kramdown::Document.new(feedback.strip, KRAMDOWN_OPTIONS).to_html.strip}
           </li>
         HEREDOC
       end
 
-      def self.convert_label_to_html(label, index)
+      def self.convert_label_to_html(label, index, checked)
         number = index + 1
         <<~HEREDOC
           <label for="choice-#{number}">#{label}</label>
-          <input type="radio" name="answer" value="#{number}" id="choice-#{number}" />
+          <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked': ''}/>
         HEREDOC
       end
 
@@ -144,7 +144,8 @@ module RPF
         choices.each.with_index do |choice, index| 
           label_match = RADIO_REGEXP.match(choice)
           label = label_match ? label_match['text'] : nil
-          choice_html += convert_label_to_html(label, index)
+          checked = !label_match['check'].strip.empty?
+          choice_html += convert_label_to_html(label, index, checked)
           feedback_match = FEEDBACK_REGEXP.match(choice)
           next if feedback_match.nil? || feedback_match.length() < 1
 
@@ -153,8 +154,8 @@ module RPF
 
         if feedback_html.size.positive?
           feedback_html = <<~HEREDOC
-            <ul>
-              #{feedback_html}
+            <ul class="knowledge_quiz__feedback">
+              #{feedback_html.strip}
             </ul>
           HEREDOC
         end
@@ -166,7 +167,6 @@ module RPF
         question_match = QUESTION_REGEXP.match(question)
         return '' if question_match.nil? || question_match.length() < 2
 
-        puts "question_match: #{question_match.inspect}"
         legend = 'Question'
         blurb = question_match[1].strip
 
@@ -186,11 +186,12 @@ module RPF
             <fieldset>
               <legend>#{legend}</legend>
               <div class="knowledge_quiz__blurb">
-                #{question_blurb}
+                #{question_blurb.strip}
               </div>
-              #{choice_feedback[:choice_html]}
+              #{choice_feedback[:choice_html].strip}
             </fieldset>
-            #{choice_feedback[:feedback_html]}
+            #{choice_feedback[:feedback_html].strip}
+            <input type="button" name="Submit" value="submit" />
           </form>
         HEREDOC
       end

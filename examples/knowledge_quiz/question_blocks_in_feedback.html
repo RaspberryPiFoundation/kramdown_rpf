@@ -2,37 +2,40 @@
   <fieldset>
     <legend>Question</legend>
     <div class="knowledge_quiz__blurb">
-      <p>A dog sprite in Scratch has the following code:<br />
+      <p>A dog sprite in Scratch has the following code:</p>
 
-      <img src="./img/q1.svg" alt="A dog with three scratch blocks" /><br />
+<p><img src="./images/q1.svg" alt="A dog with three scratch blocks" /></p>
 
-      How would you get the dog sprite to change size?
-      </p>
+<p>How would you get the dog sprite to change size?</p>
     </div>
     <label for="choice-1">Press the 'space' key</label>
-    <input type="radio" name="answer" value="1" id="choice-1" />
-    <label for="choice-2">Make a loud noise</label>
-    <input type="radio" name="answer" value="2" id="choice-2" />
-    <label for="choice-3">Click the green flag</label>
-    <input type="radio" name="answer" value="3" id="choice-3" />
-    <label for="choice-4">Click on the dog sprite</label>
-    <!-- the checked flag should be removed before display, noting which choice is correct -->
-    <input type="radio" name="answer" value="4" id="choice-4" checked />
+<input type="radio" name="answer" value="1" id="choice-1" />
+<label for="choice-2">Make a loud noise</label>
+<input type="radio" name="answer" value="2" id="choice-2" />
+<label for="choice-3">Click the green flag</label>
+<input type="radio" name="answer" value="3" id="choice-3" />
+<label for="choice-4">Click on the dog sprite</label>
+<input type="radio" name="answer" value="4" id="choice-4" checked/>
   </fieldset>
-  <!-- feedback: these should be hidden until needed, also the scratch blocks need rendering -->
   <ul class="knowledge_quiz__feedback">
-    <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-1">What code is attached to the<br />
-      <svg><!-- when [space v] key pressed --></svg><br />
-      event block?
-    </li>
-    <li class="knowledge_quiz__feedback-item"  id="feedback-for-choice-2">  What code is attached to the<br />
-      <svg><!-- when [loudness v] > 10 :: events hat --></svg><br />
-      event block?
-    </li>
-    <li class="knowledge_quiz__feedback-item"  id="feedback-for-choice-3">  What code is attached to the<br />
-      <svg><!-- when flag clicked --></svg><br />
-      event block?
-    </li>
-  </ul>
+  <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-1">
+<p>What code is attached to the</p>
+<pre><code class="language-blocks3">  when [space v] key pressed
+</code></pre>
+<p>event block?</p>
+</li>
+<li class="knowledge_quiz__feedback-item" id="feedback-for-choice-2">
+<p>What code is attached to the</p>
+<pre><code class="language-blocks3">  when [loudness v] &gt; 10 :: events hat
+</code></pre>
+<p>event block?</p>
+</li>
+<li class="knowledge_quiz__feedback-item" id="feedback-for-choice-3">
+<p>What code is attached to the</p>
+<pre><code class="language-blocks3">  when flag clicked
+</code></pre>
+<p>event block?</p>
+</li>
+</ul>
   <input type="button" name="Submit" value="submit" />
 </form>
