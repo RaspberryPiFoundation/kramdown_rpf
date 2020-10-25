@@ -141,13 +141,14 @@ module RPF
         choices = text.split(CHOICE_BLOCK_REGEXP)
         choice_html = ''
         feedback_html = ''
-        choices.each.with_index do |choice, index|
-          single_feedback_match = SINGLE_FEEDBACK_REGEXP.match(choice)
-          unless single_feedback_match.nil?
-            feedback_html += convert_feedback_to_html(single_feedback_match[1].strip, nil)
-            next
-          end
 
+        single_feedback_match = SINGLE_FEEDBACK_REGEXP.match(choices[0])
+        unless single_feedback_match.nil?
+          feedback_html += convert_feedback_to_html(single_feedback_match[1].strip, nil)
+          choices.shift
+        end
+
+        choices.each.with_index do |choice, index|
           label_match = RADIO_REGEXP.match(choice)
           puts "label_match: #{label_match.inspect} for choice: #{choice}"
           label = label_match ? label_match['text'] : nil
