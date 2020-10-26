@@ -4,7 +4,7 @@
 
 <p>Anything inside a <code>---question---</code> block will be parsed into a <code>&lt;form&gt;</code> representing the quiz question</p>
 
-<p>A question may optionally have a ‘frontmatter’ section with the <code>legend</code> parameter to override the default ‘Question’ string used in the form's legend tag.</p>
+<p>A question may optionally have a ‘frontmatter’ section with the <code>legend</code> parameter to override the default ‘Question’ string used in the form’s legend tag.</p>
 
 <form class="knowledge_quiz__question">
   <fieldset>
@@ -18,27 +18,52 @@
 
 <p><img src="./img/q3-2.png" alt="Path drawn by the bug, with the bug at the end" /></p>
     </div>
-    <label for="choice-1">
-      <svg><!-- first set of blocks --></svg>
-    </label>
-    <input type="radio" name="answer" value="1" id="choice-1" />
-    <label for="choice-2">
-      <svg><!-- second set of blocks --></svg>
-    </label>
-    <input type="radio" name="answer" value="2" id="choice-2" />
-    <label for="choice-3">
-      <svg><!-- third set of blocks --></svg>
-    </label>
-    <input type="radio" name="answer" value="3" id="choice-3" checked />
-    <label for="choice-4">
-      <svg><!-- fourth set of blocks --></svg>
-    </label>
-    <input type="radio" name="answer" value="4" id="choice-4" />
+    <label for="choice-1"><pre><code class="language-blocks3">  when flag clicked
+  pen down
+  turn ccw (90) degrees
+  move (100) steps
+  turn cw (90) degrees
+  move (100) steps
+</code></pre></label>
+<input type="radio" name="answer" value="1" id="choice-1" />
+<label for="choice-2"><pre><code class="language-blocks3">  when flag clicked
+  pen down
+  turn cw (90) degrees
+  move (100) steps
+  turn ccw (90) degrees
+  move (100) steps
+  turn ccw (180) degrees
+  move (100) steps
+</code></pre></label>
+<input type="radio" name="answer" value="2" id="choice-2" />
+<label for="choice-3"><pre><code class="language-blocks3">  when flag clicked
+  pen down
+  turn ccw (90) degrees
+  move (100) steps
+  turn ccw (90) degrees
+  move (100) steps
+  turn ccw (90) degrees
+  move (100) steps
+</code></pre></label>
+<input type="radio" name="answer" value="3" id="choice-3" checked/>
+<label for="choice-4"><pre><code class="language-blocks3">  when flag clicked
+  pen down
+  turn ccw (90) degrees
+  turn ccw (90) degrees
+  turn ccw (90) degrees
+</code></pre></label>
+<input type="radio" name="answer" value="4" id="choice-4" />
   </fieldset>
   <ul class="knowledge_quiz__feedback">
-    <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-1">The number of ‘move’ blocks in the code should match the number of sides the shape has.  </li>
-    <li class="knowledge_quiz__feedback-item" id="feedback-for-chioce-2">To draw this shape, the direction of the ‘turn’ blocks should all be the same.  </li>
-    <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-4">The sprite will need to move in order to draw a shape.  </li>
-  </ul>
+  <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-1">
+<p>The number of ‘move’ blocks in the code should match the number of sides the shape has.</p>
+</li>
+<li class="knowledge_quiz__feedback-item" id="feedback-for-choice-2">
+<p>To draw this shape, the direction of the ‘turn’ blocks should all be the same.</p>
+</li>
+<li class="knowledge_quiz__feedback-item" id="feedback-for-choice-4">
+<p>The sprite will need to move in order to draw a shape.</p>
+</li>
+</ul>
   <input type="button" name="Submit" value="submit" />
 </form>

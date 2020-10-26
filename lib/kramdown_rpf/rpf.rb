@@ -3,12 +3,11 @@ require 'kramdown'
 module RPF
   module Plugin
     module Kramdown
-      
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
-      RADIO_REGEXP = /\((?<check>[\sx*]{0,1})\)\s*(?<text>.*)/
+      RADIO_REGEXP = /\((?<check>[\sx*]{0,1})\)\s*(?<text>.*)/m
       CHOICE_BLOCK_REGEXP = %r{^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\sx*]?\)\s*.*)}m
       FEEDBACK_REGEXP_PARTIAL = "#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---"
-      CHOICE_FEEDBACK_REGEXP = %r{^#{FEEDBACK_REGEXP_PARTIAL}}m
+      CHOICE_FEEDBACK_REGEXP = %r{#{FEEDBACK_REGEXP_PARTIAL}}m
       SINGLE_FEEDBACK_REGEXP = %r{\A#{FEEDBACK_REGEXP_PARTIAL}}m
       QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*\/choices[ \t]*---}m
 
@@ -217,7 +216,7 @@ module RPF
         def self.convert_label_to_html(label, index, checked)
           number = index + 1
           <<~HEREDOC
-            <label for="choice-#{number}">#{label}</label>
+            <label for="choice-#{number}">#{::Kramdown::Document.new(label, KRAMDOWN_OPTIONS).to_html.strip}</label>
             <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked': ''}/>
           HEREDOC
         end
@@ -232,18 +231,22 @@ module RPF
             feedback_html += convert_feedback_to_html(single_feedback_match[1].strip, nil)
             choices.shift
           end
-  
+
           choices.each.with_index do |choice, index|
-            label_match = RADIO_REGEXP.match(choice)
-            label = label_match ? label_match[:text] : nil
-            checked = !label_match[:check].strip.empty?
-            choice_html += convert_label_to_html(label, index, checked)
-            feedback_match = CHOICE_FEEDBACK_REGEXP.match(choice)
-            next if feedback_match.nil? || feedback_match.length() < 1
-  
-            feedback_html += convert_feedback_to_html(feedback_match[1].strip, index)
+            choice_match = RADIO_REGEXP.match(choice)
+
+            next unless choice_match && choice_match['text']
+
+            choice_with_feedback = choice_match['text'].strip.split(CHOICE_FEEDBACK_REGEXP)
+
+            checked = choice_match['check'] == 'x' || choice_match['check'] == '*'
+            choice_html += convert_label_to_html(choice_with_feedback[0], index, checked)
+
+            next if choice_with_feedback.length() < 2
+
+            feedback_html += convert_feedback_to_html(choice_with_feedback[1].strip, index)
           end
-  
+
           if feedback_html.size.positive?
             feedback_html = <<~HEREDOC
               <ul class="knowledge_quiz__feedback">
@@ -262,7 +265,7 @@ module RPF
   
           unless front_matter_match.nil?
             front_matter = YAML.safe_load(front_matter_match[1])
-            legend = front_matter[:legend] || legend
+            legend = front_matter['legend'] || legend
             blurb = front_matter_match[2]
           end
   
