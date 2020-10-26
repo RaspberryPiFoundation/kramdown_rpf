@@ -4,7 +4,7 @@
 
 <p>Anything inside a <code>---question---</code> block will be parsed into a <code>&lt;form&gt;</code> representing the quiz question</p>
 
-<p>A question may optionally have a 'frontmatter' section with the <code>legend</code> parameter to override the default ‘Question’ string used in the form's legend tag.</p>
+<p>A question may optionally have a ‘frontmatter’ section with the <code>legend</code> parameter to override the default ‘Question’ string used in the form's legend tag.</p>
 
 <form class="knowledge_quiz__question">
   <fieldset>
@@ -12,11 +12,11 @@
     <div class="knowledge_quiz__blurb">
       <p>The bug sprite starts facing upwards.</p>
 
-      <p><img alt="Bug facing upwards" src="./img/q3-1.png" /></p>
+<p><img src="./img/q3-1.png" alt="Bug facing upwards" /></p>
 
-      <p>What code would you add to the bug sprite to draw this shape.</p>
+<p>What code would you add to the bug sprite to draw this shape.</p>
 
-      <p><img alt="Path drawn by the bug, with the bug at the end" src="./img/q3-2.png" /></p>
+<p><img src="./img/q3-2.png" alt="Path drawn by the bug, with the bug at the end" /></p>
     </div>
     <label for="choice-1">
       <svg><!-- first set of blocks --></svg>
@@ -40,11 +40,5 @@
     <li class="knowledge_quiz__feedback-item" id="feedback-for-chioce-2">To draw this shape, the direction of the ‘turn’ blocks should all be the same.  </li>
     <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-4">The sprite will need to move in order to draw a shape.  </li>
   </ul>
-  <input type="hidden" name="lang" value="en" />
-  <input type="hidden" name="quiz_version" value="1" />
-  <input type="hidden" name="project_name" value="rock-band-with-dogs" />
-  <input type="hidden" name="question" value="3" />
-  <input type="hidden" name="result" value="" />
   <input type="button" name="Submit" value="submit" />
-  <a href="end" class="button">Finish</a>
 </form>

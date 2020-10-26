@@ -3,11 +3,13 @@ require 'kramdown'
 module RPF
   module Plugin
     module Kramdown
+      
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
       RADIO_REGEXP = /\((?<check>[\sx*]{0,1})\)\s*(?<text>.*)/
       CHOICE_BLOCK_REGEXP = %r{^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\sx*]?\)\s*.*)}m
-      CHOICE_FEEDBACK_REGEXP = %r{^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---}m
-      SINGLE_FEEDBACK_REGEXP = %r{\A#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---}m
+      FEEDBACK_REGEXP_PARTIAL = "#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---"
+      CHOICE_FEEDBACK_REGEXP = %r{^#{FEEDBACK_REGEXP_PARTIAL}}m
+      SINGLE_FEEDBACK_REGEXP = %r{\A#{FEEDBACK_REGEXP_PARTIAL}}m
       QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*\/choices[ \t]*---}m
 
       KRAMDOWN_OPTIONS = {
@@ -118,83 +120,20 @@ module RPF
         ::Kramdown::Document.new("<div class=\"u-print-only\">\n#{content}</div>", KRAMDOWN_OPTIONS).to_html
       end
 
-
-      def self.convert_feedback_to_html(feedback, index = nil)
-        id = 'feedback'
-        id += "-for-choice-#{index + 1}" unless index.nil?
-        <<~HEREDOC
-          <li class="knowledge_quiz__feedback-item" id="#{id}">
-          #{::Kramdown::Document.new(feedback.strip, KRAMDOWN_OPTIONS).to_html.strip}
-          </li>
-        HEREDOC
-      end
-
-      def self.convert_label_to_html(label, index, checked)
-        number = index + 1
-        <<~HEREDOC
-          <label for="choice-#{number}">#{label}</label>
-          <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked': ''}/>
-        HEREDOC
-      end
-
-      def self.convert_choices_to_html(text)
-        choices = text.split(CHOICE_BLOCK_REGEXP)
-        choice_html = ''
-        feedback_html = ''
-
-        single_feedback_match = SINGLE_FEEDBACK_REGEXP.match(choices[0])
-        unless single_feedback_match.nil?
-          feedback_html += convert_feedback_to_html(single_feedback_match[1].strip, nil)
-          choices.shift
-        end
-
-        choices.each.with_index do |choice, index|
-          label_match = RADIO_REGEXP.match(choice)
-          puts "label_match: #{label_match.inspect} for choice: #{choice}"
-          label = label_match ? label_match['text'] : nil
-          checked = !label_match['check'].strip.empty?
-          choice_html += convert_label_to_html(label, index, checked)
-          feedback_match = CHOICE_FEEDBACK_REGEXP.match(choice)
-          next if feedback_match.nil? || feedback_match.length() < 1
-
-          feedback_html += convert_feedback_to_html(feedback_match[1].strip, index)
-        end
-
-        if feedback_html.size.positive?
-          feedback_html = <<~HEREDOC
-            <ul class="knowledge_quiz__feedback">
-              #{feedback_html.strip}
-            </ul>
-          HEREDOC
-        end
-
-        { choice_html: choice_html, feedback_html: feedback_html}
-      end
-
       def self.convert_knowledge_quiz_question_to_html(question, _indent)
         question_match = QUESTION_REGEXP.match(question)
         return '' if question_match.nil? || question_match.length() < 2
 
-        legend = 'Question'
-        blurb = question_match[1].strip
+        question_blurb = KnowledgeQuiz.convert_question_blurb_to_html(question_match[1])
 
-        front_matter_match = YAML_FRONT_MATTER_REGEXP.match(question_match[1])
-        unless front_matter_match.nil?
-          front_matter = YAML.safe_load(front_matter_match[1])
-          legend = front_matter['legend'] || legend
-          blurb = front_matter_match[2]
-        end
-
-        question_blurb = ::Kramdown::Document.new(blurb, KRAMDOWN_OPTIONS).to_html
-
-        choice_feedback = convert_choices_to_html(question_match[2].strip)
+        choice_feedback = KnowledgeQuiz.convert_choices_to_html(question_match[2].strip)
 
         <<~HEREDOC
           <form class="knowledge_quiz__question">
             <fieldset>
-              <legend>#{legend}</legend>
+              <legend>#{question_blurb[:legend]}</legend>
               <div class="knowledge_quiz__blurb">
-                #{question_blurb.strip}
+                #{question_blurb[:blurb].strip}
               </div>
               #{choice_feedback[:choice_html].strip}
             </fieldset>
@@ -264,6 +203,75 @@ module RPF
         HEREDOC
       end
 
+      module KnowledgeQuiz
+        def self.convert_feedback_to_html(feedback, index = nil)
+          id = 'feedback'
+          id += "-for-choice-#{index + 1}" unless index.nil?
+          <<~HEREDOC
+            <li class="knowledge_quiz__feedback-item" id="#{id}">
+            #{::Kramdown::Document.new(feedback.strip, KRAMDOWN_OPTIONS).to_html.strip}
+            </li>
+          HEREDOC
+        end
+  
+        def self.convert_label_to_html(label, index, checked)
+          number = index + 1
+          <<~HEREDOC
+            <label for="choice-#{number}">#{label}</label>
+            <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked': ''}/>
+          HEREDOC
+        end
+  
+        def self.convert_choices_to_html(text)
+          choices = text.split(CHOICE_BLOCK_REGEXP)
+          choice_html = ''
+          feedback_html = ''
+  
+          single_feedback_match = SINGLE_FEEDBACK_REGEXP.match(choices[0])
+          unless single_feedback_match.nil?
+            feedback_html += convert_feedback_to_html(single_feedback_match[1].strip, nil)
+            choices.shift
+          end
+  
+          choices.each.with_index do |choice, index|
+            label_match = RADIO_REGEXP.match(choice)
+            label = label_match ? label_match[:text] : nil
+            checked = !label_match[:check].strip.empty?
+            choice_html += convert_label_to_html(label, index, checked)
+            feedback_match = CHOICE_FEEDBACK_REGEXP.match(choice)
+            next if feedback_match.nil? || feedback_match.length() < 1
+  
+            feedback_html += convert_feedback_to_html(feedback_match[1].strip, index)
+          end
+  
+          if feedback_html.size.positive?
+            feedback_html = <<~HEREDOC
+              <ul class="knowledge_quiz__feedback">
+                #{feedback_html.strip}
+              </ul>
+            HEREDOC
+          end
+  
+          { choice_html: choice_html, feedback_html: feedback_html}
+        end
+  
+        def self.convert_question_blurb_to_html(text)
+          legend = 'Question'
+          blurb = text.strip
+          front_matter_match = YAML_FRONT_MATTER_REGEXP.match(text)
+  
+          unless front_matter_match.nil?
+            front_matter = YAML.safe_load(front_matter_match[1])
+            legend = front_matter[:legend] || legend
+            blurb = front_matter_match[2]
+          end
+  
+          {
+            legend: legend,
+            blurb: ::Kramdown::Document.new(blurb, KRAMDOWN_OPTIONS).to_html
+          }
+        end
+      end
     end
   end
 end
