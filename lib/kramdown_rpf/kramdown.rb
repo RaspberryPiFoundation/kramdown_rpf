@@ -104,7 +104,7 @@ module Kramdown
       end
 
       # Convert :convert_knowledge_quiz_question -> Markdown (not implemented)
-      def convert_knowledge_quiz_question(_el, _opts)
+      def convert_knowledge_quiz_question(*)
         raise NotImplementedError
       end
 
@@ -124,7 +124,7 @@ module Kramdown
       end
 
       # Convert :quiz -> Markdown (not implemented)
-      def convert_quiz(_el, _opts)
+      def convert_quiz(*)
         raise NotImplementedError
       end
 
@@ -166,7 +166,7 @@ module Kramdown
       end
 
       # Convert :convert_knowledge_quiz_question -> LaTEX (not implemented)
-      def convert_knowledge_quiz_question(_el, _opts)
+      def convert_knowledge_quiz_question(*)
         raise NotImplementedError
       end
 
@@ -186,7 +186,7 @@ module Kramdown
       end
 
       # Convert :quiz -> LaTEX (not implemented)
-      def convert_quiz(_el, _opts)
+      def convert_quiz(*)
         raise NotImplementedError
       end
 
@@ -226,7 +226,7 @@ module Kramdown
       NEW_PAGE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*new-page[ \t]*---}m
       NO_PRINT_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*no-print[ \t]*---(.*?)---[ \t]*\/no-print[ \t]*---}m
       PRINT_ONLY_PATTERN = %r{^#{OPT_SPACE}---[ \t]*print-only[ \t]*---(.*?)---[ \t]*\/print-only[ \t]*---}m
-      KNOWLEDGE_QUIZ_QUESTION_PATTERN = %r{^#{OPT_SPACE}---[ \t]*question[ \t]*---(.*?)---[ \t]*\/question[ \t]*---}m
+      KNOWLEDGE_QUIZ_QUESTION_PATTERN = %r{^#{OPT_SPACE}---[ \t]*question[ \t]*---(.*?)---[ \t]*\/question[ \t]*---}m.freeze
       QUIZ_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*quiz[ \t]*---(.*?)---[ \t]*\/quiz[ \t]*---}m
       SAVE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*save[ \t]*---}m
       TASK_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m

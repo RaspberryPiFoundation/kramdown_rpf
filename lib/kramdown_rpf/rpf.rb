@@ -4,12 +4,12 @@ module RPF
   module Plugin
     module Kramdown
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
-      RADIO_REGEXP = /\((?<check>[\sx*]{0,1})\)\s*(?<text>.*)/m
-      CHOICE_BLOCK_REGEXP = %r{^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\sx*]?\)\s*.*)}m
-      FEEDBACK_REGEXP_PARTIAL = "#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---"
-      CHOICE_FEEDBACK_REGEXP = %r{#{FEEDBACK_REGEXP_PARTIAL}}m
-      SINGLE_FEEDBACK_REGEXP = %r{\A#{FEEDBACK_REGEXP_PARTIAL}}m
-      QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*\/choices[ \t]*---}m
+      RADIO_REGEXP = /\((?<check>[\sx*]{0,1})\)\s*(?<text>.*)/m.freeze
+      CHOICE_BLOCK_REGEXP = %r{^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\sx*]?\)\s*.*)}m.freeze
+      FEEDBACK_REGEXP_PARTIAL = "#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---".freeze
+      CHOICE_FEEDBACK_REGEXP = %r{#{FEEDBACK_REGEXP_PARTIAL}}m.freeze
+      SINGLE_FEEDBACK_REGEXP = %r{\A#{FEEDBACK_REGEXP_PARTIAL}}m.freeze
+      QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*\/choices[ \t]*---}m.freeze
 
       KRAMDOWN_OPTIONS = {
         input:              'KramdownRPF',
@@ -242,7 +242,7 @@ module RPF
             checked = choice_match['check'] == 'x' || choice_match['check'] == '*'
             choice_html += convert_label_to_html(choice_with_feedback[0], index, checked)
 
-            next if choice_with_feedback.length() < 2
+            next if choice_with_feedback.length < 2
 
             feedback_html += convert_feedback_to_html(choice_with_feedback[1].strip, index)
           end
