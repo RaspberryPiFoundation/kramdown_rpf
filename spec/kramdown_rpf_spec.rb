@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe KramdownRPF do
   KRAMDOWN_OPTIONS = {
-    input:              'KramdownRPF',
-    parse_block_html:   true,
-    syntax_highlighter: nil,
+    input: 'KramdownRPF',
+    parse_block_html: true,
+    syntax_highlighter: nil
   }.freeze
 
   CONVERSION_TESTS = %w[

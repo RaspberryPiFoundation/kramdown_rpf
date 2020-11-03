@@ -1,5 +1,6 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'kramdown_rpf/version'
 
@@ -28,8 +29,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'kramdown', '~> 1.2', '>= 1.2.0'
   spec.add_dependency 'i18n', '0.8.6'
+  spec.add_dependency 'kramdown', '~> 1.2', '>= 1.2.0'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'byebug'

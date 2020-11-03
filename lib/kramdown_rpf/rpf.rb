@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'kramdown'
 
 module RPF
@@ -12,9 +14,9 @@ module RPF
       SINGLE_FEEDBACK_REGEXP = /\A#{CHOICE_FEEDBACK_REGEXP}/m.freeze
 
       KRAMDOWN_OPTIONS = {
-        input:              'KramdownRPF',
-        parse_block_html:   true,
-        syntax_highlighter: nil,
+        input: 'KramdownRPF',
+        parse_block_html: true,
+        syntax_highlighter: nil
       }.freeze
 
       def self.convert_challenge_to_html(challenge)
@@ -23,7 +25,7 @@ module RPF
 
       def self.convert_code_to_html(code_block)
         code_block =~ YAML_FRONT_MATTER_REGEXP
-        meta       =  YAML.safe_load(Regexp.last_match(1))
+        meta = YAML.safe_load(Regexp.last_match(1))
 
         language          = meta['language']
         filename          = meta['filename'] || nil
@@ -49,10 +51,10 @@ module RPF
       end
 
       def self.convert_collapse_to_html(collapse)
-        collapse       =~ YAML_FRONT_MATTER_REGEXP
-        details        = YAML.safe_load(Regexp.last_match(1))
-        title          = details['title']
-        content        = Regexp.last_match(2)
+        collapse =~ YAML_FRONT_MATTER_REGEXP
+        details = YAML.safe_load(Regexp.last_match(1))
+        title = details['title']
+        content = Regexp.last_match(2)
         parsed_content = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
 
         <<~HEREDOC
@@ -108,7 +110,7 @@ module RPF
       end
 
       def self.convert_new_page_to_html
-        ::Kramdown::Document.new("<div class=\"c-print-page-break\" />", KRAMDOWN_OPTIONS).to_html
+        ::Kramdown::Document.new('<div class="c-print-page-break" />', KRAMDOWN_OPTIONS).to_html
       end
 
       def self.convert_no_print_to_html(content)
@@ -144,18 +146,18 @@ module RPF
 
       def self.convert_quiz_to_html(quiz)
         content = YAML_FRONT_MATTER_REGEXP.match(quiz)
-        return '' if content.nil? || content.length() < 2
+        return '' if content.nil? || content.length < 2
 
         details = YAML.safe_load(content[1])
         question = details['question']
 
         choices = YAML.safe_load(content[2])
-        choice_texts = choices.map do |choice| 
+        choice_texts = choices.map do |choice|
           match = RADIO_REGEXP.match(choice)
           match ? match['text'] : nil
         end
 
-        radio_inputs = choice_texts.compact.map.with_index(1) do |text, index|  
+        radio_inputs = choice_texts.compact.map.with_index(1) do |text, index|
           <<~HEREDOC
             <label class="c-project-quiz__label" for="choice-#{index}">#{text}</label>
                   <input class="c-project-quiz__input" name="quiz-choice" type="radio" id="choice-#{index}" value="choice-#{index}" />
@@ -170,7 +172,7 @@ module RPF
               </h3>
 
               <div class="c-project-quiz__content">
-                #{radio_inputs.join("      ").strip}
+                #{radio_inputs.join('      ').strip}
               </div>
 
               <div class="c-project-quiz__button-bar"></div>
@@ -217,7 +219,7 @@ module RPF
           number = index + 1
           <<~HEREDOC
             <label for="choice-#{number}">#{::Kramdown::Document.new(label, KRAMDOWN_OPTIONS).to_html.strip}</label>
-            <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked': ''}/>
+            <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked' : ''}/>
           HEREDOC
         end
 
@@ -257,7 +259,7 @@ module RPF
             HEREDOC
           end
 
-          { choice_html: choice_html, feedback_html: feedback_html}
+          { choice_html: choice_html, feedback_html: feedback_html }
         end
 
         def self.convert_question_blurb_to_html(text)
