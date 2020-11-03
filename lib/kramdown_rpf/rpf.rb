@@ -145,13 +145,13 @@ module RPF
       end
 
       def self.convert_quiz_to_html(quiz)
-        content = YAML_FRONT_MATTER_REGEXP.match(quiz)
-        return '' if content.nil? || content.length < 2
+        content_match = YAML_FRONT_MATTER_REGEXP.match(quiz)
+        return '' if content_match.nil? || content_match.length < 2
 
-        details = YAML.safe_load(content[1])
+        details = YAML.safe_load(content_match[1])
         question = details['question']
 
-        choices = YAML.safe_load(content[2])
+        choices = YAML.safe_load(content_match[2])
         choice_texts = choices.map do |choice|
           match = RADIO_REGEXP.match(choice)
           match ? match['text'] : nil

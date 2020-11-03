@@ -79,128 +79,24 @@ module Kramdown
       end
     end
 
-    class Kramdown
-      # Convert :challenge -> Markdown (not implemented)
-      def convert_challenge(*)
-        raise NotImplementedError
+    module RaiseNotImplementedForUndefinedConvertMethods
+      def method_missing(method_name, *args, &block)
+        raise NotImplementedError if method_name.to_s.start_with?('convert_')
+
+        super
       end
 
-      # Convert :code_filename -> Markdown (not implemented)
-      def convert_code(*)
-        raise NotImplementedError
-      end
-
-      # Convert :collapse -> Markdown (not implemented)
-      def convert_collapse(*)
-        raise NotImplementedError
-      end
-
-      # Convert :hint -> Markdown (not implemented)
-      def convert_hint(*)
-        raise NotImplementedError
-      end
-
-      # Convert :hints -> Markdown (not implemented)
-      def convert_hints(*)
-        raise NotImplementedError
-      end
-
-      # Convert :convert_knowledge_quiz_question -> Markdown (not implemented)
-      def convert_knowledge_quiz_question(*)
-        raise NotImplementedError
-      end
-
-      # Convert :new_page-> Markdown (not implemented)
-      def convert_new_page(*)
-        raise NotImplementedError
-      end
-
-      # Convert :no_print -> Markdown (not implemented)
-      def convert_no_print(*)
-        raise NotImplementedError
-      end
-
-      # Convert :print_only -> Markdown (not implemented)
-      def convert_print_only(*)
-        raise NotImplementedError
-      end
-
-      # Convert :quiz -> Markdown (not implemented)
-      def convert_quiz(*)
-        raise NotImplementedError
-      end
-
-      # Convert :save -> Markdown (not implemented)
-      def convert_save(*)
-        raise NotImplementedError
-      end
-
-      # Convert :task -> Markdown (not implemented)
-      def convert_task(*)
-        raise NotImplementedError
+      def respond_to_missing?(method_name, include_private = false)
+        method_name.to_s.start_with?('convert_') || super
       end
     end
 
+    class Kramdown
+      include RaiseNotImplementedForUndefinedConvertMethods
+    end
+
     class Latex
-      # Convert :challenge -> LaTEX (not implemented)
-      def convert_challenge(*)
-        raise NotImplementedError
-      end
-
-      # Convert :code_filename -> LaTEX (not implemented)
-      def convert_code(*)
-        raise NotImplementedError
-      end
-
-      # Convert :collapse -> LaTEX (not implemented)
-      def convert_collapse(*)
-        raise NotImplementedError
-      end
-
-      # Convert :hint -> LaTEX (not implemented)
-      def convert_hint(*)
-        raise NotImplementedError
-      end
-
-      # Convert :hints -> LaTEX (not implemented)
-      def convert_hints(*)
-        raise NotImplementedError
-      end
-
-      # Convert :convert_knowledge_quiz_question -> LaTEX (not implemented)
-      def convert_knowledge_quiz_question(*)
-        raise NotImplementedError
-      end
-
-      # Convert :new_page -> LaTEX (not implemented)
-      def convert_new_page(*)
-        raise NotImplementedError
-      end
-
-      # Convert :no_print -> LaTEX (not implemented)
-      def convert_no_print(*)
-        raise NotImplementedError
-      end
-
-      # Convert :print_only -> LaTEX (not implemented)
-      def convert_print_only(*)
-        raise NotImplementedError
-      end
-
-      # Convert :quiz -> LaTEX (not implemented)
-      def convert_quiz(*)
-        raise NotImplementedError
-      end
-
-      # Convert :save -> LaTEX (not implemented)
-      def convert_save(*)
-        raise NotImplementedError
-      end
-
-      # Convert :task -> LaTEX (not implemented)
-      def convert_task(*)
-        raise NotImplementedError
-      end
+      include RaiseNotImplementedForUndefinedConvertMethods
     end
   end
 
