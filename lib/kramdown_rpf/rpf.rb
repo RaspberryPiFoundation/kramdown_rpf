@@ -121,7 +121,7 @@ module RPF
 
       def self.convert_knowledge_quiz_question_to_html(question, _indent)
         question_match = QUESTION_REGEXP.match(question)
-        return '' if question_match.nil? || question_match.length() < 2
+        return '' if question_match.nil? || question_match.length < 2
 
         question_blurb = KnowledgeQuiz.convert_question_blurb_to_html(question_match[1])
 
