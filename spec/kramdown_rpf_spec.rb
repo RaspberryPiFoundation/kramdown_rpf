@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe KramdownRPF do
   KRAMDOWN_OPTIONS = {
-    input:              'KramdownRPF',
-    parse_block_html:   true,
-    syntax_highlighter: nil,
+    input: 'KramdownRPF',
+    parse_block_html: true,
+    syntax_highlighter: nil
   }.freeze
 
   CONVERSION_TESTS = %w[
@@ -21,6 +23,9 @@ RSpec.describe KramdownRPF do
     collapse/collapse_with_space
     hint/hint
     hint/hints
+    knowledge_quiz/example_question
+    knowledge_quiz/question_blocks_in_feedback
+    knowledge_quiz/question_single_feedback
     new_page/new_page
     no_print/no_print
     print_only/print_only
