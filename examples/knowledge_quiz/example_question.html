@@ -6,10 +6,10 @@
 
 <p>A question may optionally have a ‘frontmatter’ section with the <code>legend</code> parameter to override the default ‘Question’ string used in the form’s legend tag.</p>
 
-<form class="knowledge_quiz__question">
+<form class="knowledge-quiz-question">
   <fieldset>
     <legend>Question 1 of 3</legend>
-    <div class="knowledge_quiz__blurb">
+    <div class="knowledge-quiz-question__blurb">
       <p>The bug sprite starts facing upwards.</p>
 
 <p><img src="./img/q3-1.png" alt="Bug facing upwards" /></p>
@@ -18,7 +18,9 @@
 
 <p><img src="./img/q3-2.png" alt="Path drawn by the bug, with the bug at the end" /></p>
     </div>
-    <label for="choice-1"><pre><code class="language-blocks3">  when flag clicked
+    <div class="knowledge-quiz-question__answers">
+    <div class="knowledge-quiz-question__answer">
+<label for="choice-1"><pre><code class="language-blocks3">  when flag clicked
   pen down
   turn ccw (90) degrees
   move (100) steps
@@ -26,6 +28,8 @@
   move (100) steps
 </code></pre></label>
 <input type="radio" name="answer" value="1" id="choice-1" />
+</div>
+<div class="knowledge-quiz-question__answer">
 <label for="choice-2"><pre><code class="language-blocks3">  when flag clicked
   pen down
   turn cw (90) degrees
@@ -36,6 +40,8 @@
   move (100) steps
 </code></pre></label>
 <input type="radio" name="answer" value="2" id="choice-2" />
+</div>
+<div class="knowledge-quiz-question__answer">
 <label for="choice-3"><pre><code class="language-blocks3">  when flag clicked
   pen down
   turn ccw (90) degrees
@@ -46,6 +52,8 @@
   move (100) steps
 </code></pre></label>
 <input type="radio" name="answer" value="3" id="choice-3" checked/>
+</div>
+<div class="knowledge-quiz-question__answer">
 <label for="choice-4"><pre><code class="language-blocks3">  when flag clicked
   pen down
   turn ccw (90) degrees
@@ -53,15 +61,17 @@
   turn ccw (90) degrees
 </code></pre></label>
 <input type="radio" name="answer" value="4" id="choice-4" />
+</div>
+    </div>
   </fieldset>
-  <ul class="knowledge_quiz__feedback">
-  <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-1">
+  <ul class="knowledge-quiz-question__feedback">
+  <li class="knowledge-quiz-question__feedback-item" id="feedback-for-choice-1">
 <p>The number of ‘move’ blocks in the code should match the number of sides the shape has.</p>
 </li>
-<li class="knowledge_quiz__feedback-item" id="feedback-for-choice-2">
+<li class="knowledge-quiz-question__feedback-item" id="feedback-for-choice-2">
 <p>To draw this shape, the direction of the ‘turn’ blocks should all be the same.</p>
 </li>
-<li class="knowledge_quiz__feedback-item" id="feedback-for-choice-4">
+<li class="knowledge-quiz-question__feedback-item" id="feedback-for-choice-4">
 <p>The sprite will need to move in order to draw a shape.</p>
 </li>
 </ul>
