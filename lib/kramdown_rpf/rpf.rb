@@ -221,8 +221,8 @@ module RPF
           number = index + 1
           <<~HEREDOC
             <div class="knowledge-quiz-question__answer">
-            <label for="choice-#{number}">#{::Kramdown::Document.new(label, KRAMDOWN_OPTIONS).to_html.strip}</label>
             <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked' : ''}/>
+            <label for="choice-#{number}">#{::Kramdown::Document.new(label, KRAMDOWN_OPTIONS).to_html.strip}</label>
             </div>
           HEREDOC
         end
