@@ -20,6 +20,7 @@ RSpec.describe KramdownRPF do
     collapse/collapse
     collapse/collapse_in_challenge
     collapse/collapse_music_box
+    collapse/collapse_with_code
     collapse/collapse_with_space
     hint/hint
     hint/hints
