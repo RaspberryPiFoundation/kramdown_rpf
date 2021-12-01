@@ -36,7 +36,14 @@ module RPF
         code              = Regexp.last_match(2)
         pre_attrs         = ['dir="ltr"']
 
-        filename_html = "<p class=\"c-code-filename\">#{filename}</p>" if filename
+        if filename
+          filename_html = <<~HEREDOC
+            <div class=\"c-code-filename\">
+              #{filename}
+            </div>
+          HEREDOC
+          .strip
+        end
 
         pre_attrs << 'class="line-numbers"' if line_numbers
         pre_attrs << "data-start=\"#{line_number_start}\"" if line_number_start
@@ -55,6 +62,7 @@ module RPF
         details = YAML.safe_load(Regexp.last_match(1))
         title = details['title']
         content = Regexp.last_match(2)
+
         parsed_content = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
 
         <<~HEREDOC
