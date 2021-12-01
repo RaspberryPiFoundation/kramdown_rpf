@@ -36,7 +36,7 @@ module RPF
         code              = Regexp.last_match(2)
         pre_attrs         = ['dir="ltr"']
 
-        filename_html = "<div class=\"c-code-filename\">#{filename}</div>" if filename
+        filename_html = "<p class=\"c-code-filename\">#{filename}</p>" if filename
 
         pre_attrs << 'class="line-numbers"' if line_numbers
         pre_attrs << "data-start=\"#{line_number_start}\"" if line_number_start
