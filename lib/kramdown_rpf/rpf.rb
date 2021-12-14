@@ -36,7 +36,14 @@ module RPF
         code              = CGI.escapeHTML(Regexp.last_match(2))
         pre_attrs         = ['dir="ltr"']
 
-        filename_html = "<div class=\"c-code-filename\">#{filename}</div>" if filename
+        if filename
+          filename_html = <<~HEREDOC
+            <div class=\"c-code-filename\">
+              #{filename}
+            </div>
+          HEREDOC
+          .strip
+        end
 
         pre_attrs << 'class="line-numbers"' if line_numbers
         pre_attrs << "data-start=\"#{line_number_start}\"" if line_number_start
@@ -55,6 +62,7 @@ module RPF
         details = YAML.safe_load(Regexp.last_match(1))
         title = details['title']
         content = Regexp.last_match(2)
+
         parsed_content = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
 
         <<~HEREDOC
@@ -130,13 +138,15 @@ module RPF
         choice_feedback = KnowledgeQuiz.convert_choices_to_html(question_match[2].strip)
 
         <<~HEREDOC
-          <form class="knowledge_quiz__question">
+          <form class="knowledge-quiz-question">
             <fieldset>
               <legend>#{question_blurb[:legend]}</legend>
-              <div class="knowledge_quiz__blurb">
+              <div class="knowledge-quiz-question__blurb">
                 #{question_blurb[:blurb].strip}
               </div>
+              <div class="knowledge-quiz-question__answers">
               #{choice_feedback[:choice_html].strip}
+              </div>
             </fieldset>
             #{choice_feedback[:feedback_html].strip}
             <input type="button" name="Submit" value="submit" />
@@ -209,7 +219,7 @@ module RPF
           id = 'feedback'
           id += "-for-choice-#{index + 1}" unless index.nil?
           <<~HEREDOC
-            <li class="knowledge_quiz__feedback-item" id="#{id}">
+            <li class="knowledge-quiz-question__feedback-item" id="#{id}">
             #{::Kramdown::Document.new(feedback.strip, KRAMDOWN_OPTIONS).to_html.strip}
             </li>
           HEREDOC
@@ -218,8 +228,10 @@ module RPF
         def self.convert_label_to_html(label, index, checked)
           number = index + 1
           <<~HEREDOC
-            <label for="choice-#{number}">#{::Kramdown::Document.new(label, KRAMDOWN_OPTIONS).to_html.strip}</label>
+            <div class="knowledge-quiz-question__answer">
             <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked' : ''}/>
+            <label for="choice-#{number}">#{::Kramdown::Document.new(label, KRAMDOWN_OPTIONS).to_html.strip}</label>
+            </div>
           HEREDOC
         end
 
@@ -253,7 +265,7 @@ module RPF
 
           if feedback_html.size.positive?
             feedback_html = <<~HEREDOC
-              <ul class="knowledge_quiz__feedback">
+              <ul class="knowledge-quiz-question__feedback">
                 #{feedback_html}
               </ul>
             HEREDOC

@@ -1,7 +1,7 @@
-<form class="knowledge_quiz__question">
+<form class="knowledge-quiz-question">
   <fieldset>
     <legend>Question</legend>
-    <div class="knowledge_quiz__blurb">
+    <div class="knowledge-quiz-question__blurb">
       <p>What food will the bug reach when these instructions are followed?</p>
 
 <p><img src="./img/q2.svg" alt="A bug in a crossword-like maze with various bits of food scattered around" /></p>
@@ -21,17 +21,27 @@
   <li>Forward</li>
 </ol>
     </div>
-    <label for="choice-1"><p>Apple</p></label>
+    <div class="knowledge-quiz-question__answers">
+    <div class="knowledge-quiz-question__answer">
 <input type="radio" name="answer" value="1" id="choice-1" checked/>
-<label for="choice-2"><p>Banana</p></label>
+<label for="choice-1"><p>Apple</p></label>
+</div>
+<div class="knowledge-quiz-question__answer">
 <input type="radio" name="answer" value="2" id="choice-2" />
-<label for="choice-3"><p>Orange</p></label>
+<label for="choice-2"><p>Banana</p></label>
+</div>
+<div class="knowledge-quiz-question__answer">
 <input type="radio" name="answer" value="3" id="choice-3" />
-<label for="choice-4"><p>Doughnut</p></label>
+<label for="choice-3"><p>Orange</p></label>
+</div>
+<div class="knowledge-quiz-question__answer">
 <input type="radio" name="answer" value="4" id="choice-4" />
+<label for="choice-4"><p>Doughnut</p></label>
+</div>
+    </div>
   </fieldset>
-  <ul class="knowledge_quiz__feedback">
-  <li class="knowledge_quiz__feedback-item" id="feedback">
+  <ul class="knowledge-quiz-question__feedback">
+  <li class="knowledge-quiz-question__feedback-item" id="feedback">
 <p>Follow the instructions one at a time.  Which food item does the bug reach?</p>
 </li>
 </ul>

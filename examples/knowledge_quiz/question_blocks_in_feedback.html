@@ -1,36 +1,46 @@
-<form class="knowledge_quiz__question">
+<form class="knowledge-quiz-question">
   <fieldset>
     <legend>Question</legend>
-    <div class="knowledge_quiz__blurb">
+    <div class="knowledge-quiz-question__blurb">
       <p>A dog sprite in Scratch has the following code:</p>
 
 <p><img src="./images/q1.svg" alt="A dog with three scratch blocks" /></p>
 
 <p>How would you get the dog sprite to change size?</p>
     </div>
-    <label for="choice-1"><p>Press the ‘space’ key</p></label>
+    <div class="knowledge-quiz-question__answers">
+    <div class="knowledge-quiz-question__answer">
 <input type="radio" name="answer" value="1" id="choice-1" />
-<label for="choice-2"><p>Make a loud noise</p></label>
+<label for="choice-1"><p>Press the ‘space’ key</p></label>
+</div>
+<div class="knowledge-quiz-question__answer">
 <input type="radio" name="answer" value="2" id="choice-2" />
-<label for="choice-3"><p>Click the green flag</p></label>
+<label for="choice-2"><p>Make a loud noise</p></label>
+</div>
+<div class="knowledge-quiz-question__answer">
 <input type="radio" name="answer" value="3" id="choice-3" />
-<label for="choice-4"><p>Click on the dog sprite</p></label>
+<label for="choice-3"><p>Click the green flag</p></label>
+</div>
+<div class="knowledge-quiz-question__answer">
 <input type="radio" name="answer" value="4" id="choice-4" checked/>
+<label for="choice-4"><p>Click on the dog sprite</p></label>
+</div>
+    </div>
   </fieldset>
-  <ul class="knowledge_quiz__feedback">
-  <li class="knowledge_quiz__feedback-item" id="feedback-for-choice-1">
+  <ul class="knowledge-quiz-question__feedback">
+  <li class="knowledge-quiz-question__feedback-item" id="feedback-for-choice-1">
 <p>What code is attached to the</p>
 <pre><code class="language-blocks3">  when [space v] key pressed
 </code></pre>
 <p>event block?</p>
 </li>
-<li class="knowledge_quiz__feedback-item" id="feedback-for-choice-2">
+<li class="knowledge-quiz-question__feedback-item" id="feedback-for-choice-2">
 <p>What code is attached to the</p>
 <pre><code class="language-blocks3">  when [loudness v] &gt; 10 :: events hat
 </code></pre>
 <p>event block?</p>
 </li>
-<li class="knowledge_quiz__feedback-item" id="feedback-for-choice-3">
+<li class="knowledge-quiz-question__feedback-item" id="feedback-for-choice-3">
 <p>What code is attached to the</p>
 <pre><code class="language-blocks3">  when flag clicked
 </code></pre>
