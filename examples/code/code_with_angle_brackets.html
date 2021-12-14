@@ -3,7 +3,7 @@
     void OnTriggerEnter(Collider other)
     {
         // Check the tag of the colliding object
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(&quot;Player&quot;))
         {
             StarPlayer player = other.gameObject.GetComponent&lt;StarPlayer&gt;();
             player.stars += 1; // Increase by 1

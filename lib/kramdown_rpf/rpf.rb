@@ -33,7 +33,7 @@ module RPF
         line_numbers      = meta['line_numbers'] || false
         line_number_start = meta['line_number_start'] || nil
         line_highlights   = meta['line_highlights'] || nil
-        code              = Regexp.last_match(2)
+        code              = CGI.escapeHTML(Regexp.last_match(2))
         pre_attrs         = ['dir="ltr"']
 
         filename_html = "<div class=\"c-code-filename\">#{filename}</div>" if filename
