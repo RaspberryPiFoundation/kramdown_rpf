@@ -14,6 +14,7 @@ RSpec.describe KramdownRPF do
     code/code
     code/code_default
     code/code_with_all_features
+    code/code_with_angle_brackets
     code/code_with_filename
     code/code_with_line_numbers
     code/code_with_line_highlights

@@ -1,0 +1,14 @@
+<div class="c-code-filename">StarController.cs - OnTriggerEnter(Collider other)</div>
+<pre dir="ltr" class="line-numbers" data-start="21" data-line="26, 27"><code class="language-cs" dir="ltr">
+    void OnTriggerEnter(Collider other)
+    {
+        // Check the tag of the colliding object
+        if (other.CompareTag("Player"))
+        {
+            StarPlayer player = other.gameObject.GetComponent&lt;StarPlayer&gt;();
+            player.stars += 1; // Increase by 1
+            AudioSource.PlayClipAtPoint(collectSound, transform.position);
+            gameObject.SetActive(false);
+        }
+    }
+</code></pre>
