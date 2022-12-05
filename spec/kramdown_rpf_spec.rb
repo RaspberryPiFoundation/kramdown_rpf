@@ -17,6 +17,7 @@ RSpec.describe KramdownRPF do
     code/code_with_angle_brackets
     code/code_with_filename
     code/code_with_line_numbers
+    code/code_with_no_line_numbers
     code/code_with_line_highlights
     collapse/collapse
     collapse/collapse_in_challenge
