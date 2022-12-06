@@ -30,7 +30,7 @@ module RPF
         language          = meta['language']
         filename          = meta['filename'] || nil
         filename_html     = nil
-        line_numbers      = meta['line_numbers'] || false
+        line_numbers      = meta['line_numbers']
         line_number_start = meta['line_number_start'] || nil
         line_highlights   = meta['line_highlights'] || nil
         code              = CGI.escapeHTML(Regexp.last_match(2))
@@ -45,7 +45,11 @@ module RPF
           .strip
         end
 
-        pre_attrs << 'class="line-numbers"' if line_numbers
+        if line_numbers
+          pre_attrs << 'class="line-numbers"'
+        elsif line_numbers == false
+          pre_attrs << 'class="no-line-numbers"'
+        end
         pre_attrs << "data-start=\"#{line_number_start}\"" if line_number_start
         pre_attrs << "data-line=\"#{line_highlights}\"" if line_highlights
 
