@@ -50,7 +50,8 @@ module RPF
         elsif line_numbers == false
           pre_attrs << 'class="no-line-numbers"'
         end
-        pre_attrs << "data-start=\"#{line_number_start}\"" if line_number_start
+        pre_attrs << "data-start=\"#{line_number_start}\"" if line_number_start && line_numbers
+        pre_attrs << "data-line-offset=\"#{line_number_start}\"" if line_highlights && line_number_start
         pre_attrs << "data-line=\"#{line_highlights}\"" if line_highlights
 
         pre_attrs_html = ' ' + pre_attrs.join(' ') if pre_attrs.size.positive?
