@@ -2,7 +2,6 @@
 ---
 language: python
 line_numbers: false
-line_number_start: 3
 ---
 while True:
     button.wait_for_press()
