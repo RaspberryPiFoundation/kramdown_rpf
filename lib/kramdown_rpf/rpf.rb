@@ -211,7 +211,7 @@ module RPF
 
         <<~HEREDOC
           <div class="c-project-task">
-            <input class="c-project-task__checkbox" type="checkbox" />
+            <input class="c-project-task__checkbox" type="checkbox" aria-label="Mark this task as complete" />
             <div class="c-project-task__body">
               #{parsed_task}
             </div>
