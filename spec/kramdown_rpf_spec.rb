@@ -29,7 +29,7 @@ RSpec.describe KramdownRPF do
     knowledge_quiz/example_question
     knowledge_quiz/question_blocks_in_feedback
     knowledge_quiz/question_single_feedback
-    makecode/makecode
+    microbit/microbit
     new_page/new_page
     no_print/no_print
     print_only/print_only
