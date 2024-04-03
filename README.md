@@ -142,7 +142,7 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 This gem is deployed from Github. To create a new release:
 
-* Update the version number in `version.rb`
+* Update the version number in [version.rb](./lib/kramdown_rpf/version.rb)
 * git tag "vX.X.X" #for the relevant version
 * git push origin --tags
 
