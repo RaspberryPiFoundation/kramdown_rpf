@@ -7,7 +7,7 @@ require 'kramdown_rpf/version'
 Gem::Specification.new do |spec|
   spec.name     = 'kramdown-rpf'
   spec.version  = KramdownRPF::VERSION
-  spec.authors  = ['Raspberry Pi Foundation Web Team']
+  spec.authors  = ['Raspberry Pi Foundation Digital Products Team']
   spec.email    = ['web@raspberrypi.org']
   spec.summary  = "Kramdown extensions for the Raspberry Pi Foundation's resources website."
   spec.homepage = 'https://projects.raspberrypi.org'
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
     spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
   else
     raise 'RubyGems 2.0 or newer is required to protect against ' \
-      'public gem pushes.'
+          'public gem pushes.'
   end
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
@@ -29,11 +29,9 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'i18n', '0.8.6'
-  spec.add_dependency 'kramdown', '~> 1.2', '>= 1.2.0'
+  spec.add_dependency 'i18n'
+  spec.add_dependency 'kramdown', '~> 2.5'
+  spec.add_dependency 'kramdown-parser-gfm'
 
-  spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'byebug'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

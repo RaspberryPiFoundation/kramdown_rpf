@@ -3,65 +3,36 @@
 require 'spec_helper'
 
 RSpec.describe KramdownRPF do
-  KRAMDOWN_OPTIONS = {
-    input: 'KramdownRPF',
-    parse_block_html: true,
-    syntax_highlighter: nil
-  }.freeze
-
-  CONVERSION_TESTS = %w[
-    challenge/challenge
-    code/code
-    code/code_default
-    code/code_with_all_features
-    code/code_with_angle_brackets
-    code/code_with_filename
-    code/code_with_line_numbers
-    code/code_with_no_line_numbers
-    code/code_with_line_highlights
-    collapse/collapse
-    collapse/collapse_in_challenge
-    collapse/collapse_music_box
-    collapse/collapse_with_code
-    collapse/collapse_with_space
-    hint/hint
-    hint/hints
-    knowledge_quiz/example_question
-    knowledge_quiz/question_blocks_in_feedback
-    knowledge_quiz/question_single_feedback
-    microbit/microbit
-    new_page/new_page
-    no_print/no_print
-    print_only/print_only
-    quiz/quiz
-    save/save
-    scratch/scratch2
-    scratch/scratch3
-    task/task
-    task/task_with_hints
-    task/task_with_ingredient
-  ].freeze
-
   it 'has a version number' do
-    expect(KramdownRPF::VERSION).not_to be nil
+    expect(KramdownRPF::VERSION).not_to be_nil
   end
 
-  describe 'conversions' do
-    CONVERSION_TESTS.each do |test_name|
-      context test_name do
-        reference_result = File.read "examples/#{test_name}.html"
+  conversion_tests = Dir.glob('examples/**/*.html').select do |f|
+    File.exist?(f.sub('.html', '.md'))
+  end
 
-        it 'should be correctly converted' do
-          I18n.locale = 'en'
+  shared_examples 'a successful conversion' do |test_name|
+    subject(:test_result) do
+      Kramdown::Document.new(
+        File.read(test_name.sub('.html', '.md')),
+        input: 'KramdownRPF',
+        parse_block_html: true,
+        syntax_highlighter: nil
+      ).to_html.strip
+    end
 
-          test_result = Kramdown::Document.new(
-            File.read("examples/#{test_name}.md"),
-            KRAMDOWN_OPTIONS
-          ).to_html
+    let(:reference_result) { File.read(test_name).strip }
 
-          expect(test_result.strip).to eq(reference_result.strip)
-        end
-      end
+    before { I18n.locale = :en }
+
+    it 'produces the expected HTML output' do
+      expect(test_result).to eq(reference_result)
+    end
+  end
+
+  conversion_tests.each do |test_name|
+    context "when converting #{test_name.sub('.html', '.md')}" do
+      it_behaves_like 'a successful conversion', test_name
     end
   end
 end

@@ -1,5 +1,12 @@
-AllCops:
-  TargetRubyVersion: 2.5
+# RPF Digital Products house styles
+inherit_from:
+  - https://raspberrypifoundation.github.io/digital-engineering/configs/rubocop-base.yml
+  - https://raspberrypifoundation.github.io/digital-engineering/configs/rubocop-performance.yml
+  - https://raspberrypifoundation.github.io/digital-engineering/configs/rubocop-rspec.yml
+  - .rubocop_todo.yml
 
-Metrics/LineLength:
-  Max: 120
+# Allow the Exclude arrays to be merged.
+inherit_mode:
+  merge:
+    - Exclude
+

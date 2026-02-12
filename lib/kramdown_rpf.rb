@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'i18n'
-require 'kramdown'
 
 require_relative 'kramdown_rpf/version'
 require_relative 'kramdown_rpf/kramdown'
