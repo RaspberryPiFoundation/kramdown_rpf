@@ -80,7 +80,7 @@ module Kramdown
     end
 
     module RaiseNotImplementedForUndefinedConvertMethods
-      def method_missing(method_name, *args, &block)
+      def method_missing(method_name, *args, &)
         raise NotImplementedError if method_name.to_s.start_with?('convert_')
 
         super
@@ -116,18 +116,18 @@ module Kramdown
         task
       ].freeze
 
-      CHALLENGE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*\/challenge[ \t]*---}m.freeze
-      CODE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*\/code[ \t]*---}m.freeze
-      COLLAPSE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*\/collapse[ \t]*---}m.freeze
-      HINT_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*\/hint[ \t]*---}m.freeze
-      HINTS_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*\/hints[ \t]*---}m.freeze
-      NEW_PAGE_PATTERN   = /^#{OPT_SPACE}---[ \t]*new-page[ \t]*---/m.freeze
-      NO_PRINT_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*no-print[ \t]*---(.*?)---[ \t]*\/no-print[ \t]*---}m.freeze
-      PRINT_ONLY_PATTERN = %r{^#{OPT_SPACE}---[ \t]*print-only[ \t]*---(.*?)---[ \t]*\/print-only[ \t]*---}m.freeze
-      KNOWLEDGE_QUIZ_QUESTION_PATTERN = %r{^#{OPT_SPACE}---[ \t]*question[ \t]*---(.*?)---[ \t]*\/question[ \t]*---}m.freeze
-      QUIZ_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*quiz[ \t]*---(.*?)---[ \t]*\/quiz[ \t]*---}m.freeze
-      SAVE_PATTERN       = /^#{OPT_SPACE}---[ \t]*save[ \t]*---/m.freeze
-      TASK_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*\/task[ \t]*---}m.freeze
+      CHALLENGE_PATTERN  = %r{^#{OPT_SPACE}---[ \t]*challenge[ \t]*---(.*?)---[ \t]*/challenge[ \t]*---}m
+      CODE_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*code[ \t]*---(.*?)---[ \t]*/code[ \t]*---}m
+      COLLAPSE_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*collapse[ \t]*---(.*?)---[ \t]*/collapse[ \t]*---}m
+      HINT_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*hint[ \t]*---(.*?)---[ \t]*/hint[ \t]*---}m
+      HINTS_PATTERN      = %r{^#{OPT_SPACE}---[ \t]*hints[ \t]*---(.*?)---[ \t]*/hints[ \t]*---}m
+      NEW_PAGE_PATTERN   = /^#{OPT_SPACE}---[ \t]*new-page[ \t]*---/m
+      NO_PRINT_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*no-print[ \t]*---(.*?)---[ \t]*/no-print[ \t]*---}m
+      PRINT_ONLY_PATTERN = %r{^#{OPT_SPACE}---[ \t]*print-only[ \t]*---(.*?)---[ \t]*/print-only[ \t]*---}m
+      KNOWLEDGE_QUIZ_QUESTION_PATTERN = %r{^#{OPT_SPACE}---[ \t]*question[ \t]*---(.*?)---[ \t]*/question[ \t]*---}m
+      QUIZ_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*quiz[ \t]*---(.*?)---[ \t]*/quiz[ \t]*---}m
+      SAVE_PATTERN       = /^#{OPT_SPACE}---[ \t]*save[ \t]*---/m
+      TASK_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*task[ \t]*---(.*?)---[ \t]*/task[ \t]*---}m
 
       def initialize(source, options)
         super
