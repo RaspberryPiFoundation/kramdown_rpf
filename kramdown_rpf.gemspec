@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'i18n', '0.8.6'
   spec.add_dependency 'kramdown', '~> 1.2', '>= 1.2.0'
+  spec.add_dependency 'rexml', '~> 3.4'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'byebug'
