@@ -9,3 +9,6 @@ inherit_from:
 inherit_mode:
   merge:
     - Exclude
+
+AllCops:
+  NewCops: enable
