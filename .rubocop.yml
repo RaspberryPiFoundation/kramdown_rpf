@@ -1,5 +1,4 @@
-AllCops:
-  TargetRubyVersion: 2.5
+inherit_from: .rubocop_todo.yml
 
-Metrics/LineLength:
-  Max: 120
+AllCops:
+  NewCops: enable

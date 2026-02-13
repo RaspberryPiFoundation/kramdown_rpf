@@ -5,13 +5,13 @@ require 'kramdown'
 module RPF
   module Plugin
     module Kramdown
-      YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m.freeze
+      YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
       VALID_CHECK_MARKS = %w[* x].freeze
-      QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*\/choices[ \t]*---}m.freeze
-      RADIO_REGEXP = /\((?:\s?|(?<check>[#{VALID_CHECK_MARKS.join}]?))\)\s*(?<text>.*)/m.freeze
-      CHOICE_BLOCK_REGEXP = /^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\s#{VALID_CHECK_MARKS.join}]?\)\s*.*)/m.freeze
-      CHOICE_FEEDBACK_REGEXP = %r{#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*\/feedback[ \t]*---}m.freeze
-      SINGLE_FEEDBACK_REGEXP = /\A#{CHOICE_FEEDBACK_REGEXP}/m.freeze
+      QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*/choices[ \t]*---}m
+      RADIO_REGEXP = /\((?:\s?|(?<check>[#{VALID_CHECK_MARKS.join}]?))\)\s*(?<text>.*)/m
+      CHOICE_BLOCK_REGEXP = /^(?=#{::Kramdown::Parser::Kramdown::OPT_SPACE}- \([\s#{VALID_CHECK_MARKS.join}]?\)\s*.*)/m
+      CHOICE_FEEDBACK_REGEXP = %r{#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*feedback[ \t]*---(.*?)---[ \t]*/feedback[ \t]*---}m
+      SINGLE_FEEDBACK_REGEXP = /\A#{CHOICE_FEEDBACK_REGEXP}/m
 
       KRAMDOWN_OPTIONS = {
         input: 'KramdownRPF',
@@ -38,11 +38,11 @@ module RPF
 
         if filename
           filename_html = <<~HEREDOC
-            <div class=\"c-code-filename\">
+            <div class="c-code-filename">
               #{filename}
             </div>
           HEREDOC
-          .strip
+                          .strip
         end
 
         if line_numbers
@@ -54,7 +54,7 @@ module RPF
         pre_attrs << "data-line-offset=\"#{line_number_start}\"" if line_highlights && line_number_start
         pre_attrs << "data-line=\"#{line_highlights}\"" if line_highlights
 
-        pre_attrs_html = ' ' + pre_attrs.join(' ') if pre_attrs.size.positive?
+        pre_attrs_html = " #{pre_attrs.join(' ')}" if pre_attrs.size.positive?
 
         <<~HEREDOC
           #{filename_html}
@@ -234,7 +234,7 @@ module RPF
           number = index + 1
           <<~HEREDOC
             <div class="knowledge-quiz-question__answer">
-            <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{checked ? 'checked' : ''}/>
+            <input type="radio" name="answer" value="#{number}" id="choice-#{number}" #{'checked' if checked}/>
             <label for="choice-#{number}">#{::Kramdown::Document.new(label, KRAMDOWN_OPTIONS).to_html.strip}</label>
             </div>
           HEREDOC
