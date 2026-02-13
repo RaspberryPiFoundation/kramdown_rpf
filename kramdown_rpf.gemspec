@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'kramdown_rpf/version'
+require_relative 'lib/kramdown_rpf/version'
 
 Gem::Specification.new do |spec|
   spec.name     = 'kramdown-rpf'
@@ -12,6 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary  = "Kramdown extensions for the Raspberry Pi Foundation's resources website."
   spec.homepage = 'https://projects.raspberrypi.org'
   spec.license  = 'MIT'
+  spec.required_ruby_version = '>= 3.2.0'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
