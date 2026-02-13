@@ -11,9 +11,10 @@ RSpec.describe KramdownRPF do
     }
   end
 
+  before { I18n.locale = 'en' }
+
   describe 'with incomplete markup' do
     it 'raises an exception' do
-      I18n.locale = 'en'
       test_result = Kramdown::Document.new(
         File.read('examples/errors/collapse.md'),
         kramdown_options
@@ -25,7 +26,6 @@ RSpec.describe KramdownRPF do
 
   describe 'with valid markup' do
     it 'does not raise any errors' do
-      I18n.locale = 'en'
       test_result = Kramdown::Document.new(
         File.read('examples/collapse/collapse.md'),
         kramdown_options
