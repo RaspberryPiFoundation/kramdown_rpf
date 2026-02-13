@@ -3,18 +3,21 @@
 require 'spec_helper'
 
 RSpec.describe KramdownRPF do
-  KRAMDOWN_OPTIONS = {
-    input: 'KramdownRPF',
-    parse_block_html: true,
-    syntax_highlighter: nil
-  }.freeze
+  let(:kramdown_options) do
+    {
+      input: 'KramdownRPF',
+      parse_block_html: true,
+      syntax_highlighter: nil
+    }
+  end
+
+  before { I18n.locale = 'en' }
 
   describe 'with incomplete markup' do
-    it 'should raise an exception' do
-      I18n.locale = 'en'
+    it 'raises an exception' do
       test_result = Kramdown::Document.new(
         File.read('examples/errors/collapse.md'),
-        KRAMDOWN_OPTIONS
+        kramdown_options
       )
 
       expect { test_result.to_html }.to raise_error(Kramdown::ParseError)
@@ -22,11 +25,10 @@ RSpec.describe KramdownRPF do
   end
 
   describe 'with valid markup' do
-    it 'should not raise any errors' do
-      I18n.locale = 'en'
+    it 'does not raise any errors' do
       test_result = Kramdown::Document.new(
         File.read('examples/collapse/collapse.md'),
-        KRAMDOWN_OPTIONS
+        kramdown_options
       )
 
       expect { test_result.to_html }.not_to raise_error

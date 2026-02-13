@@ -7,9 +7,13 @@
 /pkg/
 /spec/reports/
 /tmp/
+/vendor/
 .vscode/
 
 # rspec failure tracking
 .rspec_status
+
+# Ignore downloaded style files
+.rubocop-http*
 
 .byebug_history

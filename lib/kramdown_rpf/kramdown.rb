@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'kramdown'
+require 'kramdown/parser/gfm'
 require_relative 'rpf'
 
 module Kramdown

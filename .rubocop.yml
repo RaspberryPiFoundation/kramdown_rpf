@@ -1,4 +1,14 @@
-inherit_from: .rubocop_todo.yml
+# RPF Digital Products house styles
+inherit_from:
+  - https://raspberrypifoundation.github.io/digital-engineering/configs/rubocop-base.yml
+  - https://raspberrypifoundation.github.io/digital-engineering/configs/rubocop-performance.yml
+  - https://raspberrypifoundation.github.io/digital-engineering/configs/rubocop-rspec.yml
+  - .rubocop_todo.yml
+
+# Allow the Exclude arrays to be merged.
+inherit_mode:
+  merge:
+    - Exclude
 
 AllCops:
   NewCops: enable
