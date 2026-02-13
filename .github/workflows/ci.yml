@@ -72,7 +72,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create GitHub Release
-       uses: softprops/action-gh-release@v1
-       with:
-         files: pkg/*.gem
-         generate_release_notes: true
+      uses: softprops/action-gh-release@v1
+      with:
+        files: pkg/*.gem
+        generate_release_notes: true
