@@ -50,6 +50,7 @@ module RPF
         " #{pre_attrs.join(' ')}"
       end
 
+      # Tip/debug RFM blocks share the old integrated-editor callout markup.
       def convert_callout_to_html(callout, type, default_title)
         title = block_title(callout) || default_title
         content = block_content(callout).strip
@@ -64,6 +65,7 @@ module RPF
         HEREDOC
       end
 
+      # Preserve the legacy blank line shape when an RFM task ends with a nested component.
       def ends_with_blockquote?(content)
         content.rstrip.lines.last&.start_with?('>')
       end
