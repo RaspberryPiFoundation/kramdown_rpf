@@ -164,8 +164,9 @@ RSpec.describe KramdownRPF do
         > Try this
       MARKDOWN
 
+      expect(convert(markdown)).to include('class="c-project-panel c-project-panel--hints"')
       expect(convert(markdown)).to include('class="c-project-panel__swiper-slide"')
-      expect(convert(markdown)).not_to include('c-project-panel--hints')
+      expect(convert(markdown).scan('c-project-panel__swiper-slide').length).to eq(1)
     end
 
     it 'groups adjacent RFM hints into one hints panel' do

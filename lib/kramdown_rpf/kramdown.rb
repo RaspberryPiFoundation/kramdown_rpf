@@ -35,7 +35,11 @@ module Kramdown
       # Convert :hint -> HTML
       # @api private
       def convert_hint(element, _indent)
-        RPF::Plugin::Kramdown.convert_hint_to_html(element.value)
+        if element.options[:rfm]
+          RPF::Plugin::Kramdown.convert_single_rfm_hint_to_html(element.value)
+        else
+          RPF::Plugin::Kramdown.convert_hint_to_html(element.value)
+        end
       end
 
       # Convert :hints -> HTML

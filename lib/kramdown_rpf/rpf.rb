@@ -74,9 +74,17 @@ module RPF
         HEREDOC
       end
 
+      def self.convert_single_rfm_hint_to_html(hint)
+        hints_panel_html(convert_hint_to_html(hint))
+      end
+
       def self.convert_hints_to_html(hints)
         parsed_hints = ::Kramdown::Document.new(block_content(hints).strip, KRAMDOWN_OPTIONS).to_html
 
+        hints_panel_html(parsed_hints.strip)
+      end
+
+      def self.hints_panel_html(parsed_hints)
         <<~HEREDOC
           <div class="c-project-panel c-project-panel--hints">
             <h3 class="c-project-panel__heading js-project-panel__toggle">
@@ -86,7 +94,7 @@ module RPF
             <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
               <div class="c-project-panel__swiper">
                 <div class="c-project-panel__swiper-wrapper">
-                  #{parsed_hints.strip}
+                  #{parsed_hints}
                 </div>
 
                 <div class="c-project-panel__swiper-pagination">
