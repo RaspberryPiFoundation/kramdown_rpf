@@ -3,7 +3,7 @@
 require_relative 'spec_helper'
 require 'English'
 
-SPEC_MD = ENV.fetch('SPEC_MD', nil)
+SPEC_MD = ENV.fetch('SPEC_MD', 'spec/kramdown_rpf-legacy-spec.md')
 
 # Parses spec.md and returns an array of:
 #   { section: String, subsection: String|nil, number: Integer,

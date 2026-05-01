@@ -40,7 +40,7 @@ RSpec.describe KramdownRPF do
     expect(KramdownRPF::VERSION).not_to be_nil
   end
 
-  describe 'conversions' do
+  describe 'conversions', skip: 'in favour of specification examples' do
     conversion_tests.each do |test_name|
       context test_name do
         subject(:test_result) do

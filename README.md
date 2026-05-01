@@ -138,10 +138,16 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 ### Testing against the spec
 
-The formal spec lives at `spec/kramdown-rpf-v0-spec.md`. Run the spec tests with:
+The formal spec lives at `spec/kramdown_rpf-legacy-spec.md`. This is used to test that the output of the gem matches the expected output for a variety of inputs. To run these tests, run:
 
 ```sh
-SPEC_MD=spec/kramdown-rpf-legacy-spec.md bundle exec rake spec
+bundle exec rspec
+```
+
+If you wish to use a different spec, you can sent the `SPEC_MD` environment variable:
+
+```
+SPEC_MD=my-new-spec.md bundle exec rake spec
 ```
 
 This is also run automatically in CI.
