@@ -144,7 +144,7 @@ The formal spec lives at `spec/kramdown_rpf-legacy-spec.md`. This is used to tes
 bundle exec rspec
 ```
 
-If you wish to use a different spec, you can sent the `SPEC_MD` environment variable:
+If you wish to use a different spec, you can set the `SPEC_MD` environment variable:
 
 ```
 SPEC_MD=my-new-spec.md bundle exec rake spec

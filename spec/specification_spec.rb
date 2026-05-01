@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'spec_helper'
-require 'English'
+require 'spec_helper'
 
 SPEC_MD = ENV.fetch('SPEC_MD', 'spec/kramdown_rpf-legacy-spec.md')
 
@@ -51,8 +50,6 @@ def parse_spec(path)
 
   examples
 end
-
-return if SPEC_MD.nil?
 
 raise "Spec file not found: #{SPEC_MD}" unless File.exist?(SPEC_MD)
 

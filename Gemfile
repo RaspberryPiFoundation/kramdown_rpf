@@ -10,6 +10,7 @@ group :development do
   gem 'rake'
   gem 'rexml', '~> 3.4'
   gem 'rspec', require: false
+  gem 'nokogiri'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rspec', require: false
