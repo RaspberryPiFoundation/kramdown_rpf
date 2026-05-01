@@ -49,7 +49,7 @@ jobs:
         SPEC_MD: kramdown-rpf-v0-spec.md
 
   publish:
-    needs: [lint, test, spec]
+    needs: [lint, test]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     permissions:
