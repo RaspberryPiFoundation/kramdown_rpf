@@ -46,11 +46,10 @@ return if SPEC_MD.nil?
 
 raise "Spec file not found: #{SPEC_MD}" unless File.exist?(SPEC_MD)
 
-
-RSpec.describe "RPF Markdown Spec: #{File.basename(SPEC_MD)}" do
+RSpec.describe "RPF Markdown Spec: #{File.basename(SPEC_MD)}" do # rubocop:disable RSpec/DescribeClass
   examples = parse_spec(SPEC_MD)
   examples.group_by { |e| e[:section] }.each do |section, section_examples|
-    context section do
+    context section do # rubocop:disable RSpec/EmptyExampleGroup
       section_examples.group_by { |e| e[:subsection] }.each do |subsection, sub_examples|
         define_examples = lambda do
           sub_examples.each do |example|

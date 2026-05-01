@@ -8,7 +8,7 @@ gemspec
 group :development do
   gem 'compare-xml'
   gem 'rake'
-  gem "rexml", "~> 3.4"
+  gem 'rexml', '~> 3.4'
   gem 'rspec', require: false
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
