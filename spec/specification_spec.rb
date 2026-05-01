@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'spec_helper'
+require 'English'
 
 SPEC_MD = ENV.fetch('SPEC_MD', nil)
 
@@ -8,34 +9,43 @@ SPEC_MD = ENV.fetch('SPEC_MD', nil)
 #   { section: String, subsection: String|nil, number: Integer,
 #     input: String, expected: String }
 def parse_spec(path)
-  content = File.read(path)
+  content = File.readlines(path).map(&:chomp)
   examples = []
   section    = 'Unknown'
   subsection = nil
   number     = 0
 
-  content.scan(/^((?:\#{1,6}) [^\n]+$)|^```+example\n(.*?)\n```+/m) do |heading, block|
-    if heading
-      level = heading.match(/^(#+)/)[1].length
-      title = heading.sub(/^#+\s*/, '').strip
+  in_example = false
+  example_lines = []
+
+  content.each do |line|
+    if in_example && line == in_example
+      in_example = false
+      parts = example_lines.join("\n").split(/\n·\n/, 2)
+      if parts.length == 2
+        number += 1
+        examples << {
+          section: section,
+          subsection: subsection,
+          number: number,
+          input: parts[0].strip,
+          expected: parts[1].strip
+        }
+      end
+    elsif in_example
+      example_lines << line
+    elsif line =~ /^(\#{1,6})\s*(.+)$/
+      level = Regexp.last_match(1).length
+      title = Regexp.last_match(2).strip
       if level <= 2
         section    = title
         subsection = nil
       else
         subsection = title
       end
-    elsif block
-      parts = block.split(/\n·\n/, 2)
-      next unless parts.length == 2
-
-      number += 1
-      examples << {
-        section: section,
-        subsection: subsection,
-        number: number,
-        input: parts[0].strip,
-        expected: parts[1].strip
-      }
+    elsif line.strip =~ /^(```+)example$/
+      in_example = Regexp.last_match(1)
+      example_lines = []
     end
   end
 
