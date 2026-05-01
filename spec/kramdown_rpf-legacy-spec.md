@@ -4,9 +4,18 @@ title: Kramdown RPF -- Legacy spec
 
 # Spec — kramdown-rpf version 0.12.0
 
+:::info
+This spec was built from the example files in the `kramdown-rpf` repository. It
+is intended to be a single source of truth for the expected behaviour of the
+custom block syntax, and to be used as the basis for test suites in both the
+Ruby and TypeScript renderers. Any changes to the syntax or expected output
+should be made here first, and then the tests in both repositories should be
+updated to match.
+:::
+
 This document is the formal specification for the **legacy** custom block syntax used in
 Raspberry Pi Foundation project content. It is parsed by `kramdown-rpf` (Ruby)
-and the `rfm-renderder-core` TypeScript renderer.
+and the `rpf-markdown-core` (TypeScript) renderers.
 
 Each **example** below shows the markdown input above the `·` separator and the
 expected HTML output below it. These examples are the canonical test suite —
@@ -101,7 +110,7 @@ Hint 2
 
 ## Task
 
-A `task` block renders as a checkable task item. Content inside is parsed as markdown.  It can contain code fences, hints, and collapse blocks.
+A `task` block renders as a checkable task item. Content inside is parsed as markdown. It can contain code fences, hints, and collapse blocks.
 
 ````example
 --- task ---
@@ -129,6 +138,7 @@ You can access the direction the joystick was moved in with the help of the even
   </div>
 </div>
 ````
+
 ### With hints
 
 ````example
@@ -370,6 +380,7 @@ while True:
     sleep(2)
 </code></pre>
 ```
+
 ### Fenced
 
 A plain fenced code block.
@@ -504,6 +515,7 @@ Here is some useful information.
   </div>
 </div>
 ```
+
 ### With code block in body
 
 ```example
@@ -567,7 +579,7 @@ We're going to write some code to print out `Motion detected!` when the PIR sens
 1. Open IDLE, create a new file and save it as **parent-detector.py**
 
     --- collapse ---
-    ---  
+    ---
     title: Opening IDLE
     image: images/idle.png
     ---
@@ -779,7 +791,7 @@ Every time a new intruder triggers the motion sensor the video will be overwritt
 --- collapse ---
 ---
 title: Getting the date and time in Python
-image: 
+image:
 ---
 
 [[[generic-python-timestamps]]]
@@ -937,7 +949,7 @@ question: How are you feeling?
       <label class="c-project-quiz__label" for="choice-1">Good</label>
       <input class="c-project-quiz__input" name="quiz-choice" type="radio" id="choice-1" value="choice-1">
       <label class="c-project-quiz__label" for="choice-2">Bad</label>
-      <input class="c-project-quiz__input" name="quiz-choice" type="radio" id="choice-2" value="choice-2"> 
+      <input class="c-project-quiz__input" name="quiz-choice" type="radio" id="choice-2" value="choice-2">
       <label class="c-project-quiz__label" for="choice-3">Okay</label>
       <input class="c-project-quiz__input" name="quiz-choice" type="radio" id="choice-3" value="choice-3">
     </div>
@@ -1087,6 +1099,7 @@ Is the sky blue?
   </ul><input type="button" name="Submit" value="submit">
 </form>
 ```
+
 ### With single feedback
 
 ```example
