@@ -136,6 +136,18 @@ question: Here is a heading for a quiz with three possible answers. How do you f
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
+### Testing against the spec
+
+The formal spec lives at `spec/kramdown-rpf-v0-spec.md`. Run the spec tests with:
+
+```sh
+SPEC_MD=spec/kramdown-rpf-legacy-spec.md bundle exec rake spec
+```
+
+This is also run automatically in CI.
+
+**If you add or change examples in `examples/`, you must update the spec file accordingly** — both here in `spec/kramdown_rpf-v0-spec.md` and in the canonical copy in the [documentation repository](https://github.com/RaspberryPiFoundation/documentation) at `docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown_rpf-legacy-spec.md`.
+
 To install this gem onto your local machine, run `bundle exec rake install`.
 
 ### Release a new version
