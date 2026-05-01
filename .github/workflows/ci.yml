@@ -37,16 +37,10 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true
 
-    - name: Download v0 spec
-      run: |
-        curl -fsSL \
-          "https://github.com/RaspberryPiFoundation/documentation/raw/cae831932308c884fc81cd5b106cc722b106e582/docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown-rpf-v0-spec.md" \
-          -o kramdown-rpf-v0-spec.md
-
     - name: Run tests
       run: bundle exec rake spec
       env:
-        SPEC_MD: kramdown-rpf-v0-spec.md
+        SPEC_MD: spec/kramdown-rpf-v0-spec.md
 
   publish:
     needs: [lint, test]
