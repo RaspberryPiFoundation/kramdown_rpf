@@ -152,7 +152,7 @@ SPEC_MD=my-new-spec.md bundle exec rake spec
 
 This is also run automatically in CI.
 
-**If you add or change examples in `examples/`, you must update the spec file accordingly** — both here in `spec/kramdown_rpf-v0-spec.md` and in the canonical copy in the [documentation repository](https://github.com/RaspberryPiFoundation/documentation) at `docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown_rpf-legacy-spec.md`.
+**If you add or change examples in `examples/`, you must update the spec file accordingly** — both here in `spec/kramdown_rpf-legacy-spec.md` and in the canonical copy in the [documentation repository](https://github.com/RaspberryPiFoundation/documentation) at `docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown_rpf-legacy-spec.md`.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
