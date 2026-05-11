@@ -48,6 +48,10 @@ module Kramdown
         RPF::Plugin::Kramdown.convert_hints_to_html(element.value)
       end
 
+      def convert_info(element, _indent)
+        RPF::Plugin::Kramdown.convert_info_to_html(element.value)
+      end
+
       # Convert :knowledge_quiz_question -> HTML
       # @api private
       def convert_knowledge_quiz_question(element, indent)
