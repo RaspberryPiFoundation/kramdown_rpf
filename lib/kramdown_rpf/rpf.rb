@@ -111,6 +111,17 @@ module RPF
         HEREDOC
       end
 
+      def self.convert_info_to_html(info)
+        content = block_content(info)
+        parsed_info = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
+        parsed_info += "\n" if info.is_a?(Hash) && ends_with_blockquote?(content)
+        <<~HEREDOC
+          <div style="border-left: solid; border-width:10px; border-color: #0faeb0; background-color: aliceblue; padding: 10px;">
+            #{parsed_info}
+          </div>
+        HEREDOC
+      end
+
       def self.convert_new_page_to_html
         ::Kramdown::Document.new('<div class="c-print-page-break" />', KRAMDOWN_OPTIONS).to_html
       end

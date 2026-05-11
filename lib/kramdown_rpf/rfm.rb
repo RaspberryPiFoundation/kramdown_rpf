@@ -20,7 +20,8 @@ module Kramdown
         'PRINTONLY' => :print_only,
         'SAVE' => :save,
         'TASK' => :task,
-        'TIP' => :tip
+        'TIP' => :tip,
+        'INFO' => :info
       }.freeze
       MARKERS_PATTERN = MARKER_TO_ELEMENT.keys.join('|')
       TITLE_MARKERS = %w[ACCORDION DEBUG TIP].freeze
