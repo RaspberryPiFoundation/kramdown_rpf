@@ -5,6 +5,7 @@ require_relative 'rpf_helpers'
 
 module RPF
   module Plugin
+    # rubocop:disable Metrics/ModuleLength
     module Kramdown
       extend KramdownHelpers
 
@@ -308,4 +309,5 @@ module RPF
       end
     end
   end
+  # rubocop:enable Metrics/ModuleLength
 end
