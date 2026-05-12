@@ -1,0 +1,3 @@
+> [!HINT]
+>
+> Some hint content
