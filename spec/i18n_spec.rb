@@ -20,8 +20,10 @@ RSpec.describe 'i18n' do
     values = file_contents[1]['kramdown_rpf']
 
     context("with #{locale} locale") do
-      before do
+      around do |example|
         I18n.locale = locale
+        example.run
+        I18n.locale = I18n.default_locale
       end
 
       it('converts hint title') do

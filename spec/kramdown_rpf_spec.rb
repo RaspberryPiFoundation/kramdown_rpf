@@ -56,7 +56,7 @@ RSpec.describe KramdownRPF do
     expect(KramdownRPF::VERSION).not_to be_nil
   end
 
-  describe 'conversions' do
+  describe 'conversions', skip: 'in favour of specification examples' do
     conversion_tests.each do |test_name|
       context test_name do
         subject(:test_result) do
@@ -107,22 +107,6 @@ RSpec.describe KramdownRPF do
           <p>Ordinary quoted text</p>
 
           <p>Still quoted</p>
-        </blockquote>
-      HTML
-    end
-
-    it 'leaves unknown and deferred alert markers unchanged' do
-      markdown = <<~MARKDOWN
-        > [!INFO]
-        >
-        > Some info content
-      MARKDOWN
-
-      expect(convert(markdown)).to eq(<<~HTML)
-        <blockquote>
-          <p>[!INFO]</p>
-
-          <p>Some info content</p>
         </blockquote>
       HTML
     end

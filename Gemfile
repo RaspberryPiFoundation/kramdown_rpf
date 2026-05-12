@@ -6,7 +6,10 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
+  gem 'compare-xml'
+  gem 'nokogiri'
   gem 'rake'
+  gem 'rexml', '~> 3.4'
   gem 'rspec', require: false
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
