@@ -243,9 +243,9 @@ while True:
 ## Page break
 
 ```example
-<br class="page-break" />
+{.page-break}
 ·
-<br class="page-break">
+<div class=page-break></div>
 ```
 
 ---

@@ -76,6 +76,12 @@ module Kramdown
         RPF::Plugin::Kramdown.convert_print_only_to_html(element.value)
       end
 
+      # Convert :page_break -> HTML
+      # @api private
+      def convert_page_break(*_args)
+        "<div class=\"page-break\"></div>\n"
+      end
+
       # Convert :quiz -> HTML
       # @api private
       def convert_quiz(element, _indent)
@@ -148,6 +154,7 @@ module Kramdown
       NEW_PAGE_PATTERN   = /^#{OPT_SPACE}---[ \t]*new-page[ \t]*---/m
       NO_PRINT_PATTERN   = %r{^#{OPT_SPACE}---[ \t]*no-print[ \t]*---(.*?)---[ \t]*/no-print[ \t]*---}m
       PRINT_ONLY_PATTERN = %r{^#{OPT_SPACE}---[ \t]*print-only[ \t]*---(.*?)---[ \t]*/print-only[ \t]*---}m
+      PAGE_BREAK_PATTERN = /^#{OPT_SPACE}\{\.page-break\}[ \t]*\n?/m
       KNOWLEDGE_QUIZ_QUESTION_PATTERN = %r{^#{OPT_SPACE}---[ \t]*question[ \t]*---(.*?)---[ \t]*/question[ \t]*---}m
       QUIZ_PATTERN       = %r{^#{OPT_SPACE}---[ \t]*quiz[ \t]*---(.*?)---[ \t]*/quiz[ \t]*---}m
       SAVE_PATTERN       = /^#{OPT_SPACE}---[ \t]*save[ \t]*---/m
@@ -163,6 +170,7 @@ module Kramdown
         @block_parsers.unshift(:knowledge_quiz_question)
         @block_parsers.unshift(:new_page)
         @block_parsers.unshift(:no_print)
+        @block_parsers.unshift(:page_break)
         @block_parsers.unshift(:print_only)
         @block_parsers.unshift(:quiz)
         @block_parsers.unshift(:save)
@@ -249,6 +257,15 @@ module Kramdown
       end
 
       define_parser(:print_only, PRINT_ONLY_PATTERN)
+
+      # Convert Markdown -> :page_break
+      # @api private
+      def parse_page_break
+        @src.pos += @src.matched_size
+        @tree.children << Element.new(:page_break)
+      end
+
+      define_parser(:page_break, PAGE_BREAK_PATTERN)
 
       # Convert Markdown -> :quiz
       # @api private
