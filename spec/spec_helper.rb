@@ -33,6 +33,53 @@ def html_diff(actual_html, expected_html)
   output.join("\n")
 end
 
+# Parses spec.md and returns an array of:
+#   { section: String, subsection: String|nil, number: Integer,
+#     input: String, expected: String }
+def parse_spec(path)
+  content = File.readlines(path).map(&:chomp)
+  examples = []
+  section    = 'Unknown'
+  subsection = nil
+  number     = 0
+
+  in_example = false
+  example_lines = []
+
+  content.each do |line|
+    if in_example && line == in_example
+      in_example = false
+      parts = example_lines.join("\n").split(/\n·\n/, 2)
+      if parts.length == 2
+        number += 1
+        examples << {
+          section: section,
+          subsection: subsection,
+          number: number,
+          input: parts[0].strip,
+          expected: parts[1].strip
+        }
+      end
+    elsif in_example
+      example_lines << line
+    elsif line =~ /^(\#{1,6})\s*(.+)$/
+      level = Regexp.last_match(1).length
+      title = Regexp.last_match(2).strip
+      if level <= 2
+        section    = title
+        subsection = nil
+      else
+        subsection = title
+      end
+    elsif line.strip =~ /^(```+)example$/
+      in_example = Regexp.last_match(1)
+      example_lines = []
+    end
+  end
+
+  examples
+end
+
 RSpec::Matchers.define :match_html do |expected_html, **options|
   match do |actual_html|
     @actual_html   = actual_html

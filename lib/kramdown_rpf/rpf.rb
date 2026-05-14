@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 require 'kramdown'
+require_relative 'rpf_helpers'
 
 module RPF
   module Plugin
+    # rubocop:disable Metrics/ModuleLength
     module Kramdown
+      extend KramdownHelpers
+
       YAML_FRONT_MATTER_REGEXP = /\n\s*---\s*\n(.*?)---(.*)/m
       VALID_CHECK_MARKS = %w[* x].freeze
       QUESTION_REGEXP = %r{(.*?)^#{::Kramdown::Parser::Kramdown::OPT_SPACE}---[ \t]*choices[ \t]*---(.*?)---[ \t]*/choices[ \t]*---}m
@@ -20,53 +24,31 @@ module RPF
       }.freeze
 
       def self.convert_challenge_to_html(challenge)
-        ::Kramdown::Document.new(challenge, KRAMDOWN_OPTIONS).to_html
+        ::Kramdown::Document.new(block_content(challenge), KRAMDOWN_OPTIONS).to_html
       end
 
       def self.convert_code_to_html(code_block)
-        code_block =~ YAML_FRONT_MATTER_REGEXP
-        meta = YAML.safe_load(Regexp.last_match(1))
-
-        language          = meta['language']
-        filename          = meta['filename'] || nil
-        filename_html     = nil
-        line_numbers      = meta['line_numbers']
-        line_number_start = meta['line_number_start'] || nil
-        line_highlights   = meta['line_highlights'] || nil
-        code              = CGI.escapeHTML(Regexp.last_match(2))
-        pre_attrs         = ['dir="ltr"']
-
-        if filename
-          filename_html = <<~HEREDOC
-            <div class="c-code-filename">
-              #{filename}
-            </div>
-          HEREDOC
-                          .strip
-        end
-
-        if line_numbers
-          pre_attrs << 'class="line-numbers"'
-        elsif line_numbers == false
-          pre_attrs << 'class="no-line-numbers"'
-        end
-        pre_attrs << "data-start=\"#{line_number_start}\"" if line_number_start && line_numbers
-        pre_attrs << "data-line-offset=\"#{line_number_start}\"" if line_highlights && line_number_start
-        pre_attrs << "data-line=\"#{line_highlights}\"" if line_highlights
-
-        pre_attrs_html = " #{pre_attrs.join(' ')}" if pre_attrs.size.positive?
+        meta, raw_code = code_block_details(code_block)
+        filename_html = code_filename_html(meta['filename'])
+        pre_attrs_html = code_pre_attrs_html(meta)
+        code = CGI.escapeHTML(raw_code.to_s)
 
         <<~HEREDOC
           #{filename_html}
-          <pre#{pre_attrs_html}><code class="language-#{language}" dir="ltr">#{code}</code></pre>
+          <pre#{pre_attrs_html}><code class="language-#{meta['language']}" dir="ltr">#{code}</code></pre>
         HEREDOC
       end
 
       def self.convert_collapse_to_html(collapse)
-        collapse =~ YAML_FRONT_MATTER_REGEXP
-        details = YAML.safe_load(Regexp.last_match(1))
-        title = details['title']
-        content = Regexp.last_match(2)
+        if collapse.is_a?(Hash)
+          title = collapse[:title]
+          content = collapse[:content]
+        else
+          collapse =~ YAML_FRONT_MATTER_REGEXP
+          details = YAML.safe_load(Regexp.last_match(1))
+          title = details['title']
+          content = Regexp.last_match(2)
+        end
 
         parsed_content = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
 
@@ -84,7 +66,7 @@ module RPF
       end
 
       def self.convert_hint_to_html(hint)
-        parsed_hint = ::Kramdown::Document.new(hint.strip, KRAMDOWN_OPTIONS).to_html
+        parsed_hint = ::Kramdown::Document.new(block_content(hint).strip, KRAMDOWN_OPTIONS).to_html
 
         <<~HEREDOC
           <div class="c-project-panel__swiper-slide">
@@ -93,9 +75,17 @@ module RPF
         HEREDOC
       end
 
-      def self.convert_hints_to_html(hints)
-        parsed_hints = ::Kramdown::Document.new(hints.strip, KRAMDOWN_OPTIONS).to_html
+      def self.convert_single_rfm_hint_to_html(hint)
+        hints_panel_html(convert_hint_to_html(hint))
+      end
 
+      def self.convert_hints_to_html(hints)
+        parsed_hints = ::Kramdown::Document.new(block_content(hints).strip, KRAMDOWN_OPTIONS).to_html
+
+        hints_panel_html(parsed_hints.strip)
+      end
+
+      def self.hints_panel_html(parsed_hints)
         <<~HEREDOC
           <div class="c-project-panel c-project-panel--hints">
             <h3 class="c-project-panel__heading js-project-panel__toggle">
@@ -105,7 +95,7 @@ module RPF
             <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
               <div class="c-project-panel__swiper">
                 <div class="c-project-panel__swiper-wrapper">
-                  #{parsed_hints.strip}
+                  #{parsed_hints}
                 </div>
 
                 <div class="c-project-panel__swiper-pagination">
@@ -122,16 +112,35 @@ module RPF
         HEREDOC
       end
 
+      def self.convert_info_to_html(info)
+        content = block_content(info)
+        parsed_info = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
+        parsed_info += "\n" if info.is_a?(Hash) && ends_with_blockquote?(content)
+        <<~HEREDOC
+          <div style="border-left: solid; border-width:10px; border-color: #0faeb0; background-color: aliceblue; padding: 10px;">
+            #{parsed_info}
+          </div>
+        HEREDOC
+      end
+
       def self.convert_new_page_to_html
         ::Kramdown::Document.new('<div class="c-print-page-break" />', KRAMDOWN_OPTIONS).to_html
       end
 
       def self.convert_no_print_to_html(content)
-        ::Kramdown::Document.new("<div class=\"u-no-print\">\n#{content}</div>", KRAMDOWN_OPTIONS).to_html
+        ::Kramdown::Document.new("<div class=\"u-no-print\">\n#{block_content(content)}</div>", KRAMDOWN_OPTIONS).to_html
       end
 
       def self.convert_print_only_to_html(content)
-        ::Kramdown::Document.new("<div class=\"u-print-only\">\n#{content}</div>", KRAMDOWN_OPTIONS).to_html
+        ::Kramdown::Document.new("<div class=\"u-print-only\">\n#{block_content(content)}</div>", KRAMDOWN_OPTIONS).to_html
+      end
+
+      def self.convert_debug_to_html(debug)
+        convert_callout_to_html(debug, 'debug', 'Debugging')
+      end
+
+      def self.convert_tip_to_html(tip)
+        convert_callout_to_html(tip, 'tip', 'Tip')
       end
 
       def self.convert_knowledge_quiz_question_to_html(question, _indent)
@@ -207,7 +216,9 @@ module RPF
       end
 
       def self.convert_task_to_html(task)
-        parsed_task = ::Kramdown::Document.new(task.strip, KRAMDOWN_OPTIONS).to_html
+        content = block_content(task)
+        parsed_task = ::Kramdown::Document.new(content.strip, KRAMDOWN_OPTIONS).to_html
+        parsed_task += "\n" if task.is_a?(Hash) && ends_with_blockquote?(content)
 
         <<~HEREDOC
           <div class="c-project-task">
@@ -298,4 +309,5 @@ module RPF
       end
     end
   end
+  # rubocop:enable Metrics/ModuleLength
 end
