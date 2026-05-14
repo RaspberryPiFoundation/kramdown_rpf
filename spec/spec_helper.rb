@@ -55,7 +55,7 @@ def parse_spec(path) # rubocop:disable Metrics/AbcSize
     if in_example && line == in_example
       in_example = false
       parts = example_lines.join("\n").split(/\n·\n/, 2)
-      if parts.length == 2 && !example_tags.include?('not-kramdown')
+      if parts.length == 2
         number += 1
         examples << {
           section: section,
@@ -77,9 +77,9 @@ def parse_spec(path) # rubocop:disable Metrics/AbcSize
       else
         subsection = title
       end
-    elsif line.strip =~ /^(```+) *example +(.*)/
+    elsif line.strip =~ /^(```+) *example(?: +(.*))?/
       in_example = Regexp.last_match(1)
-      example_tags = Regexp.last_match(2).strip.split.to_h do |tag|
+      example_tags = Regexp.last_match(2).to_s.strip.split.to_h do |tag|
         if tag == 'not-kramdown'
           [:skip, "Excluded by tag: #{tag}"]
         else

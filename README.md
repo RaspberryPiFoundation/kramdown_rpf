@@ -29,94 +29,14 @@ Kramdown::Document.new(markdown, input: 'KramdownRPF').to_html
 
 KramdownRPF uses the Kramdown `GFM` markdown parser.
 
-### Code block
+The syntax this library supports is defined in the specs:
+* [Legacy `kramdown_rpf` specs](specs/fixtures/kramdown_rpf-legacy-spec.md)
+* [Raspberry-flavoured Markdown draft specs](specs/fixtures/raspberry-flavoured-markdown-draft-spec.md)
 
-When you want to include a code block, include the following in your Markdown
+### Quizzes (deprecated)
 
-``` markdown
---- code ---
----
-language: python # required
-filename: whoopee.py # optional
-line_numbers: true # optional - default false
-line_number_start: 3 # optional - default 0
-line_highlights: 3, 5-6 # optional
----
-while True:
-    button.wait_for_press()
-    parp = random.choice(trumps)
-    os.system("aplay {0}".format(parp))
-    sleep(2)
---- /code ---
-```
-
-### Collapsed content
-
-Within your markdown, add some collapsed content (primarily ingredients) like this:
-``` markdown
---- collapse ---
----
-title: Downloading and installing the Raspberry Pi software
----
-
-Content here comes from the ingredient.
-
---- /collapse ---
-```
-
-### Print-specific content
-
-When printing projects, we need to be able to hide that which on a screen would be interactive, and show a print fallback. Similarly we don't want to show the fallback content on screen where the interactive content is available. These two blocks will allow content editors to selectively show or hide content on screens and in print.
-
-Content inside the following tags will NOT be shown when printed:
-``` markdown
---- no-print ---
-  This will not print
---- /no-print ---
-```
-
-...and content inside this block will ONLY be shown when printed, not on a screen:
-``` markdown
---- print-only ---
-  This will not show on screen, only in print
---- /print-only ---
-```
-
-To add a page break to printed content:
-``` markdown
-First page content
-
---- new-page ---
-
-Second page content
-```
-
-### Hints
-
-Within your markdown, add some hints like this:
-``` markdown
---- hints ---
---- hint ---
-
-Hint 1
-
---- /hint ---
---- hint ---
-Hint 2
-
---- /hint ---
---- hint ---
-
-Hint 3
---- /hint ---
---- hint ---
-Hint 4
---- /hint ---
-
---- /hints ---
-```
-
-### Quiz
+> [!WARNING]
+> These are not in specs, and are due to be deprecated.
 
 Quizzes can be added with choices for the user to select (currently only 1 mutually exclusive choice per quiz):
 ``` markdown
