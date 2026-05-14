@@ -51,7 +51,7 @@ def parse_spec(path) # rubocop:disable Metrics/AbcSize
   example_tags = []
   example_lines = []
 
-  content.each do |line| # rubocop:disable Metrics/BlockLength
+  content.each do |line|
     if in_example && line == in_example
       in_example = false
       parts = example_lines.join("\n").split(/\n·\n/, 2)
@@ -79,7 +79,13 @@ def parse_spec(path) # rubocop:disable Metrics/AbcSize
       end
     elsif line.strip =~ /^(```+) *example(.*)/
       in_example = Regexp.last_match(1)
-      example_tags = Regexp.last_match(2).strip.split
+      example_tags = Regexp.last_match(2).strip.split.to_h do |tag, h|
+        if tag == 'not-kramdown'
+          [:skip, "Excluded by tag: #{tag}"]
+        else
+          [tag.tr('-', '_').to_sym, true]
+        end
+      end
       example_lines = []
     end
   end
@@ -110,7 +116,7 @@ RSpec.shared_examples 'conforms to spec' do |spec_md|
         section_examples.group_by { |e| e[:subsection] }.each do |subsection, sub_examples|
           define_examples = lambda do
             sub_examples.each do |example|
-              metadata = example[:tags].each_with_object({}) { |tag, h| h[tag.tr('-', '_').to_sym] = true }
+              metadata = example[:tags]
               it "example #{example[:number]}", **metadata do
                 actual = Kramdown::Document.new(example[:input], KRAMDOWN_OPTIONS).to_html
                 expect(actual).to match_html(example[:expected])
