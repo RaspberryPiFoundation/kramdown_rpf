@@ -245,7 +245,7 @@ while True:
 ```example
 {.page-break}
 ·
-<div class=page-break></div>
+<div class="page-break"></div>
 ```
 
 ---

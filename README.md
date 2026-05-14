@@ -29,94 +29,14 @@ Kramdown::Document.new(markdown, input: 'KramdownRPF').to_html
 
 KramdownRPF uses the Kramdown `GFM` markdown parser.
 
-### Code block
+The syntax this library supports is defined in the specs:
+* [Legacy `kramdown_rpf` specs](specs/fixtures/kramdown_rpf-legacy-spec.md)
+* [Raspberry-flavoured Markdown draft specs](specs/fixtures/raspberry-flavoured-markdown-draft-spec.md)
 
-When you want to include a code block, include the following in your Markdown
+### Quizzes (deprecated)
 
-``` markdown
---- code ---
----
-language: python # required
-filename: whoopee.py # optional
-line_numbers: true # optional - default false
-line_number_start: 3 # optional - default 0
-line_highlights: 3, 5-6 # optional
----
-while True:
-    button.wait_for_press()
-    parp = random.choice(trumps)
-    os.system("aplay {0}".format(parp))
-    sleep(2)
---- /code ---
-```
-
-### Collapsed content
-
-Within your markdown, add some collapsed content (primarily ingredients) like this:
-``` markdown
---- collapse ---
----
-title: Downloading and installing the Raspberry Pi software
----
-
-Content here comes from the ingredient.
-
---- /collapse ---
-```
-
-### Print-specific content
-
-When printing projects, we need to be able to hide that which on a screen would be interactive, and show a print fallback. Similarly we don't want to show the fallback content on screen where the interactive content is available. These two blocks will allow content editors to selectively show or hide content on screens and in print.
-
-Content inside the following tags will NOT be shown when printed:
-``` markdown
---- no-print ---
-  This will not print
---- /no-print ---
-```
-
-...and content inside this block will ONLY be shown when printed, not on a screen:
-``` markdown
---- print-only ---
-  This will not show on screen, only in print
---- /print-only ---
-```
-
-To add a page break to printed content:
-``` markdown
-First page content
-
---- new-page ---
-
-Second page content
-```
-
-### Hints
-
-Within your markdown, add some hints like this:
-``` markdown
---- hints ---
---- hint ---
-
-Hint 1
-
---- /hint ---
---- hint ---
-Hint 2
-
---- /hint ---
---- hint ---
-
-Hint 3
---- /hint ---
---- hint ---
-Hint 4
---- /hint ---
-
---- /hints ---
-```
-
-### Quiz
+> [!WARNING]
+> These are not in specs, and are due to be deprecated.
 
 Quizzes can be added with choices for the user to select (currently only 1 mutually exclusive choice per quiz):
 ``` markdown
@@ -135,6 +55,40 @@ question: Here is a heading for a quiz with three possible answers. How do you f
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+### Testing against the specs
+
+The specs live in `spec/fixtures` and any file whose name ends in `-spec.md` will be used as a test suite for this library.
+
+```sh
+bundle exec rspec
+```
+
+This is also run automatically in CI.
+
+**NB** The canonical copies of the specs are in the [documentation repository](https://github.com/RaspberryPiFoundation/documentation) at `docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown_rpf-legacy-spec.md`.  If you wish to change the output of the xamples in the specs, please update the canonical copy and then update the copy in this repository to match.
+
+Currently this library tests our [legacy `kramdown_rpf` specs](https://digital-docs.rpf-internal.org/docs/technology/codebases-and-products/raspberry-flavoured-markdown/specs/kramdown_rpf-legacy-spec) as well as the newer [Raspberry-flavoured Markdown draft specs](https://digital-docs.rpf-internal.org/docs/technology/codebases-and-products/raspberry-flavoured-markdown/specs/raspberry-flavoured-markdown-draft-spec).
+
+#### Tags in specs
+
+Spec examples can be tagged in the following way:
+
+````markdown
+```example this-is-a-tag`
+...
+```
+````
+
+This allows you to run a subset of the specs by running:
+
+```sh
+bundle exec rspec --tag this-is-a-tag
+```
+
+There is a magic tag `not-kramdown` which is used to mark examples that are not expected to be supported by this library. This allows us to run the full set of specs and ensure that we are not accidentally supporting things we shouldn't be.
+
+### Installing the gem locally
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
