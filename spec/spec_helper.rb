@@ -77,9 +77,9 @@ def parse_spec(path) # rubocop:disable Metrics/AbcSize
       else
         subsection = title
       end
-    elsif line.strip =~ /^(```+) *example(.*)/
+    elsif line.strip =~ /^(```+) *example +(.*)/
       in_example = Regexp.last_match(1)
-      example_tags = Regexp.last_match(2).strip.split.to_h do |tag, h|
+      example_tags = Regexp.last_match(2).strip.split.to_h do |tag|
         if tag == 'not-kramdown'
           [:skip, "Excluded by tag: #{tag}"]
         else
