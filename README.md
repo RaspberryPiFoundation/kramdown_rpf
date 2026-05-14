@@ -136,23 +136,21 @@ question: Here is a heading for a quiz with three possible answers. How do you f
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-### Testing against the spec
+### Testing against the specs
 
-The formal spec lives at `spec/kramdown_rpf-legacy-spec.md`. This is used to test that the output of the gem matches the expected output for a variety of inputs. To run these tests, run:
+The specs live in `spec/fixtures` and any file whose name ends in `-spec.md` will be used as a test suite for this library.
 
 ```sh
 bundle exec rspec
 ```
 
-If you wish to use a different spec, you can set the `SPEC_MD` environment variable:
-
-```
-SPEC_MD=my-new-spec.md bundle exec rake spec
-```
-
 This is also run automatically in CI.
 
-**If you add or change examples in `examples/`, you must update the spec file accordingly** — both here in `spec/kramdown_rpf-legacy-spec.md` and in the canonical copy in the [documentation repository](https://github.com/RaspberryPiFoundation/documentation) at `docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown_rpf-legacy-spec.md`.
+**NB** The canonical copies of the specs are in the [documentation repository](https://github.com/RaspberryPiFoundation/documentation) at `docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown_rpf-legacy-spec.md`.  If you wish to change the output of the xamples in the specs, please update the canonical copy and then update the copy in this repository to match.
+
+Currently this library tests our [legacy `kramdown_rpf` specs](https://digital-docs.rpf-internal.org/docs/technology/codebases-and-products/raspberry-flavoured-markdown/specs/kramdown_rpf-legacy-spec) as well as the newer [Raspberry-flavoured Markdown draft specs](https://digital-docs.rpf-internal.org/docs/technology/codebases-and-products/raspberry-flavoured-markdown/specs/raspberry-flavoured-markdown-draft-spec).
+
+### Installing the gem locally
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
