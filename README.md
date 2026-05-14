@@ -150,6 +150,24 @@ This is also run automatically in CI.
 
 Currently this library tests our [legacy `kramdown_rpf` specs](https://digital-docs.rpf-internal.org/docs/technology/codebases-and-products/raspberry-flavoured-markdown/specs/kramdown_rpf-legacy-spec) as well as the newer [Raspberry-flavoured Markdown draft specs](https://digital-docs.rpf-internal.org/docs/technology/codebases-and-products/raspberry-flavoured-markdown/specs/raspberry-flavoured-markdown-draft-spec).
 
+#### Tags in specs
+
+Spec examples can be tagged in the following way:
+
+````markdown
+```example this-is-a-tag`
+...
+```
+````
+
+This allows you to run a subset of the specs by running:
+
+```sh
+bundle exec rspec --tag this-is-a-tag
+```
+
+There is a magic tag `not-kramdown` which is used to mark examples that are not expected to be supported by this library. This allows us to run the full set of specs and ensure that we are not accidentally supporting things we shouldn't be.
+
 ### Installing the gem locally
 
 To install this gem onto your local machine, run `bundle exec rake install`.
