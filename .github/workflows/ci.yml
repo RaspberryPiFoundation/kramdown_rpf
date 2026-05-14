@@ -39,8 +39,6 @@ jobs:
 
     - name: Run tests
       run: bundle exec rake spec
-      env:
-        SPEC_MD: spec/kramdown_rpf-legacy-spec.md
 
   publish:
     needs: [lint, test]
