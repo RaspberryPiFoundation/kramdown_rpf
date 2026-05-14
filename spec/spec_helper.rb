@@ -40,7 +40,7 @@ end
 # Tags are space-separated words after `example` on the opening fence line,
 # e.g. ```example kramdown-only``` or ```example not-kramdown```.
 # Examples tagged `not-kramdown` are excluded from the returned list.
-def parse_spec(path) # rubocop:disable Metrics/AbcSize
+def parse_spec(path) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
   content = File.readlines(path).map(&:chomp)
   examples = []
   section    = 'Unknown'
