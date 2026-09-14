@@ -83,7 +83,9 @@ Hint 2
 --- /hints ---
 ·
 <div class="c-project-panel c-project-panel--hints">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">I need a hint</h3>
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">I need a hint</button>
+  </h3>
   <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
     <div class="c-project-panel__swiper">
       <div class="c-project-panel__swiper-wrapper">
@@ -184,7 +186,9 @@ Hint 4
 </code></pre>
     <p>You can access the direction the joystick was moved in with the help of the event parameter: use the command <code>event.direction</code>.</p>
     <div class="c-project-panel c-project-panel--hints">
-      <h3 class="c-project-panel__heading js-project-panel__toggle">I need a hint</h3>
+      <h3 class="c-project-panel__heading">
+        <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">I need a hint</button>
+      </h3>
       <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
         <div class="c-project-panel__swiper">
           <div class="c-project-panel__swiper-wrapper">
@@ -249,7 +253,9 @@ Content here comes from the ingredient.
 </code></pre>
     <p>You can access the direction the joystick was moved in with the help of the event parameter: use the command <code>event.direction</code>.</p>
     <div class="c-project-panel c-project-panel--ingredient">
-      <h3 class="c-project-panel__heading js-project-panel__toggle">Downloading and installing the Raspberry Pi software</h3>
+      <h3 class="c-project-panel__heading">
+        <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">Downloading and installing the Raspberry Pi software</button>
+      </h3>
       <div class="c-project-panel__content u-hidden">
         <p>Content here comes from the ingredient.</p>
       </div>
@@ -509,7 +515,9 @@ Here is some useful information.
 --- /collapse ---
 ·
 <div class="c-project-panel c-project-panel--ingredient">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">How to do something</h3>
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">How to do something</button>
+  </h3>
   <div class="c-project-panel__content u-hidden">
     <p>Here is some useful information.</p>
   </div>
@@ -547,7 +555,9 @@ px, py, pz = mc.player.getPos()
 ~~~
 ·
 <div class="c-project-panel c-project-panel--ingredient">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">Child project</h3>
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">Child project</button>
+  </h3>
   <div class="c-project-panel__content u-hidden">
     <div class="c-code-filename">
       <p>main.py</p>
@@ -609,7 +619,9 @@ We're going to write some code to print out `Motion detected!` when the PIR sens
   <li>
     <p>Open IDLE, create a new file and save it as <strong>parent-detector.py</strong></p>
     <div class="c-project-panel c-project-panel--ingredient">
-      <h3 class="c-project-panel__heading js-project-panel__toggle">Opening IDLE</h3>
+      <h3 class="c-project-panel__heading">
+        <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">Opening IDLE</button>
+      </h3>
       <div class="c-project-panel__content u-hidden">
         <p>[[[idle-opening]]]</p>
       </div>
@@ -691,7 +703,9 @@ title: Creating Directories on a Raspberry Pi
 --- /collapse ---
 ·
 <div class="c-project-panel c-project-panel--ingredient">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">Creating Directories on a Raspberry Pi</h3>
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">Creating Directories on a Raspberry Pi</button>
+  </h3>
   <div class="c-project-panel__content u-hidden">
     <h2 id="creating-directories-on-a-raspberry-pi">Creating Directories on a Raspberry Pi</h2>
     <p>There are two ways to create directories on the Raspberry Pi. The first uses the GUI, and the second uses the Terminal.</p>
@@ -819,7 +833,9 @@ image:
   </li>
 </ol>
 <div class="c-project-panel c-project-panel--hints">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">I need a hint</h3>
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">I need a hint</button>
+  </h3>
   <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
     <div class="c-project-panel__swiper">
       <div class="c-project-panel__swiper-wrapper">
@@ -852,7 +868,9 @@ image:
 </ol>
 <p>Every time a new intruder triggers the motion sensor the video will be overwritten. If you have lots of pesky parents or brothers and sisters intruding into your room, you want to keep videos of all of them. Can you write some code to automatically find out the current date and time and add it to the video filename so that each video we take will have a different filename?</p>
 <div class="c-project-panel c-project-panel--ingredient">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">Getting the date and time in Python</h3>
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">Getting the date and time in Python</button>
+  </h3>
   <div class="c-project-panel__content u-hidden">
     <p>[[[generic-python-timestamps]]]</p>
   </div>

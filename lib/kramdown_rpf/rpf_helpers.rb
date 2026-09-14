@@ -13,6 +13,17 @@ module RPF
         block[:title]
       end
 
+      def panel_heading_html(title)
+        <<~HEREDOC
+          <h3 class="c-project-panel__heading">
+              <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">
+                #{title}
+              </button>
+            </h3>
+        HEREDOC
+          .strip
+      end
+
       def code_block_details(code_block)
         return [code_block[:meta], code_block[:code]] if code_block.is_a?(Hash)
 

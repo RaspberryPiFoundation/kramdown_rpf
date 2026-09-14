@@ -60,8 +60,10 @@ while True:
 > Content here comes from the ingredient.
 ·
 <div class="c-project-panel c-project-panel--ingredient">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">
-    Downloading and installing the Raspberry Pi software
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">
+      Downloading and installing the Raspberry Pi software
+    </button>
   </h3>
 
   <div class="c-project-panel__content u-hidden">
@@ -97,8 +99,10 @@ while True:
 > Try this approach.
 ·
 <div class="c-project-panel c-project-panel--hints">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">
-    I need a hint
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">
+      I need a hint
+    </button>
   </h3>
 
   <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
@@ -136,8 +140,10 @@ while True:
 > Hint 2
 ·
 <div class="c-project-panel c-project-panel--hints">
-  <h3 class="c-project-panel__heading js-project-panel__toggle">
-    I need a hint
+  <h3 class="c-project-panel__heading">
+    <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">
+      I need a hint
+    </button>
   </h3>
 
   <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
@@ -267,8 +273,10 @@ while True:
   <input class="c-project-task__checkbox" type="checkbox" aria-label="Mark this task as complete" />
   <div class="c-project-task__body">
     <div class="c-project-panel c-project-panel--hints">
-      <h3 class="c-project-panel__heading js-project-panel__toggle">
-        I need a hint
+      <h3 class="c-project-panel__heading">
+        <button type="button" class="c-project-panel__toggle js-project-panel__toggle" aria-expanded="false">
+          I need a hint
+        </button>
       </h3>
 
       <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">

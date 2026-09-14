@@ -54,9 +54,7 @@ module RPF
 
         <<~HEREDOC
           <div class="c-project-panel c-project-panel--ingredient">
-            <h3 class="c-project-panel__heading js-project-panel__toggle">
-              #{title}
-            </h3>
+            #{panel_heading_html(title)}
 
             <div class="c-project-panel__content u-hidden">
               #{parsed_content}
@@ -88,9 +86,7 @@ module RPF
       def self.hints_panel_html(parsed_hints)
         <<~HEREDOC
           <div class="c-project-panel c-project-panel--hints">
-            <h3 class="c-project-panel__heading js-project-panel__toggle">
-              #{I18n.t('kramdown_rpf.hint_title')}
-            </h3>
+            #{panel_heading_html(I18n.t('kramdown_rpf.hint_title'))}
 
             <div class="c-project-panel__content js-project-panel--initialise-swiper u-hidden">
               <div class="c-project-panel__swiper">
