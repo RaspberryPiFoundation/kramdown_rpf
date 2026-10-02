@@ -2,7 +2,6 @@
 
 An extension to [Kramdown](https://kramdown.gettalong.org/) to add special markup for the RPF's learning platform.
 
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -21,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-``` ruby
+```ruby
 require 'kramdown_rpf'
 
 Kramdown::Document.new(markdown, input: 'KramdownRPF').to_html
@@ -30,8 +29,9 @@ Kramdown::Document.new(markdown, input: 'KramdownRPF').to_html
 KramdownRPF uses the Kramdown `GFM` markdown parser.
 
 The syntax this library supports is defined in the specs:
-* [Legacy `kramdown_rpf` specs](specs/fixtures/kramdown_rpf-legacy-spec.md)
-* [Raspberry-flavoured Markdown draft specs](specs/fixtures/raspberry-flavoured-markdown-draft-spec.md)
+
+- [Legacy `kramdown_rpf` specs](specs/fixtures/kramdown_rpf-legacy-spec.md)
+- [Raspberry-flavoured Markdown draft specs](specs/fixtures/raspberry-flavoured-markdown-draft-spec.md)
 
 ### Quizzes (deprecated)
 
@@ -39,11 +39,12 @@ The syntax this library supports is defined in the specs:
 > These are not in specs, and are due to be deprecated.
 
 Quizzes can be added with choices for the user to select (currently only 1 mutually exclusive choice per quiz):
-``` markdown
+
+```markdown
 --- quiz ---
 ---
-question: Here is a heading for a quiz with three possible answers. How do you feel?
----
+
+## question: Here is a heading for a quiz with three possible answers. How do you feel?
 
 - ( ) Great
 - ( ) Okay
@@ -66,7 +67,7 @@ bundle exec rspec
 
 This is also run automatically in CI.
 
-**NB** The canonical copies of the specs are in the [documentation repository](https://github.com/RaspberryPiFoundation/documentation) at `docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown_rpf-legacy-spec.md`.  If you wish to change the output of the xamples in the specs, please update the canonical copy and then update the copy in this repository to match.
+**NB** The canonical copies of the specs are in the [documentation repository](https://github.com/RaspberryPiFoundation/documentation) at `docs/technology/codebases-and-products/raspberry-flavoured-markdown/kramdown_rpf-legacy-spec.md`. If you wish to change the output of the xamples in the specs, please update the canonical copy and then update the copy in this repository to match.
 
 Currently this library tests our [legacy `kramdown_rpf` specs](https://digital-docs.rpf-internal.org/docs/technology/codebases-and-products/raspberry-flavoured-markdown/specs/kramdown_rpf-legacy-spec) as well as the newer [Raspberry-flavoured Markdown draft specs](https://digital-docs.rpf-internal.org/docs/technology/codebases-and-products/raspberry-flavoured-markdown/specs/raspberry-flavoured-markdown-draft-spec).
 
@@ -77,6 +78,9 @@ Spec examples can be tagged in the following way:
 ````markdown
 ```example this-is-a-tag`
 ...
+
+```
+
 ```
 ````
 
@@ -96,9 +100,9 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 This gem is deployed from Github. To create a new release:
 
-* Update the version number in [version.rb](./lib/kramdown_rpf/version.rb)
-* git tag "vX.X.X" #for the relevant version
-* git push origin --tags
+- Update the version number in [version.rb](./lib/kramdown_rpf/version.rb)
+- `git tag "vX.X.X"` for the relevant version
+- `git push origin --tags`
 
 ## Contributing
 

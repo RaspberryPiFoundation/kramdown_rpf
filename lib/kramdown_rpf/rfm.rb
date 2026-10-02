@@ -44,7 +44,7 @@ module Kramdown
 
       # Keep ordinary GFM fences untouched; only fences with RPF metadata become
       # the richer :code element used by the existing converter.
-      # rubocop:disable Naming/PredicateMethod
+      # rubocop:disable-next Naming/PredicateMethod
       def parse_codeblock_fenced
         return false unless @src.check(FENCED_CODEBLOCK_MATCH)
 
@@ -60,7 +60,6 @@ module Kramdown
 
         true
       end
-      # rubocop:enable Naming/PredicateMethod
 
       def parse_blockquote
         start_line_number = @src.current_line_number
